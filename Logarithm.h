@@ -7,6 +7,7 @@ class logarithm : public MathematicalExpression{
 
 	public:
 		Logarithm(MathematicalExpression base, MathematicalExpression exponent);
+		Logarithm(Decimal base, Decimal exponent);
 		void add(Logarithm* addend);
 		void add(MathematicalExpression* addend);
 		
