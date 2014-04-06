@@ -152,6 +152,6 @@ string Parser::shunting_yard(string input) {
         output.append(1, sh_stack.pop());
         output.append(" ");
     }
-    cout<<output<<endl;
+    //cout<<output<<endl;
     return output;
 }
