@@ -2,19 +2,6 @@
 #include <cmath>
 using namespace std;
 
-Logarithm::Logarithm(Decimal base, Decimal exponent){
-	if(exponent.toDecimal() < 0){
-		throw "Cannot have the logarithm of a negative number";	
-	}
-	if(exponent.toDecimal() == 0){
-		throw "Cannot have the logarithm of 0";
-	}
-	if(exponent.toDecimal() == 1){
-		throw "Logarithm is equal to 0";	
-	}
-	throw "Logarithm is solvable; use simple evaluation.";
-}
-
 Logarithm::Logarithm(MathematicalExpression base, MathematicalExpression exponent){
 	if(exponent.toDecimal() < 0){
 		throw "Cannot have the logarithm of a negative number";	
