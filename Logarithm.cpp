@@ -1,14 +1,15 @@
 #include "Logarithm.h"
+#include <cmath>
 using namespace std;
 
 Logarithm::Logarithm(MathematicalExpression base, MathematicalExpression exponent){
-	if(exponent.toDecimal < 0){
+	if(exponent.toDecimal() < 0){
 		throw "Cannot have the logarithm of a negative number";	
 	}
-	if(exponent.toDecimal == 0){
+	if(exponent.toDecimal() == 0){
 		throw "Cannot have the logarithm of 0";
 	}
-	if(exponent.toDecimal == 1){
+	if(exponent.toDecimal() == 1){
 		throw "Logarithm is equal to 0";	
 	}
 	this->base		=	base.simplify();
