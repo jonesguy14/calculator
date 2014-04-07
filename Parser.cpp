@@ -32,29 +32,26 @@ bool Parser::isLeftAsso(string c) {
     else return false;
 }
 
+int Parser::getPrecedence(string s) {
+    if (s.compare("^")==0) {
+        return 4;
+    }
+    else if (s.compare("*")==0 || s.compare("/")==0) {
+        return 3;
+    }
+    else if (s.compare("+")==0 || s.compare("-")==0) {
+        return 2;
+    }
+    else return 0;
+}
+
 int Parser::checkPrecedence(string a, string b) {
     int ap = 0;
     int bp = 0;
     //assign precedence of a
-    if (a.compare("^")==0) {
-        ap = 4;
-    }
-    else if (a.compare("*")==0 || a.compare("/")==0) {
-        ap = 3;
-    }
-    else if (a.compare("+")==0 || a.compare("-")==0) {
-        ap = 2;
-    }
+    ap = getPrecedence(a);
     //assign precedence of b
-    if (b.compare("^")==0) {
-        bp = 4;
-    }
-    else if (b.compare("*")==0 || b.compare("/")==0) {
-        bp = 3;
-    }
-    else if (b.compare("+")==0 || b.compare("-")==0) {
-        bp = 2;
-    }
+    bp = getPrecedence(b);
     //compare precedence
     if (ap < bp) {
         return -1;
@@ -70,9 +67,10 @@ double Parser::calculate_from_rpn(string input) {
     int num_digits = 0;
     intStack i_stack(100);
     while (j<input.length()) {
-        if (isdigit(input[j])) {
+        if (isdigit(input[j]) && input[j-1]!='_') { //make sure its not b in log_b
+            //number detected
             num_digits = 0;
-            while (isdigit(input[j+num_digits+1])) {
+            while (isdigit(input[j+num_digits+1])) { //gets how many digits are in number
                 num_digits++;
             }
             string number = input.substr(j,num_digits+1);
@@ -80,9 +78,26 @@ double Parser::calculate_from_rpn(string input) {
             j+=num_digits+1;
         }
         else if (input[j]==' ') {
+            //space detected, just ignore
             j++;
         }
+        else if ((input.substr(j, 5)).compare("sqrt:") == 0) {
+            //square root
+            int rad = i_stack.pop();
+            i_stack.push(pow(rad, 0.5));
+            j+=5;
+        }
+        else if ((input.substr(j, 4)).compare("log_") == 0) {
+            //logarithm
+            string base_str = input.substr(j+4, 1);
+            int base = atoi(base_str.c_str());
+            int arg = i_stack.pop();
+            int result = log10(arg)/log10(base);
+            i_stack.push(result);
+            j+=6;
+        }
         else {
+            //one of the five single char operators (+,-,*,/,^)
             int a = i_stack.pop();
             int b = i_stack.pop();
             switch (input[j]) {
@@ -113,7 +128,7 @@ string Parser::shunting_yard(string input) {
     shuntingStack sh_stack(100);
     string output = "";
     while (i<input.length()) {
-        if (isdigit(input[i])) {
+        if (isdigit(input[i]) && input[i+1]!=':') {
             output.append(1, input[i]);
             int num_digits = 0;
             while (isdigit(input[i+num_digits+1])) {
@@ -150,6 +165,12 @@ string Parser::shunting_yard(string input) {
             //sqrt:x
             sh_stack.push(input.substr(i, 5));
             i+=5;
+        }
+        else if ((input.substr(i, 4)).compare("log_")==0) {
+            //log_b:x
+            cout<<"LOG DETECTED"<<endl;
+            sh_stack.push(input.substr(i, 6));
+            i+=6;
         }
     }
     while (sh_stack.hasItems())

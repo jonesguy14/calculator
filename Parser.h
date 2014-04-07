@@ -15,6 +15,7 @@ public:
 private:
     bool isOperator(string);
     bool isLeftAsso(string);
+    int getPrecedence(string);
     int checkPrecedence(string, string);
     double calculate_from_rpn(string);
 
