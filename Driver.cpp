@@ -1,4 +1,5 @@
 #include "Parser.h"
+#include "History.h"
 #include <iostream>
 #include <string>
 
@@ -9,6 +10,8 @@ int main()
     bool gogo = true;
     string input = "";
     Parser P;
+    History historian;
+    string result = " ";
     while (gogo) {
         cout << endl;
         cout << "Welcome to the calculator!" << endl;
@@ -25,13 +28,16 @@ int main()
         switch (selection) {
         case 'a':
         case 'A':
+            P.last_ans = historian.ans();
             cout << "Enter your input:" << endl;
             getline(cin, input);
-            cout << "Result: " << P.parse(input) << endl;
+            result = P.parse(input);
+            historian.add(result);
+            cout << "Result: " << result << endl;
             break;
         case 'b':
         case 'B':
-            //review history
+            cout<<"The last answer was: "<<historian.ans()<<endl;
             break;
         case 'h':
         case 'H':

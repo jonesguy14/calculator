@@ -1,4 +1,5 @@
 #include <vector>
+#include <string>
 using namespace std;
 
 class History{
@@ -12,5 +13,5 @@ class History{
 		void printAll();
 		void add(string hist);
 		string ans();
-		string ans(int n);		
+		string ans(int n);
 };

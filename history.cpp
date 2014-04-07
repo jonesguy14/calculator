@@ -33,7 +33,10 @@ void History::add(string hist){
 }
 
 string History::ans(){
-	return this->history.back();
+	if (!history.empty()) {
+        return this->history.back();
+	}
+	else return "0";
 }
 
 string History::ans(int n){

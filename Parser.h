@@ -2,22 +2,23 @@
 #define PARSER_H_INCLUDED
 #include <iostream>
 
-using namespace std;
+//using namespace std;
 
 class Parser {
-public:
-    Parser();
-    Parser(string);
-    double parse(string);
-    string input;
-    string shunting_yard(string);
+    public:
+        Parser();
+        Parser(std::string);
+        std::string parse(std::string);
+        std::string input;
+        std::string last_ans;
+        std::string shunting_yard(std::string);
 
-private:
-    bool isOperator(string);
-    bool isLeftAsso(string);
-    int getPrecedence(string);
-    int checkPrecedence(string, string);
-    double calculate_from_rpn(string);
+    private:
+        bool isOperator(std::string);
+        bool isLeftAsso(std::string);
+        int getPrecedence(std::string);
+        int checkPrecedence(std::string, std::string);
+        double calculate_from_rpn(std::string);
 
 };
 

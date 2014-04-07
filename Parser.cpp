@@ -5,17 +5,30 @@
 #include <string>
 #include <math.h>
 #include <stdlib.h>
+#include <sstream>
 
+using namespace std;
+
+namespace patch {
+    template < typename T > std::string to_string( const T& n ) {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
+}
 
 Parser::Parser() {
     input = " ";
+    last_ans = "0";
 }
 
 Parser::Parser(string input) {
     this->input = input;
+    last_ans = "0";
 }
-double Parser::parse(string input) {
-    return calculate_from_rpn(shunting_yard(input));
+string Parser::parse(string input) {
+    //string result = to_string(calculate_from_rpn(shunting_yard(input)));
+    return patch::to_string(calculate_from_rpn(shunting_yard(input)));
 }
 
 bool Parser::isOperator(string c) {
@@ -168,9 +181,14 @@ string Parser::shunting_yard(string input) {
         }
         else if ((input.substr(i, 4)).compare("log_")==0) {
             //log_b:x
-            cout<<"LOG DETECTED"<<endl;
             sh_stack.push(input.substr(i, 6));
             i+=6;
+        }
+        else if ((input.substr(i, 3)).compare("ans")==0) {
+            //user using last ans
+            output.append(last_ans);
+            output.append(" ");
+            i += 3;
         }
     }
     while (sh_stack.hasItems())
