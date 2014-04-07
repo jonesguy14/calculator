@@ -13,9 +13,9 @@ public:
     string shunting_yard(string);
 
 private:
-    bool isOperator(char);
-    bool isLeftAsso(char);
-    int checkPrecedence(char, char);
+    bool isOperator(string);
+    bool isLeftAsso(string);
+    int checkPrecedence(string, string);
     double calculate_from_rpn(string);
 
 };
