@@ -18,41 +18,41 @@ double Parser::parse(string input) {
     return calculate_from_rpn(shunting_yard(input));
 }
 
-bool Parser::isOperator(char c) {
-    if (c=='+' || c=='-' || c=='*' || c=='/' || c=='^') {
+bool Parser::isOperator(string c) {
+    if (c.compare("+")==0 || c.compare("-")==0 || c.compare("*")==0 || c.compare("/")==0 || c.compare("^")==0) {
         return true;
     }
     else return false;
 }
 
-bool Parser::isLeftAsso(char c) {
-    if (c!='^') {
+bool Parser::isLeftAsso(string c) {
+    if (c.compare("^")!=0) {
         return true;
     }
     else return false;
 }
 
-int Parser::checkPrecedence(char a, char b) {
+int Parser::checkPrecedence(string a, string b) {
     int ap = 0;
     int bp = 0;
     //assign precedence of a
-    if (a=='^') {
+    if (a.compare("^")==0) {
         ap = 4;
     }
-    else if (a=='*' || a=='/') {
+    else if (a.compare("*")==0 || a.compare("/")==0) {
         ap = 3;
     }
-    else if (a=='+' || a=='-') {
+    else if (a.compare("+")==0 || a.compare("-")==0) {
         ap = 2;
     }
     //assign precedence of b
-    if (b=='^') {
+    if (b.compare("^")==0) {
         bp = 4;
     }
-    else if (b=='*' || b=='/') {
+    else if (b.compare("*")==0 || b.compare("/")==0) {
         bp = 3;
     }
-    else if (b=='+' || b=='-') {
+    else if (b.compare("+")==0 || b.compare("-")==0) {
         bp = 2;
     }
     //compare precedence
@@ -123,35 +123,40 @@ string Parser::shunting_yard(string input) {
             i+=num_digits+1;
             output.append(" ");
         }
-        else if (isOperator(input[i])) {
-            while (isOperator(sh_stack.getTop()) && ((isLeftAsso(input[i]) && checkPrecedence(input[i], sh_stack.getTop())==0) || checkPrecedence(input[i], sh_stack.getTop())==-1)) {
-                output.append(1, sh_stack.pop());
+        else if (isOperator(input.substr(i,1))) {
+            while (!sh_stack.isEmpty() && isOperator(sh_stack.getTop()) && ((isLeftAsso(input.substr(i,1)) && checkPrecedence(input.substr(i,1), sh_stack.getTop())==0) || checkPrecedence(input.substr(i,1), sh_stack.getTop())==-1)) {
+                output.append(sh_stack.pop());
                 output.append(" ");
             }
-            sh_stack.push(input[i]);
+            sh_stack.push(input.substr(i,1));
             i++;
         }
-        else if (input[i]=='(') {
-            sh_stack.push(input[i]);
+        else if ((input.substr(i,1)).compare("(")==0) {
+            sh_stack.push(input.substr(i,1));
             i++;
             }
-        else if (input[i]==')') {
-            while (sh_stack.getTop()!='(') {
-                output.append(1, sh_stack.pop());
+        else if ((input.substr(i,1)).compare(")")==0) {
+            while ((sh_stack.getTop()).compare("(")!=0) {
+                output.append(sh_stack.pop());
                 output.append(" ");
                 }
             sh_stack.pop();
             i++;
         }
-        else if (input[i]==' ') {
+        else if ((input.substr(i,1)).compare(" ")==0) {
             i++;
+        }
+        else if ((input.substr(i, 5)).compare("sqrt:")==0) {
+            //sqrt:x
+            sh_stack.push(input.substr(i, 5));
+            i+=5;
         }
     }
     while (sh_stack.hasItems())
     {
-        output.append(1, sh_stack.pop());
+        output.append(sh_stack.pop());
         output.append(" ");
     }
-    //cout<<output<<endl;
+    cout<<output<<endl;
     return output;
 }
