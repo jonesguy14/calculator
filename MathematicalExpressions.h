@@ -10,11 +10,11 @@ class MathematicalExpression{
 
 	public:
 		MathematicalExpression(MathematicalExpression* part1, MathematicalExpression* part2, char op);
-		void add(MathematicalExpression* addend);
-		void subtract(MathematicalExpression* subtrahend);
-		void multiply(MathematicalExpression* multiplicand);
-		void divide(MathematicalExpression* dividend);
-		string toString();
+		virtual void add(MathematicalExpression* addend);
+		virtual subtract(MathematicalExpression* subtrahend);
+		virtual multiply(MathematicalExpression* multiplicand);
+		virtual divide(MathematicalExpression* dividend);
+		virtual string toString();
 };
 
 
