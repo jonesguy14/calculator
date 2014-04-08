@@ -1,6 +1,7 @@
-#include "MathematicalExpression.h"
+#include "MathematicalExpressions.h"
+#include <iostream>
 
-class logarithm : public MathematicalExpression{
+class Logarithm : public MathematicalExpression{
 	private:
 		MathematicalExpression base;
 		MathematicalExpression exponent;
@@ -9,17 +10,17 @@ class logarithm : public MathematicalExpression{
 		Logarithm(MathematicalExpression base, MathematicalExpression exponent);
 		void add(Logarithm* addend);
 		void add(MathematicalExpression* addend);
-		
+
 		void subtract(Logarithm* subtrahend);
 		void subtract(MathematicalExpression* subtrahend);
-		
+
 		void multiply(MathematicalExpression* multiplicand);
-		
+
 		void divide(Logarithm* dividend);
 		void divide(MathematicalExpression* dividend);
-		
+
 		void simplify();
 		MathematicalExpression getBase();
 		MathematicalExpression getExponent();
-		string toString();
+		std::string toString();
 };

@@ -1,20 +1,22 @@
 #ifndef MATHEMATICALEXPRESSION_H_INCLUDED
 #define MATHEMATICALEXPRESSION_H_INCLUDED
+#include <iostream>
 
 class MathematicalExpression{
 	private:
 		MathematicalExpression* part1;
 		MathematicalExpression* part2;
 		char op;
-		string value;
+		std::string value;
 
 	public:
 		MathematicalExpression(MathematicalExpression* part1, MathematicalExpression* part2, char op);
 		virtual void add(MathematicalExpression* addend);
-		virtual subtract(MathematicalExpression* subtrahend);
-		virtual multiply(MathematicalExpression* multiplicand);
-		virtual divide(MathematicalExpression* dividend);
-		virtual string toString();
+		virtual void subtract(MathematicalExpression* subtrahend);
+		virtual void multiply(MathematicalExpression* multiplicand);
+		virtual void divide(MathematicalExpression* dividend);
+		virtual void simplify();
+		virtual std::string toString();
 };
 
 
