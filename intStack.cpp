@@ -1,4 +1,5 @@
 #include <iostream>
+#include <exception>
 using namespace std;
 
 class intStack {
@@ -18,7 +19,7 @@ public:
 	~intStack(){ delete [] items; }
 
 	void push(int n){
-		if(isFull()){
+		if (isFull()){
 			cout << "Stack Full!" << endl;
 		}
 
@@ -26,11 +27,12 @@ public:
 	}
 
 	int pop(){
-		if(isEmpty()){
-			cout << "Stack Empty!" << endl;
+		if (isEmpty()){
+			throw "Error with input! Operator to term ratio does not match up.";
 		}
-
-		return items[top--];
+        else {
+            return items[top--];
+        }
 	}
 
 	int getTop() {

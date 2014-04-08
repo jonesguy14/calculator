@@ -1,4 +1,5 @@
 #include <iostream>
+#include <exception>
 using namespace std;
 
 class shuntingStack {
@@ -6,18 +7,18 @@ class shuntingStack {
 private:
    int MAX;
    int top;
-   char* items;
+   string* items;
 
 public:
 	shuntingStack(int sizey){
 		MAX = sizey;
 		top = -1;
-		items = new char[MAX];
+		items = new string[MAX];
 	}
 
 	~shuntingStack(){ delete [] items; }
 
-	void push(char c){
+	void push(string c){
 		if(isFull()){
 			cout << "Stack Full!" << endl;
 		}
@@ -25,15 +26,16 @@ public:
 		items[++top] = c;
 	}
 
-	char pop(){
+	string pop(){
 		if(isEmpty()){
-			cout << "Stack Empty!" << endl;
+			throw "Error with input! Operator to term ratio does not match up.";
 		}
-
-		return items[top--];
+        else {
+            return items[top--];
+        }
 	}
 
-	char getTop() {
+	string getTop() {
         return items[top];
 	}
 
