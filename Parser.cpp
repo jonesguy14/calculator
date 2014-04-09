@@ -105,6 +105,18 @@ double Parser::calculate_from_rpn(string input) {
             int rad = atoi(number.c_str());
             i_stack.push(pow(rad, 0.5));
             //cout<<i_stack.getTop()<<endl;
+            j += num_digits+6;
+        }
+        else if ((input.substr(j, 3)).compare("rt:") == 0) {
+            //nth root
+            num_digits = 0;
+            while (isdigit(input[j+num_digits+4])) { //gets how many digits are in rad, i.e. sqrt:xxxx
+                num_digits++;
+            }
+            int n = atoi((input.substr(j-1,1)).c_str());
+            string number = input.substr(j+3, num_digits+1);
+            int rad = atoi(number.c_str());
+            i_stack.push(pow(rad, (1/n)));
             j += num_digits+5;
         }
         else if ((input.substr(j, 4)).compare("log_") == 0) {
@@ -168,7 +180,7 @@ string Parser::shunting_yard(string input) {
     shuntingStack sh_stack(100);
     string output = "";
     while (i<input.length()) {
-        if (isdigit(input[i]) && input[i+1]!=':') {
+        if (isdigit(input[i]) && input[i+1]!=':' && input[i+1]!='r') {
             output.append(1, input[i]);
             int num_digits = 0;
             while (isdigit(input[i+num_digits+1])) {
@@ -210,25 +222,66 @@ string Parser::shunting_yard(string input) {
             //sqrt:x
             int num_chars = 0;
             if (input[i+5]!='(' && input[i+6]!='(') { //not a sqrt:(x+y) expression
-                while (input[i+num_chars+1]!=' ') { //gets number of digits of sqrt, i.e. sqrt:xxxxx
+                while (input[i+num_chars+1]!=' ' && input[i+num_chars+1]!=')' && (i+num_chars+1)<input.length()) { //gets number of digits of sqrt, i.e. sqrt:xxxxx
                     num_chars++;
                 }
                 output.append(input.substr(i, num_chars+1));
                 output.append(" ");
-                i += num_chars+6;
+                i += num_chars+1;
             }
             else { //is sqrt with parentheses
                 num_chars=0;
-                while ((input.substr(i+num_chars+4, 1)).compare(")")!=0) { //gets length until end of parentheses
+                int open_paren = 1;
+                int close_paren = 0;
+                while ((input.substr(i+num_chars+5, 1)).compare(")")!=0 && open_paren!=close_paren) {
+                    //gets length till end of parentheses, taking into account ((54) - (5 + (50))) situations
+                    if ((input.substr(i+num_chars+5, 1)).compare("(")==0) {
+                        open_paren++;
+                    }
+                    else if ((input.substr(i+num_chars+5, 1)).compare(")")==0) {
+                        close_paren++;
+                    }
                     num_chars++;
                 }
-                cout<<"Expression inside root: "<<input.substr(i+5, num_chars+1)<<endl;
                 string eval = parse(input.substr(i+5, num_chars+1)); //parse expression inside ( and )
                 eval = "sqrt:"+eval;
-                cout<<eval<<endl;
                 output.append(eval);
                 output.append(" ");
                 i += num_chars+6;
+            }
+        }
+        else if ((input.substr(i+1, 3)).compare("rt:")==0) {
+            //nrt:x
+            int num_chars = 0;
+            if (input[i+4]!='(' && input[i+5]!='(') { //not a nrt:(x+y) expression
+                while (input[i+num_chars+1]!=' ' && input[i+num_chars+1]!=')' && (i+num_chars+1)<input.length()) { //gets number of digits of nrt, i.e. nrt:xxxx
+                    num_chars++;
+                }
+                output.append(input.substr(i, num_chars+1));
+                output.append(" ");
+                i += num_chars+1;
+            }
+            else { //is nrt with parentheses
+                num_chars=0;
+                int open_paren = 1;
+                int close_paren = 0;
+                while ((input.substr(i+num_chars+4, 1)).compare(")")!=0 && open_paren!=close_paren) {
+                    //gets length till end of parentheses, taking into account ((54) - (5 + (50))) situations
+                    if ((input.substr(i+num_chars+4, 1)).compare("(")==0) {
+                        open_paren++;
+                    }
+                    else if ((input.substr(i+num_chars+4, 1)).compare(")")==0) {
+                        close_paren++;
+                    }
+                    num_chars++;
+                }
+                string eval = parse(input.substr(i+4, num_chars+1)); //parse expression inside ( and )
+                cout << eval << endl;
+                eval = input.substr(i,1)+"rt:"+eval;
+                cout << eval << endl;
+                output.append(eval);
+                output.append(" ");
+                i += num_chars+5;
             }
         }
         else if ((input.substr(i, 4)).compare("log_")==0) {

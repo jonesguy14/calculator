@@ -52,7 +52,13 @@ int main()
                 }
                 else {
                     //continue to calculate
-                    result = P.parse(input);
+                    try {
+                        result = P.parse(input);
+                    }
+                    catch (const char* e) {
+                        cout << e << endl;
+                        break;
+                    }
                     historian.add(result);
                     cout << "Result: " << result << endl;
                 }

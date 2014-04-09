@@ -74,8 +74,8 @@ void Logarithm::divide(Logarithm* dividend){
 	if(this->base == dividend->getBase()){
 		this->base	=	dividend->exponent;
 	}else{
-		Logarithm* a	=	Logarithm(this->base, dividend->getExponent());
-		Logarithm* b	=	Logarithm(this->base, dividend->getBase());
+		Logarithm a*	=	Logarithm(this->base, dividend->getExponent());
+		Logarithm b*	=	Logarithm(this->base, dividend->getBase());
 		a->divide(b);
 		this->divide(a);
 		delete a;
