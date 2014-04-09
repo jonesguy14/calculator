@@ -26,13 +26,13 @@ int main()
         cout << endl;
         cout << "CALCULATOR MENU" << endl;
         cout << "-----------------------------" << endl;
-        cout << "A: Compute new expression" << endl;
+        cout << " A: Compute new expression" << endl;
         cout << "-----------------------------" << endl;
-        cout << "B: Review past answers" << endl;
+        cout << " B: Review past answers" << endl;
         cout << "-----------------------------" << endl;
-        cout << "H: Help" << endl;
+        cout << " H: Help" << endl;
         cout << "-----------------------------" << endl;
-        cout << "Q: Quit" << endl;
+        cout << " Q: Quit" << endl;
         cout << "-----------------------------" << endl;
         cout << "Choice: ";
         char selection = ' ';
@@ -44,6 +44,7 @@ int main()
             while (keep_compute) {
                 P.last_ans = historian.ans();
                 cout << "\nEnter your input: (enter 'BACK' to return to menu)" << endl;
+                cout << "INPUT: ";
                 getline(cin, input);
                 if (input.find("BACK") != string::npos) {
                     //user wants to quit out
@@ -67,17 +68,23 @@ int main()
             break;
         case 'h':
         case 'H':
-            cout << "This \"intelligent\" calculator will take your input and calculate a solution,\n"
+            cout << "\nThis \"intelligent\" calculator will take your input and calculate a solution,\n"
                  << "avoiding floating point representation and providing an answer fit for a math\n"
-                 << "textbook." << endl;
-            cout << "\nHOW TO USE:" << endl;
-            cout << "This calculator can take in all integers and is able to calculate using the\n"
-                 << "normal four functions: +, -, *, and /." << endl;
-            cout << "You can also calculate x to the power of y by entering x^y." << endl;
-            cout << "The square root of a number x can be found by entering sqrt:x." << endl;
-            cout << "The nth root of x can be found by entering nrt:x" << endl;
-            cout << "The log base b of a number x can be found by entering log_b:x." << endl;
-            cout << "The 'ans' keyword is used to enter the previous answer obtained." << endl;
+                 << "textbook.\n" << endl;
+            cout << "          ***HOW TO USE:***" << endl;
+            cout << "---------------------------------------------------------" << endl;
+            cout << "OPERATION DESIRED                      |   WHAT TO INPUT  " << endl;
+            cout << "---------------------------------------------------------" << endl;
+            cout << " Add x to y                            |      x + y       " << endl;
+            cout << " Subtract y from x                     |      x - y       " << endl;
+            cout << " Multiply x and y                      |      x * y       " << endl;
+            cout << " Divide x by y                         |      x / y       " << endl;
+            cout << " Calculate x to the power of y         |      x ^ y       " << endl;
+            cout << " Take the square root of x             |      sqrt:x      " << endl;
+            cout << " Take the nth root of x                |      nrt:x       " << endl;
+            cout << " Take the log base b of x              |      log_b:x     " << endl;
+            cout << " Use the previous answer               |      ans         " << endl;
+            cout << "---------------------------------------------------------" << endl;
             break;
         case 'q':
         case 'Q':

@@ -97,9 +97,15 @@ double Parser::calculate_from_rpn(string input) {
         }
         else if ((input.substr(j, 5)).compare("sqrt:") == 0) {
             //square root
-            int rad = i_stack.pop();
+            num_digits = 0;
+            while (isdigit(input[j+num_digits+6])) { //gets how many digits are in rad, i.e. sqrt:xxxx
+                num_digits++;
+            }
+            string number = input.substr(j+5, num_digits+1);
+            int rad = atoi(number.c_str());
             i_stack.push(pow(rad, 0.5));
-            j+=5;
+            //cout<<i_stack.getTop()<<endl;
+            j += num_digits+5;
         }
         else if ((input.substr(j, 4)).compare("log_") == 0) {
             //logarithm
@@ -114,6 +120,7 @@ double Parser::calculate_from_rpn(string input) {
             //one of the five single char operators (+,-,*,/,^)
             int a = 0;
             int b = 0;
+            int c = 0;
             try {
                 a = i_stack.pop();
             }
@@ -129,6 +136,8 @@ double Parser::calculate_from_rpn(string input) {
                 cout << e << endl;
                 return 0;
             }
+
+            cout<<"A:"<<a<<" "<<input[j]<<" B:"<<b<<endl;;
 
             switch (input[j]) {
                 case '+':
@@ -155,6 +164,7 @@ double Parser::calculate_from_rpn(string input) {
 
 string Parser::shunting_yard(string input) {
     int i = 0;
+    int num_left_paren = 0;
     shuntingStack sh_stack(100);
     string output = "";
     while (i<input.length()) {
@@ -165,7 +175,7 @@ string Parser::shunting_yard(string input) {
                 output.append(1, input[i+num_digits+1]);
                 num_digits++;
             }
-            i+=num_digits+1;
+            i += num_digits+1;
             output.append(" ");
         }
         else if (isOperator(input.substr(i,1))) {
@@ -178,23 +188,48 @@ string Parser::shunting_yard(string input) {
         }
         else if ((input.substr(i,1)).compare("(")==0) {
             sh_stack.push(input.substr(i,1));
+            num_left_paren++;
             i++;
             }
         else if ((input.substr(i,1)).compare(")")==0) {
-            while ((sh_stack.getTop()).compare("(")!=0) {
-                output.append(sh_stack.pop());
-                output.append(" ");
-                }
-            sh_stack.pop();
-            i++;
+            if (num_left_paren > 0) {
+                while ((sh_stack.getTop()).compare("(")!=0) {
+                    output.append(sh_stack.pop());
+                    output.append(" ");
+                    }
+                num_left_paren--;
+                sh_stack.pop();
+                i++;
+            }
+            else {return "Error with parentheses! You must have parentheses in pairs.";}
         }
         else if ((input.substr(i,1)).compare(" ")==0) {
             i++;
         }
         else if ((input.substr(i, 5)).compare("sqrt:")==0) {
             //sqrt:x
-            sh_stack.push(input.substr(i, 5));
-            i+=5;
+            int num_chars = 0;
+            if (input[i+5]!='(' && input[i+6]!='(') { //not a sqrt:(x+y) expression
+                while (input[i+num_chars+1]!=' ') { //gets number of digits of sqrt, i.e. sqrt:xxxxx
+                    num_chars++;
+                }
+                output.append(input.substr(i, num_chars+1));
+                output.append(" ");
+                i += num_chars+6;
+            }
+            else { //is sqrt with parentheses
+                num_chars=0;
+                while ((input.substr(i+num_chars+4, 1)).compare(")")!=0) { //gets length until end of parentheses
+                    num_chars++;
+                }
+                cout<<"Expression inside root: "<<input.substr(i+5, num_chars+1)<<endl;
+                string eval = parse(input.substr(i+5, num_chars+1)); //parse expression inside ( and )
+                eval = "sqrt:"+eval;
+                cout<<eval<<endl;
+                output.append(eval);
+                output.append(" ");
+                i += num_chars+6;
+            }
         }
         else if ((input.substr(i, 4)).compare("log_")==0) {
             //log_b:x
@@ -206,6 +241,10 @@ string Parser::shunting_yard(string input) {
             output.append(last_ans);
             output.append(" ");
             i += 3;
+        }
+        else {
+            cout << "Invalid expression detected in input. Please try again." << endl;
+            return "0";
         }
     }
     while (sh_stack.hasItems())

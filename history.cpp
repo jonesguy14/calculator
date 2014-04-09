@@ -14,7 +14,7 @@ void History::print(){
 
 void History::print(int start, int end){
 	for(int i = start; i <= end; i++){
-		cout << this->history[i] << endl;
+		cout << "Answer " << end - i << ": " << this->history[i] << endl;
 	}
 }
 
