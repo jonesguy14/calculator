@@ -50,14 +50,47 @@ double  Decimal::toDecimal(double decimal) {
 }
 
 Fraction  Decimal::toFraction(double decimal) {
-	int numerator = decimal;
-	String size = toString(decimal);
-	String denominator = "" + 1;
-
-	//I have no clue how to do this.
-	for(int i =0; i<(size.size()-1); i++) {
-		denominator += ("" + 0);
+	long intPart = (long) decimal;
+	int fractionalPart = decimal - intPart;
+	
+	
+	int numerator = fractionalPart;
+	int digits = 0;
+	while(fractionalPart > 1) {
+		fractionalPart = fractionalPart/10;
+		digits++;
 	}
 
-	Fraction fract(int numerator, int denominator);
+	int denominator = pow(10, digits);
+	
+
+	toFrac(int numerator, int denominator);
+  	Fraction frac((numerator*intPart)/denominator);
+  	return frac;
+}
+
+Fraction toFrac(int& numerator, int& denominator)
+{
+
+  int counter = numerator;
+
+  if ((numerator >= 2) && (denominator >= 2))
+  {
+
+    for (counter; counter >= 2; counter--)
+    {
+
+      if ((numerator%counter == 0) && (denominator%counter == 0))
+      {
+
+        numerator = (numerator/counter);
+        denominator = (denominator/counter);
+        break;
+
+      }
+
+    }
+
+  }
+
 }
