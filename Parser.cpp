@@ -88,6 +88,10 @@ double Parser::calculate_from_rpn(string input) {
                 num_digits++;
             }
             string number = input.substr(j,num_digits+1);
+            if (input[j-1]=='-' && input[j-2]==' ') {
+                number = "-" + number;
+            }
+            cout<<number<<endl;
             i_stack.push(atoi(number.c_str())); //converts to integer and pushes to stack
             j+=num_digits+1;
         }
@@ -129,44 +133,48 @@ double Parser::calculate_from_rpn(string input) {
             j+=6;
         }
         else {
-            //one of the five single char operators (+,-,*,/,^)
-            int a = 0;
-            int b = 0;
-            int c = 0;
-            try {
-                a = i_stack.pop();
+            if (input[j]=='-' && isdigit(input[j+1]) && input[j-1]==' ') { //negative number
+                j++;
             }
-            catch (const char* e) {
-                throw e;
-            }
-
-            try {
-                b = i_stack.pop();
-            }
-            catch (const char* e) {
-                throw e;
-            }
-
-            cout<<"A:"<<a<<" "<<input[j]<<" B:"<<b<<endl;;
-
-            switch (input[j]) {
-                case '+':
-                    i_stack.push(a+b);
-                    break;
-                case '-':
-                    i_stack.push(b-a);
-                    break;
-                case '*':
-                    i_stack.push(a*b);
-                    break;
-                case '/':
-                    i_stack.push(b/a);
-                    break;
-                case '^':
-                    i_stack.push(pow(b,a));
-                    break;
+            else {
+                //one of the five single char operators (+,-,*,/,^) and not negative operator
+                int a = 0;
+                int b = 0;
+                try {
+                    a = i_stack.pop();
                 }
-            j++;
+                catch (const char* e) {
+                    throw e;
+                }
+
+                try {
+                    b = i_stack.pop();
+                }
+                catch (const char* e) {
+                    throw e;
+                }
+
+                cout<<"A:"<<a<<" "<<input[j]<<" B:"<<b<<endl;;
+
+                switch (input[j]) {
+                    case '+':
+                        i_stack.push(a+b);
+                        break;
+                    case '-':
+                        i_stack.push(b-a);
+                        break;
+                    case '*':
+                        i_stack.push(a*b);
+                        break;
+                    case '/':
+                        i_stack.push(b/a);
+                        break;
+                    case '^':
+                        i_stack.push(pow(b,a));
+                        break;
+                    }
+                j++;
+            }
         }
     }
     return i_stack.getTop();
@@ -189,12 +197,18 @@ string Parser::shunting_yard(string input) {
             output.append(" ");
         }
         else if (isOperator(input.substr(i,1))) {
-            while (!sh_stack.isEmpty() && isOperator(sh_stack.getTop()) && ((isLeftAsso(input.substr(i,1)) && checkPrecedence(input.substr(i,1), sh_stack.getTop())==0) || checkPrecedence(input.substr(i,1), sh_stack.getTop())==-1)) {
-                output.append(sh_stack.pop());
-                output.append(" ");
+            if (input[i]=='-' && isdigit(input[i+1]) && input[i-1]==' ') { //negative number i.e. 5 + -24
+                i++;
+                output.append("-");
             }
-            sh_stack.push(input.substr(i,1));
-            i++;
+            else {
+                while (!sh_stack.isEmpty() && isOperator(sh_stack.getTop()) && ((isLeftAsso(input.substr(i,1)) && checkPrecedence(input.substr(i,1), sh_stack.getTop())==0) || checkPrecedence(input.substr(i,1), sh_stack.getTop())==-1)) {
+                    output.append(sh_stack.pop());
+                    output.append(" ");
+                }
+                sh_stack.push(input.substr(i,1));
+                i++;
+            }
         }
         else if ((input.substr(i,1)).compare("(")==0) {
             sh_stack.push(input.substr(i,1));
