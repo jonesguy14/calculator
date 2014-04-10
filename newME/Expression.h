@@ -1,22 +1,22 @@
 #include <vector>
 
-class MathematicalExpression{
+class Expression{
 	private:
-		MathematicalExpression* value;
+		Expression* value;
 		boolean initiliazed;
-		vector<MathematicalExpression*> addition;
-		vector<MathematicalExpression*> multiplication;
-		vector<MathematicalExpression*> division;
-		vector<MathematicalExpression*> exponentiate;
+		vector<Expression*> addition;
+		vector<Expression*> multiplication;
+		vector<Expression*> division;
+		vector<Expression*> exponentiate;
 		
 	public:
-		MathematicalExpression(MathematicalExpression*);
+		Expression(Expression*);
 		
-		void add(MathematicalExpression*);
-		void subtract(MathematicalExpression*);
-		void multiply(MathematicalExpression*);
-		void divide(MathematicalExpression*);
-		void exponentiate(MathematicalExpression*);
+		void add(Expression*);
+		void subtract(Expression*);
+		void multiply(Expression*);
+		void divide(Expression*);
+		void exponentiate(Expression*);
 		void simplify();
 		std::string toString();
 }
