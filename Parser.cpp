@@ -137,16 +137,14 @@ double Parser::calculate_from_rpn(string input) {
                 a = i_stack.pop();
             }
             catch (const char* e) {
-                cout << e << endl;
-                return 0;
+                throw e;
             }
 
             try {
                 b = i_stack.pop();
             }
             catch (const char* e) {
-                cout << e << endl;
-                return 0;
+                throw e;
             }
 
             cout<<"A:"<<a<<" "<<input[j]<<" B:"<<b<<endl;;
@@ -213,13 +211,17 @@ string Parser::shunting_yard(string input) {
                 sh_stack.pop();
                 i++;
             }
-            else {return "Error with parentheses! You must have parentheses in pairs.";}
+            else {throw "Error with parentheses! You must have parentheses in pairs.";}
         }
         else if ((input.substr(i,1)).compare(" ")==0) {
             i++;
         }
         else if ((input.substr(i, 5)).compare("sqrt:")==0) {
             //sqrt:x
+            if (input[i+5]=='-' || input[i+6]=='-') {
+                //cout<<"HEY SWRT NEGATIVE"<<endl;
+                throw "Negative square root detected. Imaginary numbers are not supported.";
+            }
             int num_chars = 0;
             if (input[i+5]!='(' && input[i+6]!='(') { //not a sqrt:(x+y) expression
                 while (input[i+num_chars+1]!=' ' && input[i+num_chars+1]!=')' && (i+num_chars+1)<input.length()) { //gets number of digits of sqrt, i.e. sqrt:xxxxx
@@ -296,8 +298,7 @@ string Parser::shunting_yard(string input) {
             i += 3;
         }
         else {
-            cout << "Invalid expression detected in input. Please try again." << endl;
-            return "0";
+            throw "Invalid expression detected in input. Please try again.";
         }
     }
     while (sh_stack.hasItems())

@@ -11,11 +11,12 @@ class MathematicalExpression{
 
 	public:
 		MathematicalExpression(MathematicalExpression* part1, MathematicalExpression* part2, char op);
-		virtual void add(MathematicalExpression* addend);
-		virtual void subtract(MathematicalExpression* subtrahend);
-		virtual void multiply(MathematicalExpression* multiplicand);
-		virtual void divide(MathematicalExpression* dividend);
-		virtual void simplify();
+		MathematicalExpression(int);
+		virtual MathematicalExpression add(MathematicalExpression* addend);
+		virtual MathematicalExpression subtract(MathematicalExpression* subtrahend);
+		virtual MathematicalExpression multiply(MathematicalExpression* multiplicand);
+		virtual MathematicalExpression divide(MathematicalExpression* dividend);
+		virtual MathematicalExpression simplify();
 		virtual std::string toString();
 };
 

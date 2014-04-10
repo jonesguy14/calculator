@@ -74,7 +74,7 @@ int main()
             break;
         case 'h':
         case 'H':
-            cout << "\n                            * * * H E L P * * *" << endl;
+            cout << "\n                              * * * H E L P * * *" << endl;
             cout << "--------------------------------------------------------------------------------" << endl;
             cout << "This \"intelligent\" calculator will take your input and calculate a solution,\n"
                  << "avoiding floating point representation and providing an answer fit for a math\n"
