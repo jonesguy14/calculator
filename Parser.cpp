@@ -243,6 +243,9 @@ string Parser::shunting_yard(string input) {
                     else if ((input.substr(i+num_chars+5, 1)).compare(")")==0) {
                         close_paren++;
                     }
+                    else if (i+num_chars+6 > input.length()) {
+                        throw "Error detected with sqrt function. You need to close parentheses.";
+                    }
                     num_chars++;
                 }
                 string eval = parse(input.substr(i+5, num_chars+1)); //parse expression inside ( and )
@@ -274,6 +277,9 @@ string Parser::shunting_yard(string input) {
                     }
                     else if ((input.substr(i+num_chars+4, 1)).compare(")")==0) {
                         close_paren++;
+                    }
+                    else if (i+num_chars+5 > input.length()) {
+                        throw "Error detected with nrt function. You need to close parentheses.";
                     }
                     num_chars++;
                 }

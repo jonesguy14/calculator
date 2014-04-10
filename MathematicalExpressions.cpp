@@ -15,7 +15,7 @@ MathematicalExpression::MathematicalExpression(int me_int) {
     //only used for MathExInteger
 }
 
-MathematicalExpression MathematicalExpression::simplify() {
+void MathematicalExpression::simplify() {
     //hur dur simplify
 }
 

@@ -16,7 +16,7 @@ class MathematicalExpression{
 		virtual MathematicalExpression subtract(MathematicalExpression* subtrahend);
 		virtual MathematicalExpression multiply(MathematicalExpression* multiplicand);
 		virtual MathematicalExpression divide(MathematicalExpression* dividend);
-		virtual MathematicalExpression simplify();
+		virtual void simplify();
 		virtual std::string toString();
 };
 
