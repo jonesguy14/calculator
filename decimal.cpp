@@ -59,5 +59,5 @@ Fraction  Decimal::toFraction(double decimal) {
 		denominator += ("" + 0);
 	}
 
-	Fraction fract = new Fraction(int numerator, int denominator);
+	Fraction fract(int numerator, int denominator);
 }
