@@ -181,7 +181,7 @@ double Parser::calculate_from_rpn(string input) {
     return i_stack.getTop();
 }
 
-string Parser::shunting_yard(string input) {
+string Parser::shunting_yard(string input) { //CODED BY OURSELVES NO COPY PASTING
     int i = 0;
     int num_left_paren = 0;
     shuntingStack sh_stack(100);
@@ -234,7 +234,6 @@ string Parser::shunting_yard(string input) {
         else if ((input.substr(i, 5)).compare("sqrt:")==0) {
             //sqrt:x
             if (input[i+5]=='-' || input[i+6]=='-') {
-                //cout<<"HEY SWRT NEGATIVE"<<endl;
                 throw "Negative square root detected. Imaginary numbers are not supported.";
             }
             int num_chars = 0;
@@ -250,7 +249,7 @@ string Parser::shunting_yard(string input) {
                 num_chars=0;
                 int open_paren = 1;
                 int close_paren = 0;
-                for (int p = 0; p < input.length() - i; p++) {
+                for (int p = 0; p < input.length() - i; p++) { //get expression inside parentheses
                     if ((input.substr(i+p+6, 1)).compare("(")==0) {
                         open_paren++;
                         cout<<"Open:"<<open_paren<<endl;
@@ -287,26 +286,29 @@ string Parser::shunting_yard(string input) {
                 num_chars=0;
                 int open_paren = 1;
                 int close_paren = 0;
-                while ((input.substr(i+num_chars+4, 1)).compare(")")!=0 && open_paren!=close_paren) {
-                    //gets length till end of parentheses, taking into account ((54) - (5 + (50))) situations
-                    if ((input.substr(i+num_chars+4, 1)).compare("(")==0) {
+                for (int p = 0; p < input.length() - i; p++) { //get expression inside parentheses
+                    if ((input.substr(i+p+5, 1)).compare("(")==0) {
                         open_paren++;
+                        cout<<"Open:"<<open_paren<<endl;
                     }
-                    else if ((input.substr(i+num_chars+4, 1)).compare(")")==0) {
+                    else if ((input.substr(i+p+5, 1)).compare(")")==0) {
                         close_paren++;
+                        cout<<"Closed:"<<close_paren<<endl;
                     }
-                    else if (i+num_chars+4 > input.length()) {
-                        throw "Error detected with nrt function. You need to close parentheses.";
+                    if (close_paren == open_paren) {
+                        //exit out
+                        num_chars = p;
+                        p = input.length() - i;
                     }
-                    num_chars++;
                 }
-                string eval = parse(input.substr(i+4, num_chars+1)); //parse expression inside ( and )
+                cout << input.substr(i+4, num_chars+2) << endl;
+                string eval = parse(input.substr(i+4, num_chars+2)); //parse expression inside ( and )
                 cout << eval << endl;
                 eval = input.substr(i,1)+"rt:"+eval;
                 cout << eval << endl;
                 output.append(eval);
                 output.append(" ");
-                i += num_chars+5;
+                i += num_chars+6;
             }
         }
         else if ((input.substr(i, 4)).compare("log_")==0) {

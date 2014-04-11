@@ -9,6 +9,7 @@ Fractions::Fractions(MathematicalExpression numerator, MathematicalExpression de
     }
     this->numerator = numerator.simplify();
     this->denominator = denominator.simplify();
+    simplify();
 }
 
 int Fractions::GCDivisor(){
@@ -22,11 +23,27 @@ int Fractions::GCDivisor(){
 void Fractions::simplify(){
     if (numerator.getName() == "Integer" && denominator.getName() == "Integer") {
         int gcd = GCDivisor();
-        numerator = numerator.getInt() / gcd;
-        denominator = denominator.getInt() / gcd;
+        MathExInteger new_num(numerator.getInt() / gcd);
+        numerator = new_num;
+        MathExInteger new_den(numerator.getInt() / gcd);
+        denominator = new_den;
+        if (denominator.getInt() == 1) {
+            throw "Denominator is equal to 1, don't need fraction";
+        }
     }
-    else {
-        //deal with other types
+    else if (toDecimal() - floor(toDecimal()) < 0.000001) {
+        MathExInteger new_num(floor(toDecimal());
+        numerator = new_num;
+        MathExInteger new_den(1);
+        denominator = new_den;
+        throw "Denominator is equal to 1, don't need fraction";
+    }
+    else if (ceil(toDecimal()) - toDecimal() < 0.000001) {
+        MathExInteger new_num(ceil(toDecimal());
+        numerator = new_num;
+        MathExInteger new_den(1);
+        denominator = new_den;
+        throw "Denominator is equal to 1, don't need fraction";
     }
 }
 
