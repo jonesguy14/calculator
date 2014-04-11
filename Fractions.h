@@ -9,7 +9,6 @@ class Fractions : public MathematicalExpression{
 private:
     MathematicalExpression numerator;
     MathematicalExpression denominator;
-    void GCD(Fractions F1, Fractions F2);
 
 public:
     Fractions(MathematicalExpression numerator, MathematicalExpression denominator);
@@ -28,10 +27,10 @@ public:
 
     void simplify();
     int GCDivisor();
-    int temp1 = 2;
 
     std::string toString();
     double toDecimal();
+    std::string getName();
 
 };
 

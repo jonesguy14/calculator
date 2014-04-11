@@ -4,12 +4,14 @@
 #include "MathematicalExpressions.h"
 #include <iostream>
 
-class MathExInteger : public MathematicalExpression{
+class MathExInteger : public MathematicalExpression {
 	private:
 	    int me_int;
 
 	public:
+		MathExInteger();
 		MathExInteger(int);
+		//~MathExInteger();
 		MathematicalExpression add(MathExInteger* addend);
 		MathematicalExpression add(MathematicalExpression* addend);
 
@@ -22,9 +24,10 @@ class MathExInteger : public MathematicalExpression{
 		MathematicalExpression divide(MathExInteger* dividend);
 		MathematicalExpression divide(MathematicalExpression* dividend);
 
-		MathematicalExpression simplify();
+		void simplify();
 		int getInt();
 		std::string toString();
+		std::string getName();
 };
 
 

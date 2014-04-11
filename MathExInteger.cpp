@@ -1,8 +1,14 @@
 #include "MathExInteger.h"
+#include "MathematicalExpressions.h"
 #include <cmath>
+
 using namespace std;
 
-MathExInteger::MathExInteger(int me_int) : MathematicalExpression(me_int) {
+MathExInteger::MathExInteger() {
+    me_int = 0;
+}
+
+MathExInteger::MathExInteger(int me_int) { //: me_int(me_int) {
 	this->me_int = me_int;
 }
 
@@ -59,9 +65,8 @@ MathematicalExpression MathExInteger::multiply(MathExInteger* multiplicand) {
 	return meint_result;
 }
 
-MathematicalExpression MathExInteger::simplify() {
-    MathematicalExpression result = *this;
-    return result;
+void MathExInteger::simplify() {
+    //DO NOTHING
 }
 
 int MathExInteger::getInt() {
@@ -70,4 +75,8 @@ int MathExInteger::getInt() {
 
 string MathExInteger::toString(){
 	return "" + getInt();
+}
+
+string getName() {
+    return "Integer";
 }

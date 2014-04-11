@@ -88,7 +88,7 @@ double Parser::calculate_from_rpn(string input) {
                 num_digits++;
             }
             string number = input.substr(j,num_digits+1);
-            if (input[j-1]=='-' && input[j-2]==' ') {
+            if (input[j-1]=='-') {//&& input[j-2]==' ') {
                 number = "-" + number;
             }
             cout<<number<<endl;
@@ -133,7 +133,7 @@ double Parser::calculate_from_rpn(string input) {
             j+=6;
         }
         else {
-            if (input[j]=='-' && isdigit(input[j+1]) && input[j-1]==' ') { //negative number
+            if (input[j]=='-' && isdigit(input[j+1])) { //&& input[j-1]==' ') { negative number
                 j++;
             }
             else {
@@ -177,6 +177,7 @@ double Parser::calculate_from_rpn(string input) {
             }
         }
     }
+    cout<<i_stack.getTop()<<endl;
     return i_stack.getTop();
 }
 
@@ -197,7 +198,7 @@ string Parser::shunting_yard(string input) {
             output.append(" ");
         }
         else if (isOperator(input.substr(i,1))) {
-            if (input[i]=='-' && isdigit(input[i+1]) && input[i-1]==' ') { //negative number i.e. 5 + -24
+            if (input[i]=='-' && isdigit(input[i+1])) { //&& input[i-1]==' ') { //negative number i.e. 5 + -24
                 i++;
                 output.append("-");
             }
@@ -249,24 +250,26 @@ string Parser::shunting_yard(string input) {
                 num_chars=0;
                 int open_paren = 1;
                 int close_paren = 0;
-                while ((input.substr(i+num_chars+5, 1)).compare(")")!=0 && open_paren!=close_paren) {
-                    //gets length till end of parentheses, taking into account ((54) - (5 + (50))) situations
-                    if ((input.substr(i+num_chars+5, 1)).compare("(")==0) {
+                for (int p = 0; p < input.length() - i; p++) {
+                    if ((input.substr(i+p+6, 1)).compare("(")==0) {
                         open_paren++;
+                        cout<<"Open:"<<open_paren<<endl;
                     }
-                    else if ((input.substr(i+num_chars+5, 1)).compare(")")==0) {
+                    else if ((input.substr(i+p+6, 1)).compare(")")==0) {
                         close_paren++;
+                        cout<<"Closed:"<<close_paren<<endl;
                     }
-                    else if (i+num_chars+6 > input.length()) {
-                        throw "Error detected with sqrt function. You need to close parentheses.";
+                    if (close_paren == open_paren) {
+                        //exit out
+                        num_chars = p;
+                        p = input.length() - i;
                     }
-                    num_chars++;
                 }
-                string eval = parse(input.substr(i+5, num_chars+1)); //parse expression inside ( and )
+                string eval = parse(input.substr(i+5, num_chars+2)); //parse expression inside ( and )
                 eval = "sqrt:"+eval;
                 output.append(eval);
                 output.append(" ");
-                i += num_chars+6;
+                i += num_chars+7;
             }
         }
         else if ((input.substr(i+1, 3)).compare("rt:")==0) {
@@ -292,7 +295,7 @@ string Parser::shunting_yard(string input) {
                     else if ((input.substr(i+num_chars+4, 1)).compare(")")==0) {
                         close_paren++;
                     }
-                    else if (i+num_chars+5 > input.length()) {
+                    else if (i+num_chars+4 > input.length()) {
                         throw "Error detected with nrt function. You need to close parentheses.";
                     }
                     num_chars++;
@@ -321,6 +324,7 @@ string Parser::shunting_yard(string input) {
             throw "Invalid expression detected in input. Please try again.";
         }
     }
+
     while (sh_stack.hasItems())
     {
         output.append(sh_stack.pop());

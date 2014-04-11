@@ -10,8 +10,10 @@ class MathematicalExpression{
 		std::string value;
 
 	public:
+		MathematicalExpression();
 		MathematicalExpression(MathematicalExpression* part1, MathematicalExpression* part2, char op);
 		MathematicalExpression(int);
+		~MathematicalExpression();
 		virtual MathematicalExpression add(MathematicalExpression* addend);
 		virtual MathematicalExpression subtract(MathematicalExpression* subtrahend);
 		virtual MathematicalExpression multiply(MathematicalExpression* multiplicand);

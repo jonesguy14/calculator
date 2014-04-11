@@ -1,6 +1,12 @@
+#include "MathematicalExpressions.h"
+
 using namespace std;
 
-MathematicalExpression::MathematicalExpression(MathematicalExpression* part1, MathematicalExpression* part2, char op){
+MathematicalExpression::MathematicalExpression() {
+    //this will never be called theoretically
+}
+
+MathematicalExpression::MathematicalExpression(MathematicalExpression* part1, MathematicalExpression* part2, char op) {
 	this->part1	=	part1->simplify();
 	this->part2	=	part2->simplify();
 
@@ -16,7 +22,7 @@ MathematicalExpression::MathematicalExpression(int me_int) {
 }
 
 void MathematicalExpression::simplify() {
-    //hur dur simplify
+    //simplify
 }
 
 MathematicalExpression MathematicalExpression::add(MathematicalExpression* addend){
