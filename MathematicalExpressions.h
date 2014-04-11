@@ -19,7 +19,10 @@ class MathematicalExpression{
 		virtual MathematicalExpression multiply(MathematicalExpression* multiplicand);
 		virtual MathematicalExpression divide(MathematicalExpression* dividend);
 		virtual void simplify();
+		virtual int getInt();
 		virtual std::string toString();
+		virtual double toDecimal();
+		virtual std::string getName();
 };
 
 

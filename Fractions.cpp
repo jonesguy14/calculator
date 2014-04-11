@@ -1,23 +1,41 @@
 #include "Fractions.h"
+#include "MathExInteger.h"
 #include "MathematicalExpressions.h"
+#include <math.h>
 
 using namespace std;
 
-Fractions::Fractions(MathematicalExpression numerator, MathematicalExpression denominator){
-    if (denominator.toDecimal() == 0){
+Fractions::Fractions() {
+    MathExInteger numer(1);
+    MathExInteger denom(1);
+    this->numerator = numer;
+    this->numerator = denom;
+}
+
+Fractions::Fractions(MathematicalExpression* numerator, MathematicalExpression* denominator){
+    if (denominator->toDecimal() == 0){
         throw "Cannot divide by zero";
     }
-    this->numerator = numerator.simplify();
-    this->denominator = denominator.simplify();
+    MathematicalExpression new_num;
+    new_num = *numerator;
+    new_num.simplify();
+    MathematicalExpression new_den;
+    new_den = *denominator;
+    new_den.simplify();
+    this->numerator = new_num;
+    this->denominator = new_den;
     simplify();
 }
 
 int Fractions::GCDivisor(){
-    int gcd = 2;
-    while (numerator.getInt() % gcd != 0 && denominator.getInt() % gcd != 0){
-        gcd++;
+    if (numerator.getName() == "Integer" && denominator.getName() == "Integer") {
+        int gcd = 2;
+        while (numerator.getInt() % gcd != 0 && denominator.getInt() % gcd != 0){
+            gcd++;
+        }
+        return gcd;
     }
-    return gcd;
+    else {throw "Trying to get GCD of non-integer";}
 }
 
 void Fractions::simplify(){
@@ -32,14 +50,16 @@ void Fractions::simplify(){
         }
     }
     else if (toDecimal() - floor(toDecimal()) < 0.000001) {
-        MathExInteger new_num(floor(toDecimal());
+        int me_int = floor(toDecimal());
+        MathExInteger new_num(me_int);
         numerator = new_num;
         MathExInteger new_den(1);
         denominator = new_den;
         throw "Denominator is equal to 1, don't need fraction";
     }
     else if (ceil(toDecimal()) - toDecimal() < 0.000001) {
-        MathExInteger new_num(ceil(toDecimal());
+        int me_int = ceil(toDecimal());
+        MathExInteger new_num(me_int);
         numerator = new_num;
         MathExInteger new_den(1);
         denominator = new_den;
@@ -53,7 +73,7 @@ double Fractions::toDecimal(){
 }
 
 string Fractions::toString(){
-    string str = toString(numerator) + "/" + toString(denominator);
+    string str = numerator.toString() + "/" + denominator.toString();
     return str;
 }
 
@@ -68,10 +88,11 @@ MathematicalExpression Fractions::add(MathematicalExpression* addend){
 }
 
 MathematicalExpression Fractions::add(Fractions* addend){
-    addend.simplify();
+    addend->simplify();
     Fractions result;
-    result.numerator = (numerator * addend.denominator) + (addend.numerator + denominator);
-    result.denominator = denominator * addend.denominator;
+    result.numerator = numerator.multiply(&addend->denominator);
+    result.numerator = (result.numerator).add(denominator.multiply(&addend->numerator));
+    result.denominator = denominator.multiply(&addend->denominator);
     result.simplify();
     return result;
 }
@@ -82,8 +103,8 @@ MathematicalExpression Fractions::subtract(MathematicalExpression* subtrahend){
     //result.numerator =
 }
 
-MathematicalExpression Fractions::subtrahend(Fractions* subtrahend){
-    subtrahend.simplify();
+MathematicalExpression Fractions::subtract(Fractions* subtrahend){
+    subtrahend->simplify();
     Fractions result;
     result.numerator = (numerator * subtrahend.denominator) - (subtrahend.numerator + denominator);
     result.denominator = denominator * subtrahend.denominator;
@@ -97,8 +118,8 @@ MathematicalExpression Fractions::multiply(MathematicalExpression* multipicand){
     //result.numerator =
 }
 
-MathematicalExpression Fractions::multipicand(Fractions* multipicand){
-    multipicand.simplify();
+MathematicalExpression Fractions::multiply(Fractions* multipicand){
+    multipicand->simplify();
     Fractions result;
     result.numerator = numerator * multipicand.numerator;
     result.denominator = denominator * multipicand.denominator;
@@ -106,14 +127,14 @@ MathematicalExpression Fractions::multipicand(Fractions* multipicand){
     return result;
 }
 
-MathematicalExpression Fractions::multiply(MathematicalExpression* dividend){
+MathematicalExpression Fractions::divide(MathematicalExpression* dividend){
     //addend.simplify();
     //Fractions result;
     //result.numerator =
 }
 
-MathematicalExpression Fractions::dividend(Fractions* dividend){
-    dividend.simplify();
+MathematicalExpression Fractions::divide(Fractions* dividend){
+    dividend->simplify();
     Fractions result;
     result.numerator = numerator * dividend.denominator;
     result.denominator = denominator * dividend.numerator;

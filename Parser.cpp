@@ -182,6 +182,9 @@ double Parser::calculate_from_rpn(string input) {
 }
 
 string Parser::shunting_yard(string input) { //CODED BY OURSELVES NO COPY PASTING
+    if ((input.length())<1) {
+        throw "Please input an expression.";
+    }
     int i = 0;
     int num_left_paren = 0;
     shuntingStack sh_stack(100);
@@ -249,7 +252,9 @@ string Parser::shunting_yard(string input) { //CODED BY OURSELVES NO COPY PASTIN
                 num_chars=0;
                 int open_paren = 1;
                 int close_paren = 0;
-                for (int p = 0; p < input.length() - i; p++) { //get expression inside parentheses
+                int has_space = 0;
+                if (input[i+5]==' ') {has_space = 1;}
+                for (int p = has_space; p < input.length() - i - 6; p++) { //get expression inside parentheses
                     if ((input.substr(i+p+6, 1)).compare("(")==0) {
                         open_paren++;
                         cout<<"Open:"<<open_paren<<endl;
@@ -286,7 +291,9 @@ string Parser::shunting_yard(string input) { //CODED BY OURSELVES NO COPY PASTIN
                 num_chars=0;
                 int open_paren = 1;
                 int close_paren = 0;
-                for (int p = 0; p < input.length() - i; p++) { //get expression inside parentheses
+                int has_space = 0;
+                if (input[i+5]==' ') {has_space = 1;}
+                for (int p = has_space; p < input.length() - i - 5; p++) { //get expression inside parentheses
                     if ((input.substr(i+p+5, 1)).compare("(")==0) {
                         open_paren++;
                         cout<<"Open:"<<open_paren<<endl;

@@ -7,17 +7,19 @@
 
 class Fractions : public MathematicalExpression{
 private:
+
+public:
     MathematicalExpression numerator;
     MathematicalExpression denominator;
 
-public:
-    Fractions(MathematicalExpression numerator, MathematicalExpression denominator);
+    Fractions(MathematicalExpression* numerator, MathematicalExpression* denominator);
+    Fractions();
 
     MathematicalExpression add(MathematicalExpression* addend);
     MathematicalExpression add(Fractions* addend);
 
     MathematicalExpression subtract(MathematicalExpression* subtrahend);
-    MathematicalExpression subtract(Fractions subtrahend);
+    MathematicalExpression subtract(Fractions* subtrahend);
 
     MathematicalExpression divide(MathematicalExpression* dividend);
     MathematicalExpression divide(Fractions* dividend);
