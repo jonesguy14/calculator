@@ -1,5 +1,5 @@
 #include "MathExInteger.h"
-#include "MathematicalExpressions.h"
+#include "Expressions.h"
 #include <cmath>
 
 using namespace std;
@@ -12,57 +12,40 @@ MathExInteger::MathExInteger(int me_int) { //: me_int(me_int) {
 	this->me_int = me_int;
 }
 
-MathematicalExpression MathExInteger::add(MathExInteger* addend){
-	int result = me_int + addend->getInt();
-	MathExInteger meint_result(result);
-	return meint_result;
+Expression MathExInteger::add(Expression* addend){
+	if (addend->getName() == "Integer") {
+        int result = me_int + addend->getInt();
+        MathExInteger meint_result(result);
+        return meint_result;
+	}
+    else {throw "Adding integer for non integer, will provide implementation for fractions once they exist";}
 }
 
-MathematicalExpression MathExInteger::add(MathematicalExpression* addend){
-	/*
-		There's nothing we can do if our addend isn't a logarithm, so we'll just tell the parser what happened and move on.
-	*/
-	throw "Adding integer for non integer, will provide implementation for fractions once they exist";
+Expression MathExInteger::subtract(Expression* subtrahend){
+	if (subtrahend->getName() == "Integer") {
+        int result = me_int - subtrahend->getInt();
+        MathExInteger meint_result(result);
+        return meint_result;
+	}
+	else {throw "Subbing integer for non integer, will provide implementation for fractions once they exist";}
 }
 
-
-MathematicalExpression MathExInteger::subtract(MathExInteger* subtrahend){
-	int result = me_int - subtrahend->getInt();
-	MathExInteger meint_result(result);
-	return meint_result;
+Expression MathExInteger::divide(Expression* dividend){
+    if (dividend->getName() == "Integer") {
+        int result = me_int / dividend->getInt();
+        MathExInteger meint_result(result);
+        return meint_result;
+    }
+    else {throw "Dividing integer for non integer, will provide implementation for fractions once they exist";}
 }
 
-MathematicalExpression MathExInteger::subtract(MathematicalExpression* subtrahend){
-	/*
-		There's nothing we can do if our subtrahend isn't a logarithm, so we'll just tell the parser what happened and move on.
-	*/
-	throw "Subtracting integer for non integer, will provide implementation for fractions once they exist";
-}
-
-MathematicalExpression MathExInteger::divide(MathExInteger* dividend){
-    int result = me_int / dividend->getInt();
-	MathExInteger meint_result(result);
-	return meint_result;
-}
-
-MathematicalExpression MathExInteger::divide(MathematicalExpression* dividend){
-	/*
-		There's nothing we can do if our dividend isn't a logarithm, so we'll just tell the parser what happened and move on.
-	*/
-	throw "Dividing integer for non integer, will provide implementation for fractions once they exist";
-}
-
-MathematicalExpression MathExInteger::multiply(MathematicalExpression* multiplicand){
-	/*
-		There are no logarithm rules for multiplication, so we'll just tell the parser what happened and move on.
-	*/
-	throw "Multiplying integer for non integer, will provide implementation for fractions once they exis";
-}
-
-MathematicalExpression MathExInteger::multiply(MathExInteger* multiplicand) {
-    int result = me_int * multiplicand->getInt();
-	MathExInteger meint_result(result);
-	return meint_result;
+Expression MathExInteger::multiply(Expression* multiplicand) {
+    if (multiplicand->getName*() == "Integer") {
+        int result = me_int * multiplicand->getInt();
+        MathExInteger meint_result(result);
+        return meint_result;
+    }
+    else {throw "Multiplying integer by non int";}
 }
 
 void MathExInteger::simplify() {
@@ -79,4 +62,8 @@ string MathExInteger::toString(){
 
 string MathExInteger::getName() {
     return "Integer";
+}
+
+double MathExInteger::toDecimal() {
+    return getInt();
 }
