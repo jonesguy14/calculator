@@ -71,10 +71,9 @@ void Expression::multiply(Expression* multiplicand){
 }
 void Expression::divide(Expression* dividend){
 	/*
-		Instead of implementing a division vector, it's easier to just multiply by the reciprocal.
+		Tell the parser to multiply by the reciprocal instead of dividing.
 	*/
-	Fraction* reciprocal	=	new Fraction(1, *dividend);
-	this->multiply(reciprocal);
+	throw "Create the reciprocal";
 }
 void Expression::negative(){
 	this->multiply(new MathExInteger(-1));
