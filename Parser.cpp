@@ -125,9 +125,13 @@ double Parser::calculate_from_rpn(string input) {
         }
         else if ((input.substr(j, 4)).compare("log_") == 0) {
             //logarithm
+            num_digits = 0;
+            while (isdigit(input[j+num_digits+7])) {
+                num_digits++;
+            }
+            int arg = atoi((input.substr(j+7, num_digits+1)).c_str());
             string base_str = input.substr(j+4, 1);
             int base = atoi(base_str.c_str());
-            int arg = i_stack.pop();
             int result = log10(arg)/log10(base);
             i_stack.push(result);
             j+=6;
@@ -320,8 +324,49 @@ string Parser::shunting_yard(string input) { //CODED BY OURSELVES NO COPY PASTIN
         }
         else if ((input.substr(i, 4)).compare("log_")==0) {
             //log_b:x
-            sh_stack.push(input.substr(i, 6));
-            i+=6;
+            int num_chars = 0;
+            if (input[i+6]!='(' && input[i+7]!='(') { //not a log_b:(x+y) expression
+                while (input[i+num_chars+1]!=' ' && input[i+num_chars+1]!=')' && (i+num_chars+1)<input.length()) { //gets number of digits of nrt, i.e. nrt:xxxx
+                    num_chars++;
+                }
+                output.append(input.substr(i, num_chars+1));
+                output.append(" ");
+                i += num_chars+1;
+            }
+            else { //is log_b:() with parentheses
+                num_chars=0;
+                int open_paren = 1;
+                int close_paren = 0;
+                int has_space = 0;
+                if (input[i+6]==' ') {
+                        cout<<"found space"<<endl;
+                        has_space = 1;}
+                for (int p = has_space; p < input.length() - i - 7; p++) { //get expression inside parentheses
+                    if ((input.substr(i+p+7, 1)).compare("(")==0) {
+                        open_paren++;
+                        cout<<"Open:"<<open_paren<<endl;
+                    }
+                    else if ((input.substr(i+p+7, 1)).compare(")")==0) {
+                        close_paren++;
+                        cout<<"Closed:"<<close_paren<<endl;
+                    }
+                    if (close_paren == open_paren) {
+                        //exit out
+                        num_chars = p;
+                        p = input.length() - i;
+                    }
+                }
+                cout << input.substr(i+6, num_chars+2) << endl;
+                string eval = parse(input.substr(i+6, num_chars+2)); //parse expression inside ( and )
+                cout << eval << endl;
+                eval = input.substr(i, 6) + eval;
+                cout << eval << endl;
+                output.append(eval);
+                output.append(" ");
+                i += num_chars+8;
+            }
+            //sh_stack.push(input.substr(i, 6));
+            //i+=6;
         }
         else if ((input.substr(i, 3)).compare("ans")==0) {
             //user using last ans

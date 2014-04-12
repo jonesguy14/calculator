@@ -27,7 +27,7 @@ class MathExInteger : public MathematicalExpression {
 		void simplify();
 		int getInt();
 		std::string toString();
-		std::string getName();
+		std::string getName();//if base.getName() == "Integer"
 };
 
 

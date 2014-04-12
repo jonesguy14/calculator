@@ -77,6 +77,6 @@ string MathExInteger::toString(){
 	return "" + getInt();
 }
 
-string getName() {
+string MathExInteger::getName() {
     return "Integer";
 }
