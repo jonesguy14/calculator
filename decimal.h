@@ -1,14 +1,8 @@
-/*
- * decimal.h
- *
- *  Created on: Apr 6, 2014
- *      Author: asmartin
- */
-
 #ifndef DECIMAL_H_
 #define DECIMAL_H_
 
 using namespace std;
+#include <iostream>
 
 class Decimal {
 
