@@ -1,4 +1,5 @@
 #include <vector>
+#include "expression.h"
 
 Expression::Expression(Expression* exp){
 	/*
@@ -20,7 +21,7 @@ Expression::Expression(std::vector<Expression*> addition){
 		In some cases, we'll want to accept an addition vector, which allows us to multiply. More information will be
 		in our multiply() method.
 	*/
-	this->initiliazed	=	true;
+	this->initialized	=	true;
 	this->addition		=	addition;
 }
 void Expression::add(Expression* addend){
@@ -34,7 +35,7 @@ void Expression::add(Expression* addend){
 		Otherwise, we need to set it to true, put it in our addition vector, then conduct business as usual.
 	*/
 	else{
-		this->initiliazed	=	true;
+		this->initialized	=	true;
 		this->addition.push_back(value);
 		this->addition.push_back(addend);
 	}
@@ -44,14 +45,15 @@ void Expression::subtract(Expression* subtrahend){
 		We call negative() on our subtrahend so that we can add it to our addition vector.
 		This allows us to avoid having a vector just for subtraction, which makes our lives a lot easier.
 	*/
-	this->add(subtrahend->negative());
+	subtrahend->negative();
+	this->add(subtrahend);
 }
 void Expression::multiply(Expression* multiplicand){
 	/*
 		Like in the addition method, we have to handle our value variable.
 	*/
 	if(!this->initialized){
-		this->initiliazed	=	true;
+		this->initialized	=	true;
 		this->multiplication.push_back(value);
 	}
 	/*
@@ -59,7 +61,7 @@ void Expression::multiply(Expression* multiplicand){
 		For example, if we multiply "log_5:10 +  e^5" by "pi^6", we would take [log_5:10*, e^5*], turn it into
 		an Expression object via the vector constructor, then we'd have a multiplication vector of [[log_5:10*, e^5*], pi^6].
 	*/
-	if(!this->addition.empty()){}
+	if(!this->addition.empty()){
 		this->add_simplify(this->addition);
 		Expression* exp	=	new Expression(this->addition);
 		this->addition.clear();
@@ -73,6 +75,9 @@ void Expression::divide(Expression* dividend){
 	*/
 	Fraction* reciprocal	=	new Fraction(1, *dividend);
 	this->multiply(reciprocal);
+}
+void Expression::negative(){
+	this->multiply(new MathExInteger(-1));
 }
 void Expression::exponentiate(Expression* exponent){
 	/*
@@ -89,12 +94,12 @@ void Expression::add_simplify(std::vector<Expression*> exp){
 		We seek through our vector and add anything together that can be added together.
 		For example, [5, log_5:10, 10] would become [15, log_5:10].
 	*/
-	int c	=	exp->size;
+	int c	=	exp.size();
 	for(int i = 0; i < c; i++){
-		for(j = 0; j < c; j++){
+		for(int j = 0; j < c; j++){
 			try{
 				exp[i]->add(exp[j]);
-				exp->erase(j);
+				exp.erase(exp.begin()+j);
 			}catch(ExpressionException e){
 				continue;
 			}
@@ -105,12 +110,12 @@ void Expression::multiply_simplify(std::vector<Expression*> exp){
 	/*
 		Just like the add_simplify() method, except with multiplication.
 	*/
-	int c	=	exp->size();
+	int c	=	exp.size();
 	for(int i = 0; i < c; i++){
-		for(j = 0; j < c; j++){
+		for(int j = 0; j < c; j++){
 			try{
 				exp[i]->multiply(exp[j]);
-				exp->erase(j);
+				exp.erase(exp.begin()+j);
 			}catch(ExpressionException e){
 				continue;
 			}
@@ -130,12 +135,12 @@ std::string Expression::toString(){
 		If we only have our initial value, let's just return it in string form.
 	*/
 	if(!this->initialized){
-		return this->value.toString();
+		return this->value->toString();
 	}
-	
+
 	int c	=	this->addition.size();
 	std::string	result	=	"";
-	
+
 	/*
 		Handle addition
 	*/
@@ -146,7 +151,7 @@ std::string Expression::toString(){
 		if(i == 0 && c > 1){
 			result += "(";
 		}
-		result	+=	this->addition[i].toString();
+		result	+=	this->addition[i]->toString();
 		/*
 			Add an addition symbol after our element as long as it isn't the last one in the vector.
 		*/
@@ -160,22 +165,27 @@ std::string Expression::toString(){
 			result += ")";
 		}
 	}
-	
+
 	/*
 		If we have something to multiply by, put a multiplication symbol in between the two pieces of our string.
 	*/
 	if(!this->multiplication.empty()){
 		result += " * ";
 	}
-	
-	int c	=	this->multiplication.size();
-	
+
+	c	=	this->multiplication.size();
+
 	for(int i = 0; i < c; i++){
-		result	+=	this->multiplication[i].toString();
+		result	+=	this->multiplication[i]->toString();
 		if(i < (c - 1)){
 			result += " * ";
 		}
 	}
 	return result;
+}
+
+Expression::~Expression(){
+	delete[] this->addition;
+	delete[] this->multiplication;
 }
 
