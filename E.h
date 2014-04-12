@@ -1,12 +1,12 @@
-#ifndef E_H_INCLUDED
-#define E_H_INCLUDED
+#ifndef EULERS_H_INCLUDED
+#define EULERS_H_INCLUDED
 
 #include <iostream>
 
-class E : public Constant {
+class Eulers : public Constant {
 public:
-    E();
-    ~E();
+    Eulers();
+    ~Eulers();
 
     Expression* add(Expression* a);
     Expression* subtract(Expression* s);
@@ -19,4 +19,4 @@ public:
     MathExInteger* coeffecient;
 };
 
-#endif // E_H_INCLUDED
+#endif // EULERS_H_INCLUDED

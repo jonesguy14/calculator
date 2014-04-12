@@ -2,44 +2,44 @@
 
 using namespace std;
 
-E::E() {
+Eulers::Eulers() {
     this->coeffecient = new MathExInteger(1);
 }
 
-E::~E() {
+Eulers::~Eulers() {
     delete this;
 }
 
-string E::getName() {
-    return "E";
+string Eulers::getName() {
+    return "Eulers";
 }
 
-string E::toString() {
+string Eulers::toString() {
     stringstream s;
-    s << this->coefficient << "E";
+    s << this->coefficient << "e";
     return s.str();
 }
 
-double E::toDecimal() {
+double Eulers::toDecimal() {
     return 2.7182818284;
 }
 
-Expression* E::add(Expression* a) {
-    if a->getName() == "E" {
+Expression* Eulers::add(Expression* a) {
+    if a->getName() == "Eulers" {
         coefficient = new MathExInteger(a->coefficient->getInt() + coefficient->getInt());
         return this;
     }
 }
 
-Expression* E::subtract(Expression* s) {
-    if a->getName() == "E" {
+Expression* Eulers::subtract(Expression* s) {
+    if a->getName() == "Eulers" {
         coefficient = new MathExInteger(coefficient->getInt() - s->coefficient->getInt());
         return this;
     }
 }
 
-Expression* E::multiply(Expression* m) {
-    if a->getName() == "E" {
+Expression* Eulers::multiply(Expression* m) {
+    if a->getName() == "Eulers" {
         coefficient = new MathExInteger(m->coefficient->getInt() * coefficient->getInt());
         return this;
     }
