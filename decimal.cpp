@@ -1,11 +1,3 @@
-/*
- * decimal.cpp
- *
- *  Created on: Apr 6, 2014
- *      Author: asmartin
- */
-
-#include <iostream>
 #include "Decimal.h"
 
 Decimal::Decimal(double decimal) {
