@@ -130,7 +130,10 @@ void Exponent::add(Expression* addend){
 }
 
 void Exponent::subtract(Expression* subtrahend){
-
+	if(this->toDecimal() == subtrahend->toDecimal){
+		throw Exceptions("Exponent::subtract(Expression*) : subtraction of same values, convert to 0");
+	}
+	else
 	throw Exceptions("Exponent::subtract(Expression*) : subtract math expression from exponent");
 
 }
@@ -160,64 +163,110 @@ bool samePow  = addend->getPower().toDecimal() == this->getPower().toDecimal();
 			this->coefficient.push_back(exp);
 		}
 	}
+	else{
+		throw Exceptions("Exponent::add(Exponent*) : add exponent to exponent");
+	}
 }
 
+void Exponent::subtract(Exponent* subtrahend){
+
+bool sameCoeff = subtrahend->getCoefficient().toDecimal() == this->getCoefficient().toDecimal();
+bool sameBase = subtrahend->getBase().toDecimal() == this->getBase().toDecimal();
+bool samePow  = subtrahend->getPower().toDecimal() == this->getPower().toDecimal();
+
+	if(sameCoeff && sameBase && samePow){
+		throw Exceptions("Exponent::subtract(Exponent*) : subtraction of same exponents, convert to 0");
+	}
+	if(sameBase && samePow){
+		try{
+			this->coefficient.subtract(subtrahend->getCoefficient());
+		}catch(ExpressionException e){
+			Expression exp((this->getCoefficient())*);
+			exp->subtract(subtrahend->getCoefficient());
+			this->coefficient.push_back(exp);
+		}
+	}
+	else{
+		throw Exceptions("Exponent::subtract(Exponent*) : subtract exponent from exponent");
+	}
+}
 
 
 void Exponent::multiply(Exponent* multiplicand){
 
-if(this->isIntBase() && multiplicand->isIntBase()){//If both bases are MathExInteger's
+bool sameCoeff = multiplicand->getCoefficient().toDecimal() == this->getCoefficient().toDecimal();
+bool sameBase = multiplicand->getBase().toDecimal() == this->getBase().toDecimal();
+bool samePow  = multiplicand->getPower().toDecimal() == this->getPower().toDecimal();
 
-	if(this->intBase == multiplicand->intBase){//If int bases match, exponents can be added
-
-		if(this->isExpPow() && multiplicand->isExpPow()){//If both powers are expressions
-
-			throw //Exponent::multiplyExponent : Add two powers; (this power is expression), (multiplicand power is expression); this->expPower = to the result
-
+	if(sameBase){
+		try{
+			this->coefficient.multiply(multiplicand->getCoefficient());
+			this->power.add(multiplicand->getPower());
+		}catch(ExpressionException e){
+			Expression exp1((this->getCoefficient())*);
+			Expression exp2((this->getPower())*);
+			exp1->multiply(multiplicand->getCoefficient());
+			exp2->add(multiplicand->getPower());
+			this->coefficient.push_back(exp1);
+			this->power.push_back(exp2);
 		}
-		else if(this->isExpPow() && multiplicand->isIntPow()){//If first power is expression, and the other an integer
-
-			throw //Exponent::multiplyExponent : Add two powers; (this power is expression), (multiplicand power is integer);  set this->expPower = to the result 
-		}
-		else{//There should not be a case of two base integers and two power integers (because if there were, they should have been simplified to an integer)
-
-			throw //Exponent::multiplyExponent : Add two powers; (this power is integer), (multiplicand power is expression);  set this->expPower = to the result 
-		}
-
 	}
-}
-
-else if((this->isExpBase() && multiplicand->isExpBase()){//Else if both bases are MathExpression's
-
-	if(this->expBase == multiplicand->expBase){//If expression bases match, exponents can be added
-
-		if(this->isExpPow() && multiplicand->isExpPow()){//If both powers are expressions
-
-			throw //Exponent::multiplyExponent : Add two powers; (this power is expression), (multiplicand power is expression); this->expPower = to the result
-
-		}
-		else if(this->isExpPow() && multiplicand->isPow()){//If first power is expression, and the other an integer
-
-			throw //Exponent::multiplyExponent : Add two powers; (this power is expression), (multiplicand power is integer);  set this->expPower = to the result
-		}
-		else if(this->isInt() && multiplicand->isPow()){//If first power is integer, and the other an expression
-
-			throw //Exponent::multiplyExponent : Add two powers; (this power is integer), (multiplicand power is expression);  set this->expPower = to the result
-		}
-		else{//Both powers are integers
-			this->intPower = this->intPower.add(multiplicand->intPower); //add method from MathExInteger Class called
-
-		}
-
+	else{
+		throw Exceptions("Exponent::multiply(Exponent*) : multiply exponent to exponent");
 	}
 
 }
 
-else{
+void Exponent::divide(Exponent* dividend){
 
-	throw //
+bool sameCoeff = dividend->getCoefficient().toDecimal() == this->getCoefficient().toDecimal();
+bool sameBase = dividend->getBase().toDecimal() == this->getBase().toDecimal();
+bool samePow  = dividend->getPower().toDecimal() == this->getPower().toDecimal();
 
-     }
+	if(sameBase){
+		try{
+			this->coefficient.divide(dividend->getCoefficient());
+			this->power.subtract(dividend->getPower());
+		}catch(ExpressionException e){
+			Expression exp1((this->getCoefficient())*);
+			Expression exp2((this->getPower())*);
+			exp1->divide(dividend->getCoefficient());
+			exp2->subtract(dividend->getPower());
+			this->coefficient.push_back(exp1);
+			this->power.push_back(exp2);
+		}
+	}
+	else{
+		throw Exceptions("Exponent::divide(Exponent*) : divide exponent by exponent");
+	}
+
+}
+
+void Exponent::negative(){
+	this->getCoefficient().negative();
+
+}
+
+void Exponent::simplify(){
+	//do nothing
+
+}
+
+double Exponent::toDecimal(){
+	double exponentVal = pow(this->getBase.toDecimal(),this->getPower.toDecimal());
+		exponentVal *= this->getCoefficient.toDecimal();
+	return exponentVal;
+
+}
+
+string Exponent::toString(){
+	ostringstream ss;
+	  ss << this->getCoefficient().toString() 
+	     << "(" << this->getBase().toString()
+	     << "^" << this->getPower().toString()
+	     << ")";
+	}
+	return ss.str();
 
 }
 
@@ -225,8 +274,3 @@ string Exponent::getName(){
 	return "Exponent";
 }
 
-
-MathematicalExpression Exponent::simplify(MathematicalExpression* mathExp){
-	mathExp->simplify();
-
-}

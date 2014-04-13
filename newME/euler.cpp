@@ -16,7 +16,7 @@ string Eulers::toString() {
 }
 
 double Eulers::toDecimal() {
-    return 2.7182818284;
+    return 2.7182818284 * this->getCoefficient()->toDecimal();
 }
 
 Expression* Eulers::getCoefficient() {

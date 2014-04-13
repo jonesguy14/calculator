@@ -1,164 +1,256 @@
-#include "Fractions.h"
-#include "MathExInteger.h"
-#include "Expressions.h"
+#include "fraction.h"
+#include "exp-integer.h"
+#include "expression.h"
 #include <math.h>
 
-using namespace std;
-
-Fractions::Fractions() {
-    MathExInteger numer(1);
-    MathExInteger denom(1);
-    this->numerator = numer;
-    this->numerator = denom;
+Fraction::Fraction() {
+    MathExInteger* numer	=	new MathExInteger(1);
+    MathExInteger* denom	=	new MathExInteger(1);
+    this->numerator.push_back(numer);
+    this->denominator.push_back(denom);
 }
 
-Fractions::Fractions(Expression* numerator, Expression* denominator){
+Fraction::Fraction(Expression* numerator, Expression* denominator){
     if (denominator->toDecimal() == 0){
         throw Exceptions("Cannot divide by zero");
     }
-    Expression new_num;
-    new_num = *numerator;
-    new_num.simplify();
-    Expression new_den;
-    new_den = *denominator;
-    new_den.simplify();
-    this->numerator = new_num;
-    this->denominator = new_den;
-    simplify();
+    numerator->simplify();
+    denominator->simplify();
+
+    this->numerator.push_back(numerator);
+    this->denominator.push_back(denominator);
+    this->simplify();
 }
 
-Expression* getNumerator() {
+Expression* Fraction::getNumerator() {
     return this->numerator.back();
 }
 
-Expression* getDenominator() {
+Expression* Fraction::getDenominator() {
     return this->denominator.back();
 }
 
-int Fractions::GCDivisor(){
-    if (numerator.getName() == "Integer" && denominator.getName() == "Integer") {
+int Fraction::GCDivisor(){
+    if(this->getNumerator()->getName() == "Integer" && this->getDenominator()->getName() == "Integer") {
         int gcd = 2;
-        while (numerator.getInt() % gcd != 0 && denominator.getInt() % gcd != 0){
+        while(this->getNumerator()->getInt() % gcd != 0 && this->getDenominator()->getInt() % gcd != 0){
             gcd++;
         }
         return gcd;
-    }
-    else {throw Exceptions("Trying to get GCD of non-integer");}
+    }else{
+    	throw Exceptions("Trying to get GCD of non-integer");
+	}
 }
 
-void Fractions::simplify(){
-    if (numerator.getName() == "Integer" && denominator.getName() == "Integer") {
-        int gcd = GCDivisor();
-        MathExInteger new_num(numerator.getInt() / gcd);
-        numerator = new_num;
-        MathExInteger new_den(numerator.getInt() / gcd);
-        denominator = new_den;
-        if (denominator.getInt() == 1) {
+void Fraction::simplify(){
+    if(this->getNumerator()->getName() == "Integer" && this->getDenominator()->getName() == "Integer"){
+        int gcd = this->GCDivisor();
+
+        int num	=	this->getNumerator()->getInt();
+        int den	=	this->getDenominator()->getInt();
+
+        MathExInteger* n	=	new MathExInteger(num/gcd);
+        MathExInteger* d	=	new MathExInteger(den/gcd);
+
+        this->numerator.push_back(n);
+        this->denominator.push_back(d);
+
+/*
+        this->getNumerator()->divide(gcd)
+        this->getDenominator()->divide(gcd);
+*/
+        if(this->getDenominator()->getInt() == 1){
             throw Exceptions("Denominator is equal to 1, don't need fraction");
         }
-    }
-    else if (toDecimal() - floor(toDecimal()) < 0.000001) {
-        int me_int = floor(toDecimal());
-        MathExInteger new_num(me_int);
-        numerator = new_num;
-        MathExInteger new_den(1);
-        denominator = new_den;
+    }else if(this->toDecimal() - floor(this->toDecimal()) < 0.000001){
         throw Exceptions("Denominator is equal to 1, don't need fraction");
-    }
-    else if (ceil(toDecimal()) - toDecimal() < 0.000001) {
-        int me_int = ceil(toDecimal());
-        MathExInteger new_num(me_int);
-        numerator = new_num;
-        MathExInteger new_den(1);
-        denominator = new_den;
+    }else if(ceil(this->toDecimal()) - this->toDecimal() < 0.000001){
         throw Exceptions("Denominator is equal to 1, don't need fraction");
     }
 }
 
-double Fractions::toDecimal(){
-    double decimal = numerator.toDecimal() / denominator.toDecimal();
+double Fraction::toDecimal(){
+    double decimal = this->getNumerator()->toDecimal() / this->getDenominator()->toDecimal();
     return decimal;
 }
 
-string Fractions::toString(){
-    string str = numerator.toString() + "/" + denominator.toString();
+std::string Fraction::toString(){
+    std::string str = this->getNumerator()->toString() + "/" + this->getDenominator()->toString();
     return str;
 }
 
-string Fractions::getName() {
+std::string Fraction::getName() {
     return "Fraction";
 }
 
-void Fractions::add(Expression* addend){
+void Fraction::add(Expression* addend){
     throw Exceptions("Fraction cannot add that type.");
 }
 
-void Fractions::add(Fractions* addend){
+void Fraction::add(Fraction* addend){
     addend->simplify();
-    try {
-        this->getNumerator()->multiply(addend->getDenominator());
-        this->getDenominator()->multiply(addend->getDenominator());
-        addend->getNumerator()->multiply(this->getDenominator());
-        this->getNumerator()->add(addend->getNumerator());
-        simplify();
-    } catch (Exceptions e) {
+    try{
+    	try{
+        	this->getNumerator()->multiply(addend->getDenominator());
+    	}catch(Exceptions e){
+    		throw Exceptions("Operation failed");
+    	}
+
+    	try{
+        	this->getDenominator()->multiply(addend->getDenominator());
+    	}catch(Exceptions e){
+        	this->numerator.pop_back();
+    		throw Exceptions("Operation failed");
+    	}
+
+    	try{
+        	addend->getNumerator()->multiply(this->getDenominator());
+    	}catch(Exceptions e){
+        	this->numerator.pop_back();
+        	this->denominator.pop_back();
+    		throw Exceptions("Operation failed");
+    	}
+
+    	try{
+        	this->getNumerator()->add(addend->getNumerator());
+    	}catch(Exceptions e){
+        	this->numerator.pop_back();
+        	this->numerator.pop_back();
+        	this->denominator.pop_back();
+    		throw Exceptions("Operation failed");
+    	}
+        this->simplify();
+    }catch(Exceptions e) {
         Expression* expp = new Expression(this->getNumerator());
         expp->multiply(addend->getDenominator());
+
         Expression* expp2 = new Expression(addend->getNumerator());
         expp2->multiply(this->getDenominator());
+
         Expression* exppd = new Expression(this->getDenominator());
+
         exppd->multiply(addend->getDenominator());
         expp->add(expp2);
-        expp->divide(exppd);
+
+        this->numerator.push_back(expp);
+        this->denominator.push_back(exppd);
+        delete expp2;
     }
 }
 
-void Fractions::subtract(Fractions* subtrahend){
-    try {
-        subtrahend->simplify();
-        this->getNumerator()->multiply(subtrahend->getDenominator());
-        this->getDenominator()->multiply(subtrahend->getDenominator());
-        subtrahend->getNumerator()->multiply(this->getDenominator());
-        this->getNumerator()->subtract(subtrahend->getNumerator());
-        simplify();
-    } catch (Exceptions e) {
+void Fraction::subtract(Fraction* subtrahend){
+    subtrahend->simplify();
+    try{
+    	try{
+        	this->getNumerator()->multiply(subtrahend->getDenominator());
+    	}catch(Exceptions e){
+    		throw Exceptions("Operation failed");
+    	}
+
+    	try{
+        	this->getDenominator()->multiply(subtrahend->getDenominator());
+    	}catch(Exceptions e){
+        	this->numerator.pop_back();
+    		throw Exceptions("Operation failed");
+    	}
+
+    	try{
+        	subtrahend->getNumerator()->multiply(this->getDenominator());
+    	}catch(Exceptions e){
+        	this->numerator.pop_back();
+        	this->denominator.pop_back();
+    		throw Exceptions("Operation failed");
+    	}
+
+    	try{
+        	this->getNumerator()->subtract(subtrahend->getNumerator());
+    	}catch(Exceptions e){
+        	this->numerator.pop_back();
+        	this->numerator.pop_back();
+        	this->denominator.pop_back();
+    		throw Exceptions("Operation failed");
+    	}
+        this->simplify();
+    }catch(Exceptions e) {
         Expression* expp = new Expression(this->getNumerator());
         expp->multiply(subtrahend->getDenominator());
+
         Expression* expp2 = new Expression(subtrahend->getNumerator());
         expp2->multiply(this->getDenominator());
+
         Expression* exppd = new Expression(this->getDenominator());
+
         exppd->multiply(subtrahend->getDenominator());
         expp->subtract(expp2);
-        expp->divide(exppd);
+
+        this->numerator.push_back(expp);
+        this->denominator.push_back(exppd);
+        delete expp2;
     }
 }
 
-Expression Fractions::multiply(Fractions* multipicand){
+void Fraction::multiply(Fraction* multiplicand){
     multiplicand->simplify();
     try {
-        this->getNumerator()->multiply(multipicand->getNumerator());
+    	try{
+    		this->getNumerator()->multiply(multiplicand->getNumerator());
+    	}catch(Exceptions e){
+    		throw("Operation failed");
+    	}
+
+    	try{
         this->getDenominator()->multiply(multiplicand->getDenominator());
-        simplify();
+    	}catch(Exceptions e){
+    		this->numerator.pop_back();
+    		throw("Operation failed");
+    	}
+        this->simplify();
     } catch (Exceptions e) {
         Expression* exppn = new Expression(this->getNumerator());
-        exppn->multiply(multipicand->getNumerator());
+        exppn->multiply(multiplicand->getNumerator());
+
         Expression* exppd = new Expression(this->getDenominator());
-        exppd->multiply(multipicand->getDenominator());
-        exppn->divide(exppd);
+        exppd->multiply(multiplicand->getDenominator());
+
+        this->numerator.push_back(exppn);
+        this->denominator.push_back(exppd);
     }
 }
 
-Expression Fractions::divide(Fractions* dividend){
+void Fraction::divide(Fraction* dividend){
     dividend->simplify();
     try {
-        this->getNumerator()->multiply(dividend->getDenominator());
+    	try{
+    		this->getNumerator()->multiply(dividend->getDenominator());
+    	}catch(Exceptions e){
+    		throw("Operation failed");
+    	}
+
+    	try{
         this->getDenominator()->multiply(dividend->getNumerator());
-        simplify();
+    	}catch(Exceptions e){
+    		this->numerator.pop_back();
+    		throw("Operation failed");
+    	}
+        this->simplify();
     } catch (Exceptions e) {
         Expression* exppn = new Expression(this->getNumerator());
         exppn->multiply(dividend->getDenominator());
+
         Expression* exppd = new Expression(this->getDenominator());
         exppd->multiply(dividend->getNumerator());
-        exppn->divide(exppd);
+
+        this->numerator.push_back(exppn);
+        this->denominator.push_back(exppd);
     }
+}
+
+void Fraction::subtract(Expression* value){
+	throw Exceptions("Cannot subtract from fraction");
+}
+void Fraction::divide(Expression* value){
+	throw Exceptions("Cannot divide by fraction");
+}
+void Fraction::multiply(Expression* value){
+	throw Exceptions("Cannot multiply by fraction");
 }

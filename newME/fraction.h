@@ -1,31 +1,31 @@
-#ifndef __calculator__Fractions__
-#define __calculator__Fractions__
+#ifndef __calculator__Fraction__
+#define __calculator__Fraction__
 
 #include <iostream>
 #include <vector>
 #include "expression.h"
 
 
-class Fractions : public Expression{
+class Fraction : public Expression{
 private:
     std::vector<Expression*> numerator;
     std::vector<Expression*> denominator;
 
 public:
-    Fractions(Expression numerator, Expression denominator);
-    Fractions();
+    Fraction(Expression* numerator, Expression* denominator);
+    Fraction();
 
     void add(Expression* addend);
-    void add(Fractions* addend);
+    void add(Fraction* addend);
 
     void subtract(Expression* subtrahend);
-    void subtract(Fractions* subtrahend);
+    void subtract(Fraction* subtrahend);
 
     void divide(Expression* dividend);
-    void divide(Fractions* dividend);
+    void divide(Fraction* dividend);
 
     void multiply(Expression* multiplicand);
-    void multiply(Fractions* multiplicand);
+    void multiply(Fraction* multiplicand);
 
     void simplify();
     int GCDivisor();
@@ -40,4 +40,4 @@ public:
 };
 
 
-#endif /* defined(__calculator__Fractions__) */
+#endif /* defined(__calculator__Fraction__) */
