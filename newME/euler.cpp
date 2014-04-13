@@ -3,7 +3,8 @@
 using namespace std;
 
 Eulers::Eulers() {
-    this->coefficient = new MathExInteger(1);
+    //MathExInteger* co(1);
+    //this->coefficient.push_back(co);
 }
 
 Eulers::~Eulers() {
@@ -15,32 +16,73 @@ string Eulers::getName() {
 }
 
 string Eulers::toString() {
-    //stringstream s;
-    //s << this->coefficient << "e";
-    return "e";//s.str();
+    return this->getCoefficient()->toString() + "e";
 }
 
 double Eulers::toDecimal() {
     return 2.7182818284;
 }
 
+Expression* Eulers::getCoefficient() {
+    return this->coefficient.back();
+}
+
 void Eulers::add(Expression* a) {
-    if (a->getName() == "Eulers") {
-        coefficient = new MathExInteger(a->coefficient->getInt() + coefficient->getInt());
-        return this;
-    }
+    throw (Exceptions("Eulers cannot add that data type."));
 }
 
 void Eulers::subtract(Expression* s) {
-    if (a->getName() == "Eulers") {
-        coefficient = new MathExInteger(coefficient->getInt() - s->coefficient->getInt());
-        return this;
-    }
+    throw (Exceptions("Eulers cannot subtract that data type."));
 }
 
 void Eulers::multiply(Expression* m) {
-    if (a->getName() == "Eulers") {
-        coefficient = new MathExInteger(m->coefficient->getInt() * coefficient->getInt());
-        return this;
+    throw (Exceptions("Eulers cannot multiply that data type."));
+}
+
+void Eulers::divide(Expression* d) {
+    throw (Exceptions("Eulers cannot divide that data type."));
+}
+
+void Eulers::add(Eulers* a) {
+    try {
+        this->getCoefficient()->add(a->getCoefficient());
+    }
+    catch (Exceptions e) {
+        Expression* exp = new Expression(this->getCoefficient());
+        exp->add(a->getCoefficient());
+        this->coefficient.push_back(exp);
+    }
+}
+
+void Eulers::subtract(Eulers* s) {
+    try {
+        this->getCoefficient()->subtract(s->getCoefficient());
+    }
+    catch (Exceptions e) {
+        Expression* exp = new Expression(this->getCoefficient());
+        exp->subtract(s->getCoefficient());
+        this->coefficient.push_back(exp);
+    }
+}
+
+void Eulers::multiply(Eulers* m) {
+    try {
+        this->getCoefficient()->multiply(m->getCoefficient());
+    }
+    catch (Exceptions e) {
+        Expression* exp = new Expression(this->getCoefficient());
+        exp->multiply(m->getCoefficient());
+        this->coefficient.push_back(exp);
+    }
+}
+
+void Eulers::divide(Eulers* d) {
+    try {
+        this->getCoefficient()->divide(d->getCoefficient());
+    }
+    catch (Exceptions e) {
+        Expression* exp = new Expression(this->getCoefficient());
+        exp->divide(d->getCoefficient());
+        this->coefficient.push_back(exp);
     }
 }

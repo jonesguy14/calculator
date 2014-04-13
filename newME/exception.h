@@ -5,6 +5,7 @@
 using namespace std;
 
 class Exceptions {
+public:
 	//Values
 	int errorID;
 	string errorName;
