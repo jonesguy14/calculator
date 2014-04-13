@@ -1,6 +1,6 @@
 #include "Parser.h"
-#include "shuntingStack.cpp"
-#include "intStack.cpp"
+#include "shunting-stack.cpp"
+#include "int-stack.cpp"
 #include <ctype.h>
 #include <string>
 #include <math.h>
