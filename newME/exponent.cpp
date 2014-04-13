@@ -2,218 +2,111 @@
 
 using namespace std;
 
-/*
-Exponent::Exponent(MathExInteger base, MathExInteger power){
-if(power.getInt() < 0){
-	throw //Exponent Class: power < 0, convert to fraction
-}
-
-if(power.getInt() == 0){
-	throw //Exponent Class: power = 0, convert to 1
-}
-
-if(power.getInt() == 1){
-	throw //Exponent Class: power == 1, convert to integer
-}
-
-if(base.getInt() == 0){
-	throw //Exponent Class: base == 0, convert to 0
-}
-
-if(base.getInt() == 1){
-	throw //Exponent Class: base == 1, convert to 1
-}
-
-if((base.getInt() == 0) && (power.getInt() == 0){
-	throw //Entire expression is undefined
-}
-
-this->intBase = base;
-this->intPower = power;
-
-this->_intBase = true;
-this->_intPow = true;
-this->_expBase = false;
-this->_expPow = false;
-
-};
-
-Exponent::Exponent(MathExInteger base, Expression power){
-
-if(base.getInt() == 0){
-	throw //Exponent Class: base == 0, convert to 0
-}
-
-if(base.getInt() == 1){
-	throw //Exponent Class: base == 1, convert to 1
-}
-
-this->intBase = base;
-this->expPower = simplify(power);
-
-this->_intBase = true;
-this->_intPow = false;
-this->_expBase = false;
-this->_expPow = true;
-
-};
-
-Exponent::Exponent(MathematicalExpression base, MathExInteger power){
-if(power.getInt() < 0){
-	throw //Exponent Class: power < 0, convert to fraction
-}
-
-if(power.getInt() == 0){
-	throw //Exponent Class: power = 0, convert to 1
-}
-
-if(power.getInt() == 1){
-	throw //Exponent Class: power == 1, convert to integer
-}
-
-if(base.getInt() == 0){
-	throw //Exponent Class: base == 0, convert to 0
-}
-
-this->expBase = simplify(base);
-this->intPower = power;
-
-this->_intBase = false;
-this->_intPow = true;
-this->_expBase = true;
-this->_expPow = false;
-
-};
-
-Exponent::Exponent(MathematicalExpression base, MathematicalExpression power){
-
-this->expBase = simplify(base);
-this->expPower = simplify(power);
-
-this->_intBase = false;
-this->_intPow = false;
-this->_expBase = true;
-this->_expPow = true;
-
-};
-
-bool isIntBase(){
-	return this->isIntBase;
-}
-
-bool isIntPow(){
-	return this->isIntPow;
-}
-
-bool isExpBase(){
-	return this->isExpBase;
-}
-
-bool isExpPow(){
-	return this->isExpPow;
-}
-
-*/
-
 Exponent::Exponent(Expression coefficient, Expression base, Expression power){
-if(power.toDecimal() < 0){
-	throw Exceptions("Exponent Class: power < 0, convert to fraction");
-}
+	if(power.toDecimal() < 0){
+		throw Exceptions("Exponent Class: power < 0, convert to fraction");
+	}
 
-if(power.toDecimal() == 0){
-	throw Exceptions("Exponent Class: power = 0, convert to 1");
-}
+	if(power.toDecimal() == 0){
+		throw Exceptions("Exponent Class: power = 0, convert to 1");
+	}
 
-if(power.toDecimal() == 1){
-	throw Exceptions("Exponent Class: power == 1, convert to integer");
-}
+	if(power.toDecimal() == 1){
+		throw Exceptions("Exponent Class: power == 1, convert to integer");
+	}
 
-if(base.toDecimal() == 0){
-	throw Exceptions("Exponent Class: base == 0, convert to 0");
-}
+	if(base.toDecimal() == 0){
+		throw Exceptions("Exponent Class: base == 0, convert to 0");
+	}
 
-if(base.toDecimal() == 1){
-	throw Exceptions("Exponent Class: base == 1, convert to 1");
-}
+	if(base.toDecimal() == 1){
+		throw Exceptions("Exponent Class: base == 1, convert to 1");
+	}
 
-if((base.toDecimal() == 0) && (power.toDecimal() == 0){
-	throw Exceptions("Entire expression is undefined");
-}
+	if((base.toDecimal() == 0) && (power.toDecimal() == 0){
+		throw Exceptions("Exponent Class: Entire expression is undefined");
+	}
 
-this->coefficient.push_back(coefficient);
-this->base.push_back(base);
-this->power.push_back(power);
+	this->coefficient.push_back(coefficient);
+	this->base.push_back(base);
+	this->power.push_back(power);
 
 }
 
 Exponent::Exponent(Expression coefficient, Expression base, Logarithm power){
-if(power.toDecimal() < 0){
-	throw Exceptions("Exponent Class: power < 0, convert to fraction");
-}
+	if(power.toDecimal() < 0){
+		throw Exceptions("Exponent Class: power < 0, convert to fraction");
+	}
 
-if(power.toDecimal() == 0){
-	throw Exceptions("Exponent Class: power = 0, convert to 1");
-}
+	if(power.toDecimal() == 0){
+		throw Exceptions("Exponent Class: power = 0, convert to 1");
+	}
 
-if(power.toDecimal() == 1){
-	throw Exceptions("Exponent Class: power == 1, convert to integer");
-}
+	if(power.toDecimal() == 1){
+		throw Exceptions("Exponent Class: power == 1, convert to integer");
+	}
 
-if(base.toDecimal() == 0){
-	throw Exceptions("Exponent Class: base == 0, convert to 0");
-}
+	if(base.toDecimal() == 0){
+		throw Exceptions("Exponent Class: base == 0, convert to 0");
+	}
 
-if(base.toDecimal() == 1){
-	throw Exceptions("Exponent Class: base == 1, convert to 1");
-}
+	if(base.toDecimal() == 1){
+		throw Exceptions("Exponent Class: base == 1, convert to 1");
+	}
 
-if((base.toDecimal() == 0) && (power.toDecimal() == 0){
-	throw Exceptions("Entire expression is undefined");
-}
+	if((base.toDecimal() == 0) && (power.toDecimal() == 0){
+		throw Exceptions("Exponent Class: Entire expression is undefined");
+	}
 
-if (base.toDecimal() == power.getBase().toDecimal()){
-	throw Exceptions("Exponent Class: evaluable exponent");
-
-
-
+	if (base.toDecimal() == power.getBase().toDecimal()){
+		throw Exceptions("Exponent Class: evaluable exponent with expression base and logarithm power");
+	}
 
 }
 
 
 Exponent::Exponent(Expression coefficient, MathExInteger base, MathExInteger power){
-if(power.toDecimal() < 0){
-	throw Exceptions("Exponent Class: power < 0, convert to fraction");
-}
+	if(power.toDecimal() < 0){
+		throw Exceptions("Exponent Class: power < 0, convert to fraction");
+	}
 
-if(power.toDecimal() == 0){
-	throw Exceptions("Exponent Class: power = 0, convert to 1");
-}
+	if(power.toDecimal() == 0){
+		throw Exceptions("Exponent Class: power = 0, convert to 1");
+	}
 
-if(power.toDecimal() == 1){
-	throw Exceptions("Exponent Class: power == 1, convert to integer");
-}
+	if(power.toDecimal() == 1){
+		throw Exceptions("Exponent Class: power == 1, convert to integer");
+	}
 
-if(base.toDecimal() == 0){
-	throw Exceptions("Exponent Class: base == 0, convert to 0");
-}
+	if(base.toDecimal() == 0){
+		throw Exceptions("Exponent Class: base == 0, convert to 0");
+	}
 
-if(base.toDecimal() == 1){
-	throw Exceptions("Exponent Class: base == 1, convert to 1");
-}
+	if(base.toDecimal() == 1){
+		throw Exceptions("Exponent Class: base == 1, convert to 1");
+	}
 
-if((base.toDecimal() == 0) && (power.toDecimal() == 0){
-	throw Exceptions("Entire expression is undefined");
-}
+	if((base.toDecimal() == 0) && (power.toDecimal() == 0){
+		throw Exceptions("Exponent Class: Entire expression is undefined");
+	}
+
+	if(pow(base.toDecimal(),power.toDecimal())==floor(pow(base.toDecimal(),power.toDecimal())){
+		throw Exceptions("Exponent Class: evaluable exponent with MathExInteger base and MathExInteger power");
+
+	}
+
+	//Should not get to this point because the exponent should always be evaluable since base and power are of type MathExInteger
+	this->coefficient.push_back(coefficient);
+	this->base.push_back(base);
+	this->power.push_back(power);
 
 
 }
 
 Exponent::~Exponent(){
-	delete[] this->expCoefficient;
-	delete[] this->expBase;
-	delete[] this->expPower;
-	delete[] this->intBase;
-	delete[] this->intPower;
+	delete[] this->coefficient;
+	delete[] this->base;
+	delete[] this->power;
 	delete this;
 
 }
@@ -228,6 +121,30 @@ Expression Exponent::getBase(){
 
 Expression Exponent::getPower(){
 	return this->power.back();
+}
+
+void Exponent::add(Expression* addend){
+
+	throw Exceptions("Exponent::add(Expression*) : add math expression to exponent");
+
+}
+
+void Exponent::subtract(Expression* subtrahend){
+
+	throw Exceptions("Exponent::subtract(Expression*) : subtract math expression from exponent");
+
+}
+
+void Exponent::multiply(Expression* multiplicand){
+
+	throw Exceptions("Exponent::multiply(Expression*) : multiply math expression to exponent");
+
+}
+
+void Exponent::divide(Expression* dividend){
+
+	throw Exceptions("Exponent::divide(Expression*) : divide math expression from exponent");
+
 }
 
 void Exponent::add(Exponent* addend){
@@ -245,11 +162,6 @@ bool samePow  = addend->getPower().toDecimal() == this->getPower().toDecimal();
 	}
 }
 
-void Exponent::add(MathematicalExpression* addend){
-
-	throw //Exponent::addMathExp : add exponent to math expression
-
-}
 
 
 void Exponent::multiply(Exponent* multiplicand){
