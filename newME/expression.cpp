@@ -208,8 +208,8 @@ double Expression::toDecimal(){
 }
 
 Expression::~Expression(){
-	this->addition.empty();
-	this->multiplication.empty();
+	this->addition.clear();
+	this->multiplication.clear();
 	delete this;
 }
 
