@@ -1,5 +1,6 @@
 #ifndef PARSER_H_INCLUDED
 #define PARSER_H_INCLUDED
+#include "expression.h"
 #include <iostream>
 
 class Parser {
@@ -16,7 +17,7 @@ class Parser {
         bool isLeftAsso(std::string);
         int getPrecedence(std::string);
         int checkPrecedence(std::string, std::string);
-        double calculate_from_rpn(std::string);
+        Expression calculate_from_rpn(std::string);
         int get_num_chars(int, int, int);
 
 };

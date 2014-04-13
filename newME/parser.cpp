@@ -1,6 +1,10 @@
 #include "Parser.h"
 #include "shunting-stack.cpp"
-#include "int-stack.cpp"
+#include "expression-stack.cpp"
+#include "exp-integer.h"
+#include "fraction.h"
+#include "exponent.h"
+#include <vector>
 #include <ctype.h>
 #include <string>
 #include <math.h>
@@ -9,14 +13,6 @@
 #include <exception>
 
 using namespace std;
-
-namespace patch {
-    template < typename T > std::string to_string( const T& n ) {
-        std::ostringstream stm ;
-        stm << n ;
-        return stm.str() ;
-    }
-}
 
 Parser::Parser() {
     input = " ";
@@ -28,8 +24,7 @@ Parser::Parser(string input) {
     last_ans = "0";
 }
 string Parser::parse(string input) {
-    //string result = to_string(calculate_from_rpn(shunting_yard(input)));
-    return patch::to_string(calculate_from_rpn(shunting_yard(input)));
+    return calculate_from_rpn(shunting_yard(input)).toString();
 }
 
 bool Parser::isOperator(string c) {
@@ -99,10 +94,10 @@ int Parser::get_num_chars(int num_chars, int prelen, int i) {
     return num_chars;
 }
 
-double Parser::calculate_from_rpn(string input) {
+Expression Parser::calculate_from_rpn(string input) {
     int j = 0;
     int num_digits = 0;
-    intStack i_stack(100);
+    expressionStack i_stack(100);
     while (j<input.length()) {
         if (isdigit(input[j]) && input[j-1]!='_') { //make sure its not b in log_b
             //number detected
@@ -115,7 +110,8 @@ double Parser::calculate_from_rpn(string input) {
                 number = "-" + number;
             }
             cout<<number<<endl;
-            i_stack.push(atoi(number.c_str())); //converts to integer and pushes to stack
+            MathExInteger* num = new MathExInteger(atoi(number.c_str()));
+            i_stack.push(num); //converts to integer and pushes to stack
             j+=num_digits+1;
         }
         else if (input[j]==' ') {
@@ -130,7 +126,13 @@ double Parser::calculate_from_rpn(string input) {
             }
             string number = input.substr(j+5, num_digits+1);
             int rad = atoi(number.c_str());
-            i_stack.push(pow(rad, 0.5));
+            /*MathExInteger* radi = new MathExInteger(rad);
+            MathExInteger* coeff = new MathExInteger(1);
+            MathExInteger* one = new MathExInteger(1);
+            MathExInteger* two = new MathExInteger(2);
+            Fractions* half = new Fractions(one, two);
+            Exponent* sq = new Exponent(coeff, radi, half);
+            i_stack.push(sq);*/
             //cout<<i_stack.getTop()<<endl;
             j += num_digits+6;
         }
@@ -143,7 +145,13 @@ double Parser::calculate_from_rpn(string input) {
             int n = atoi((input.substr(j-1,1)).c_str());
             string number = input.substr(j+3, num_digits+1);
             int rad = atoi(number.c_str());
-            i_stack.push(pow(rad, (1/n)));
+            /*MathExInteger* radi = new MathExInteger(rad);
+            MathExInteger* coeff = new MathExInteger(1);
+            MathExInteger* one = new MathExInteger(1);
+            MathExInteger* men = new MathExInteger(n);
+            Fractions* frac = new Fractions(one, men);
+            Exponent* nr = new Exponent(coeff, radi, frac);
+            i_stack.push(nr);*/
             j += num_digits+5;
         }
         else if ((input.substr(j, 4)).compare("log_") == 0) {
@@ -155,8 +163,11 @@ double Parser::calculate_from_rpn(string input) {
             int arg = atoi((input.substr(j+7, num_digits+1)).c_str());
             string base_str = input.substr(j+4, 1);
             int base = atoi(base_str.c_str());
-            int result = log10(arg)/log10(base);
-            i_stack.push(result);
+            MathExInteger* coeff = new MathExInteger(1);
+            MathExInteger* ibase = new MathExInteger(base);
+            MathExInteger* iarg = new MathExInteger(arg);
+            //Logarithm* result = new Logarithm(coeff, ibase, iarg);
+            //i_stack.push(result);
             j+=6;
         }
         else {
@@ -165,29 +176,32 @@ double Parser::calculate_from_rpn(string input) {
             }
             else {
                 //one of the five single char operators (+,-,*,/,^) and not negative operator
-                int a = 0;
-                int b = 0;
+                vector<Expression*> a;
+                vector<Expression*> b;
                 try {
-                    a = i_stack.pop();
+                    a.push_back(i_stack.pop());
                 }
                 catch (const char* e) {
                     throw e;
                 }
 
                 try {
-                    b = i_stack.pop();
+                    b.push_back(i_stack.pop());
                 }
                 catch (const char* e) {
                     throw e;
                 }
 
-                cout<<"A:"<<a<<" "<<input[j]<<" B:"<<b<<endl;;
+                cout<<"A:"<<a.back()->toString()<<" "<<input[j]<<" B:"<<b.back()->toString()<<endl;;
 
                 switch (input[j]) {
                     case '+':
-                        i_stack.push(a+b);
+                        cout << "adding detected" << endl;
+                        //cout << "decibad" << b.back()->getName() << endl;
+                        (a.back())->add(b.back());
+                        i_stack.push(a.back());
                         break;
-                    case '-':
+                    /*case '-':
                         i_stack.push(b-a);
                         break;
                     case '*':
@@ -198,7 +212,7 @@ double Parser::calculate_from_rpn(string input) {
                         break;
                     case '^':
                         i_stack.push(pow(b,a));
-                        break;
+                        break;*/
                     }
                 j++;
             }
