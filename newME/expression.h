@@ -10,6 +10,8 @@ class Expression{
 		bool initialized;
 		std::vector<Expression*> addition;
 		std::vector<Expression*> multiplication;
+		void add_simplify(std::vector<Expression*>);
+		void multiply_simplify(std::vector<Expression*>);
 
 	public:
 		Expression(Expression*);
@@ -17,19 +19,16 @@ class Expression{
 		Expression();
 		~Expression();
 
-		void add(Expression*);
-		void subtract(Expression*);
-		void multiply(Expression*);
-		void divide(Expression*);
-		void exponentiate(Expression*);
-		void negative();
-		void add_simplify(std::vector<Expression*>);
-		void multiply_simplify(std::vector<Expression*>);
-		void simplify();
+		virtual void add(Expression*);
+		virtual void subtract(Expression*);
+		virtual void multiply(Expression*);
+		virtual void divide(Expression*);
+		virtual void exponentiate(Expression*);
+		virtual void negative();
+		virtual void simplify();
+		virtual double toDecimal();
 
-		std::string toString();
-		std::string getName();
-		int getInt();
+		virtual std::string toString();
 };
 
 #endif // EXPRESSION_H_INCLUDED
