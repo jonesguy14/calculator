@@ -20,13 +20,15 @@ public:
 	};
 
 	//Methods
-	Expression add(Expression addend);
-	Expression subtract(Expression subtrahend);
-	Expression divide(Expression dividend);
-	Expression multiply(Expression multiplicand);
-	Expression simplify();
-	std::string toString();
-	Fractions toFraction();
+	void add(Expression addend);
+	void subtract(Expression subtrahend);
+	void divide(Expression dividend);
+	void multiply(Expression multiplicand);
+	void simplify();
+	string toString();
+	double getDecimal();
+	Fraction toFraction(double decimal);
+	void toFrac();
 
 };
 
