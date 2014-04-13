@@ -1,61 +1,30 @@
-#include "Pi.h"
+#ifndef PI_H_INCLUDED
+#define PI_H_INCLUDED
 
-Pi::Pi() {
-	MathExInteger i(1);
-    this->coeffecient.push_back(i);
-}
+#include "constant.h"
+#include "exception.h"
+#include <iostream>
+#include <vector>
 
-Pi::~Pi() {
-	delete[] this->coefficient;
-    delete this;
-}
+class Pi : public Constant {
+private:
+	std::vector<Expression*> coefficient;
+public:
+    Pi();
+    ~Pi();
 
-std::string Pi::getName() {
-    return "Pi";
-}
+    void add(Pi* a);
+    void add(Expression* a);
+    void subtract(Pi* s);
+    void subtract(Expression* s);
+    void multiply(Expression* m);
+    void divide(Expression* d);
 
-std::string Pi::toString() {
-    return this->getCoefficient()->toString() << "pi";
-}
+    std::string getName();
+    std::string toString();
+    double toDecimal();
+    Expression* getCoefficient();
+};
 
-double Pi::toDecimal() {
-    return 3.1415926535;
-}
 
-void Pi::add(Pi* a){
-	try{
-		this->getCoefficient()->add(a->getCoefficient());
-	}catch(Exceptions e){
-		Expression* exp	=	new Expression(a->getCoefficient());
-		exp->add(this->getCoefficient());
-		this->coefficient.push_back(exp);
-	}
-}
-
-void Pi::add(Expression* a) {
-    throw Exceptions("Cannot add a constant to that type");
-}
-void Pi::subtract(Pi* s) {
-	try{
-		this->getCoefficient()->subtract(s->getCoefficient());
-	}catch(Exceptions e){
-		Expression* exp	=	new Expression(s->getCoefficient());
-		exp->subtract(this->getCoefficient());
-		this->coefficient.push_back(exp);
-	}
-}
-void Pi::subtract(Expression* a) {
-    throw Exceptions("Cannot subtract a constant from that type");
-}
-
-void Pi::multiply(Expression* m) {
-    throw Exceptions("Cannot multiply a constant with that type");
-}
-
-void Pi::divide(Expression* d) {
-    throw Exceptions("Cannot divide a constant by that type");
-}
-
-Expression* Pi::getCoefficient(){
-	return this->coefficient.back();
-}
+#endif // PI_H_INCLUDED
