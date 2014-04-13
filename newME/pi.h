@@ -1,6 +1,7 @@
 #ifndef PI_H_INCLUDED
 #define PI_H_INCLUDED
 
+#include "constant.h"
 #include <iostream>
 
 class Pi : public Constant {
