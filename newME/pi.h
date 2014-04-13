@@ -2,22 +2,29 @@
 #define PI_H_INCLUDED
 
 #include "constant.h"
+#include "exception.h"
+#include "exp-integer.h"
 #include <iostream>
+#include <vector>
 
 class Pi : public Constant {
+private:
+	std::vector<Expression*> coefficient;
 public:
     Pi();
     ~Pi();
 
-    Expression* add(Expression* a);
-    Expression* subtract(Expression* s);
-    Expression* multiply(Expression* m);
-    Expression* divide(Expression* d);
+    void add(Pi* a);
+    void add(Expression* a);
+    void subtract(Pi* s);
+    void subtract(Expression* s);
+    void multiply(Expression* m);
+    void divide(Expression* d);
 
     std::string getName();
     std::string toString();
     double toDecimal();
-    MathExInteger* coeffecient;
+    Expression* getCoefficient();
 };
 
 
