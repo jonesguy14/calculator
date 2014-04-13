@@ -1,7 +1,8 @@
 #ifndef DECIMAL_H_
 #define DECIMAL_H_
 
-using namespace std;
+#include "expression.h"
+#include "fraction.h"
 #include <iostream>
 
 class Decimal {
@@ -23,8 +24,8 @@ public:
 	Expression divide(Expression dividend);
 	Expression multiply(Expression multiplicand);
 	Expression simplify();
-	string toString();
-	Fraction toFraction();
+	std::string toString();
+	Fractions toFraction();
 
 };
 

@@ -4,31 +4,31 @@ Decimal::Decimal(double decimal) {
 	this->value = decimal;
 }
 
-MathematicalExpression Decimal::add(MathematicalExpression addend) {
+void Decimal::add(Expression addend) {
 	double decimal = value + addend;
 	Decimal result(decimal);
 	return result;
 }
 
-MathematicalExpression  Decimal::subtract(MathematicalExpression subtrahend) {
+void Decimal::subtract(Expression subtrahend) {
 	double decimal = value - subtrahend;
 	Decimal result(decimal);
 	return result;
 }
 
-MathematicalExpression  Decimal::divide(MathematicalExpression dividend) {
+void Decimal::divide(Expression dividend) {
 	double decimal = value / dividend;
 	Decimal result(decimal);
 	return result;
 }
 
-MathematicalExpression  Decimal::multiply(MathematicalExpression multiplcand) {
+void Decimal::multiply(Expression multiplcand) {
 	double decimal = value * multiplcand;
 	Decimal result(decimal);
 	return result;
 }
 
-MathematicalExpression  Decimal::simplify(double decimal) {
+void  Decimal::simplify(double decimal) {
 	//But really though...how can you simplify a decimal?
 }
 

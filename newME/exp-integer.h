@@ -1,8 +1,8 @@
 #ifndef MATHEXINTEGER_H_INCLUDED
 #define MATHEXINTEGER_H_INCLUDED
 
-#include "newME/expression.h"
-#include "Constant.h"
+#include "expression.h"
+#include "constant.h"
 #include <iostream>
 
 class MathExInteger : public Constant {
@@ -13,10 +13,10 @@ class MathExInteger : public Constant {
 		MathExInteger();
 		MathExInteger(int);
 		~MathExInteger();
-		Expression add(Expression* addend);
-		Expression subtract(Expression* subtrahend);
-		Expression multiply(Expression* multiplicand);
-		Expression divide(Expression* dividend);
+		void add(Expression* addend);
+		void subtract(Expression* subtrahend);
+		void multiply(Expression* multiplicand);
+		void divide(Expression* dividend);
 
 		void simplify();
 		int getInt();

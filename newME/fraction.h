@@ -2,30 +2,30 @@
 #define __calculator__Fractions__
 
 #include <iostream>
-#include "MathematicalExpressions.h"
+#include "expression.h"
 
 
-class Fractions : public MathematicalExpression{
+class Fractions : public Expression{
 private:
 
 public:
-    MathematicalExpression numerator;
-    MathematicalExpression denominator;
+    Expression numerator;
+    Expression denominator;
 
-    Fractions(MathematicalExpression* numerator, MathematicalExpression* denominator);
+    Fractions(Expression* numerator, Expression* denominator);
     Fractions();
 
-    MathematicalExpression add(MathematicalExpression* addend);
-    MathematicalExpression add(Fractions* addend);
+    void add(Expression* addend);
+    void add(Fractions* addend);
 
-    MathematicalExpression subtract(MathematicalExpression* subtrahend);
-    MathematicalExpression subtract(Fractions* subtrahend);
+    void subtract(Expression* subtrahend);
+    void subtract(Fractions* subtrahend);
 
-    MathematicalExpression divide(MathematicalExpression* dividend);
-    MathematicalExpression divide(Fractions* dividend);
+    void divide(Expression* dividend);
+    void divide(Fractions* dividend);
 
-    MathematicalExpression multiply(MathematicalExpression* multiplicand);
-    MathematicalExpression multiply(Fractions* multiplicand);
+    void multiply(Expression* multiplicand);
+    void multiply(Fractions* multiplicand);
 
     void simplify();
     int GCDivisor();
