@@ -15,15 +15,15 @@ Logarithm::Logarithm(Expression coefficient, Expression base, Expression argumen
 	if(base.toDecimal() <= 0){
 		throw Exceptions("Cannot have the logarithm of a negative number");
 	}
-	if(log10(argument->toDecimal())/log10(base->toDecimal()) == floor(log10(argument->toDecimal())/log10(base->toDecimal()))){
+	if(log10(argument.toDecimal())/log10(base.toDecimal()) == floor(log10(argument.toDecimal())/log10(base.toDecimal()))){
 		throw Exceptions("Evaluable Logarithm");
 	}
-	this->coefficient.push_back(coefficient);
-	this->base.push_back(base);
-	this->argument.push_back(argument);
+	this->coefficient.push_back(&coefficient);
+	this->base.push_back(&base);
+	this->argument.push_back(&argument);
 }
 
-
+/*
 Logarithm::Logarithm(Expression coefficient, Expression base, Exponent argument){
 	if(base.toDecimal() == argument.getBase().toDecimal()){
 		throw Exceptions("Simple Logarithm");
@@ -40,21 +40,21 @@ Logarithm::Logarithm(Expression coefficient, Expression base, Exponent argument)
 	if(base.toDecimal() <= 0){
 		throw Exceptions("Cannot have the logarithm of a negative number");
 	}
-	if(log10(argument->toDecimal())/log10(base->toDecimal()) == floor(log10(argument->toDecimal())/log10(base->toDecimal()))){
+	if(log10(argument.toDecimal())/log10(base.toDecimal()) == floor(log10(argument.toDecimal())/log10(base.toDecimal()))){
 		throw Exceptions("Evaluable Logarithm");
 	}
 	try{
 		coefficient.multiply(argument.getExponent());
-		this->coefficient.push_back(coefficient);
+		this->coefficient.push_back(&coefficient);
 	}catch(Exceptions e){
-		Expression* exp	=	new Exponent(coefficient*);
+		Expression* exp	=	new Exponent(&coefficient);
 		exp.multiply(argument.getExponent());
 		this->coefficient.push_back(exp);
 	}
-	this->base.push_back(base);
+	this->base.push_back(&base);
 	this->argument.push_back(argument.getBase());
 }
-
+*/
 
 Logarithm::Logarithm(Expression coefficient, MathExInteger base, MathExInteger argument){
 	if(argument.toDecimal() == 0){
@@ -69,30 +69,30 @@ Logarithm::Logarithm(Expression coefficient, MathExInteger base, MathExInteger a
 	if(base.toDecimal() <= 0){
 		throw Exceptions("Cannot have the logarithm of a negative number");
 	}
-	if(log10(argument->toDecimal())/log10(base->toDecimal()) == floor(log10(argument->toDecimal())/log10(base->toDecimal()))){
+	if(log10(argument.toDecimal())/log10(base.toDecimal()) == floor(log10(argument.toDecimal())/log10(base.toDecimal()))){
 		throw Exceptions("Evaluable Logarithm");
 	}
-	this->coefficient.push_back(coefficient);
-	this->base.push_back(base);
-	this->argument.push_back(argument);
+	this->coefficient.push_back(&coefficient);
+	this->base.push_back(&base);
+	this->argument.push_back(&argument);
 }
 
 /*
 	These 5 methods will throw errors because of various logarithm rules
 */
-Logarithm::add(Expression* addend){
+void Logarithm::add(Expression* addend){
 	throw Exceptions("Cannot add logarithms to that data type");
 }
-Logarithm::subtract(Expression* addend){
+void Logarithm::subtract(Expression* addend){
 	throw Exceptions("Cannot subtract a logarithm from that data type");
 }
-Logarithm::multiply(Expression* addend){
+void Logarithm::multiply(Expression* addend){
 	throw Exceptions("Cannot multiply a logarithm by that data type");
 }
-Logarithm::multiply(Logarithm* addend){
+void Logarithm::multiply(Logarithm* addend){
 	throw Exceptions("Cannot multiply logarithms");
 }
-Logarithm::divide(Expression* addend){
+void Logarithm::divide(Expression* addend){
 	throw Exceptions("Cannot divide a logarithm by that data type");
 }
 
@@ -101,10 +101,10 @@ void Logarithm::add(Logarithm* addend){
 	bool samearg	=	addend->getArgument()->toDecimal() == this->getArgument()->toDecimal();
 	if(samebase && samearg){
 		try{
-			this->coefficient.add(addend->getCoefficient());
+			this->getCoefficient()->add(addend->getCoefficient());
 		}catch(Exceptions e){
 			Expression* exp	=	new Expression(this->getCoefficient());
-			exp->add(subtrahend->getCoefficient());
+			exp->add(addend->getCoefficient());
 			this->coefficient.push_back(exp);
 		}
 	}
@@ -113,14 +113,14 @@ void Logarithm::add(Logarithm* addend){
 			this->getArgument()->multiply(addend->getArgument());
 		}catch(Exceptions e){
 			Expression* exp	=	new Expression(this->getCoefficient());
-			exp->multiply(subtrahend->getCoefficient());
+			exp->multiply(addend->getCoefficient());
 			this->coefficient.push_back(exp);
 		}
 		try{
 			this->getCoefficient()->add(addend->getCoefficient());
 		}catch(Exceptions e){
 			Expression* exp2	=	new Expression(this->getCoefficient());
-			exp2->add(subtrahend->getCoefficient());
+			exp2->add(addend->getCoefficient());
 			this->coefficient.push_back(exp2);
 		}
 	}
@@ -150,7 +150,7 @@ void Logarithm::subtract(Logarithm* subtrahend){
 			this->coefficient.push_back(exp);
 		}
 		try{
-			this->getCoefficient().subtract(subtrahend->getCoefficient());
+			this->getCoefficient()->subtract(subtrahend->getCoefficient());
 		}catch(Exceptions e){
 			Expression* exp2	=	new Expression(this->getCoefficient());
 			exp2->subtract(subtrahend->getCoefficient());
@@ -167,7 +167,7 @@ void Logarithm::divide(Logarithm* dividend){
 }
 
 void Logarithm::negative(){
-	MathExInteger i	=	new MathExInteger(-1);
+	MathExInteger* i	=	new MathExInteger(-1);
 	this->getCoefficient()->multiply(i);
 }
 void Logarithm::simplify(){
@@ -204,8 +204,8 @@ std::string Logarithm::getName(){
 }
 
 Logarithm::~Logarithm(){
-	delete[] this->base;
-	delete[] this->coefficient;
-	delete[] this->argument;
+	this->base.empty();
+	this->coefficient.empty();
+	this->argument.empty();
 	delete this;
 }
