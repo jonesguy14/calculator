@@ -7,25 +7,21 @@ Decimal::Decimal(double decimal) {
 void Decimal::add(Expression addend) {
 	double decimal = value + addend;
 	Decimal result(decimal);
-	return result;
 }
 
 void Decimal::subtract(Expression subtrahend) {
 	double decimal = value - subtrahend;
 	Decimal result(decimal);
-	return result;
 }
 
 void Decimal::divide(Expression dividend) {
 	double decimal = value / dividend;
 	Decimal result(decimal);
-	return result;
 }
 
 void Decimal::multiply(Expression multiplcand) {
 	double decimal = value * multiplcand;
 	Decimal result(decimal);
-	return result;
 }
 
 void  Decimal::simplify(double decimal) {
@@ -37,7 +33,7 @@ string  Decimal::toString(double decimal) {
 	return toString;
 }
 
-double  Decimal::toDecimal(double decimal) {
+double  Decimal::getDecimal(double decimal) {
 	return decimal;
 }
 
@@ -57,12 +53,12 @@ Fraction Decimal::toFraction(double decimal) {
 	int numerator = (fractionalPart*denominator);
 
 
-	toFrac(int numerator, int denominator);
+	toSimpleFrac(int numerator, int denominator);
   	Fraction frac((numerator*intPart)/denominator);
   	return frac;
 }
 
-void toFrac(int& num, int denom)
+void Decimal::toSimpleFrac(int& num, int denom)
 {
   if ((num >= 2) && (denom >= 2)){
 	for (int i = num; i >= 2; i--) {
