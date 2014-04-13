@@ -14,7 +14,7 @@ Fractions::Fractions() {
 
 Fractions::Fractions(MathematicalExpression* numerator, MathematicalExpression* denominator){
     if (denominator->toDecimal() == 0){
-        throw "Cannot divide by zero";
+        throw Exceptions("Cannot divide by zero");
     }
     MathematicalExpression new_num;
     new_num = *numerator;
