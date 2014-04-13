@@ -35,7 +35,7 @@ int Fractions::GCDivisor(){
         }
         return gcd;
     }
-    else {throw "Trying to get GCD of non-integer";}
+    else {throw Exceptions("Trying to get GCD of non-integer");}
 }
 
 void Fractions::simplify(){
@@ -46,7 +46,7 @@ void Fractions::simplify(){
         MathExInteger new_den(numerator.getInt() / gcd);
         denominator = new_den;
         if (denominator.getInt() == 1) {
-            throw "Denominator is equal to 1, don't need fraction";
+            throw Exceptions("Denominator is equal to 1, don't need fraction");
         }
     }
     else if (toDecimal() - floor(toDecimal()) < 0.000001) {
@@ -55,7 +55,7 @@ void Fractions::simplify(){
         numerator = new_num;
         MathExInteger new_den(1);
         denominator = new_den;
-        throw "Denominator is equal to 1, don't need fraction";
+        throw Exceptions("Denominator is equal to 1, don't need fraction");
     }
     else if (ceil(toDecimal()) - toDecimal() < 0.000001) {
         int me_int = ceil(toDecimal());
@@ -63,7 +63,7 @@ void Fractions::simplify(){
         numerator = new_num;
         MathExInteger new_den(1);
         denominator = new_den;
-        throw "Denominator is equal to 1, don't need fraction";
+        throw Exceptions("Denominator is equal to 1, don't need fraction");
     }
 }
 
