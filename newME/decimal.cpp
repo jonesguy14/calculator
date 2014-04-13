@@ -6,22 +6,22 @@ Decimal::Decimal(double decimal) {
 
 void Decimal::add(Expression addend) {
 	double decimal = value + addend;
-	Decimal result(decimal);
+	Decimal getResult(decimal);
 }
 
 void Decimal::subtract(Expression subtrahend) {
 	double decimal = value - subtrahend;
-	Decimal result(decimal);
+	Decimal getResult(decimal);
 }
 
 void Decimal::divide(Expression dividend) {
 	double decimal = value / dividend;
-	Decimal result(decimal);
+	Decimal getResult(decimal);
 }
 
 void Decimal::multiply(Expression multiplcand) {
 	double decimal = value * multiplcand;
-	Decimal result(decimal);
+	Decimal getResult(decimal);
 }
 
 void  Decimal::simplify(double decimal) {
@@ -35,6 +35,10 @@ string  Decimal::toString(double decimal) {
 
 double  Decimal::getDecimal(double decimal) {
 	return decimal;
+}
+
+double Decimal::getResult(double decimal) {
+	return result;
 }
 
 Fraction Decimal::toFraction(double decimal) {
