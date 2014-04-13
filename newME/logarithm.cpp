@@ -126,6 +126,10 @@ void Logarithm::divide(Logarithm* dividend){
 	this->base.push_back(dividend->getArgument());
 }
 
+void Logarithm::negative(){
+	MathExInteger i	=	new MathExInteger(-1);
+	this->getCoefficient().multiply(i);
+}
 void Logarithm::simplify(){
 	// Do nothing
 }
