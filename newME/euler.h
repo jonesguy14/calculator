@@ -14,7 +14,6 @@ private:
 
 public:
     Eulers();
-    ~Eulers();
 
     void add(Expression* a);
     void subtract(Expression* s);
