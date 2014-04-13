@@ -16,51 +16,29 @@ using namespace std;
 class Exponent: public Expression{
 
 private:
-	vector<Expression*> expBase;
-	vector<Expression*> expPower;
-	vector<Expression*> expCoefficient;
-
-	vector<MathExInteger*> intBase;
-	vector<MathExInteger*> intPower;
-
-	//MathExInteger exponentValue;
-	//bool _intBase;
-	//bool _intPow;
-	//bool _expBase;
-	//bool _expPow;
+	vector<Expression*> base;
+	vector<Expression*> power;
+	vector<Expression*> coefficient;
 
 public:
-	//MathematicalExpression expBase, expPower;
-	//MathExInteger intBase, intPower;
-
 	Exponent(Expression, Expression, Expression);
 	Exponent(Expression, Expression, Logarithm);
 	Exponent(Expression, MathExInteger, MathExInteger);
 	~Exponent();
-	//Exponent(MathExInteger, Expression);
-	//Exponent(Expression, MathExInteger);
-	
-	//bool isIntBase();
-	//bool isIntPow();
-	//bool isExpBase();
-	//bool isExpPow();
-
 	
 	Expression* getCoefficient();
 	Expression* getBase();
 	Expression* getPower();
 
-	void add(Exponent* addend);	
 	void add(Expression* addend);
-	
-	void subtract(Exponent* subtrahend);
 	void subtract(Expression* subtrahend);
-
-	void divide(Exponent* dividend);
+	void multiply(Expression* multiplicand);
 	void divide(Expression* dividend);
 
+	void add(Exponent* addend);	
+	void subtract(Exponent* subtrahend);
 	void multiply(Exponent* multiplicand);
-	void multiply(Expression* multiplicand);
+	void divide(Exponent* dividend);
 
 	void simplify();
 
