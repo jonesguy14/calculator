@@ -3,6 +3,7 @@
 
 #include "constant.h"
 #include "exception.h"
+#include "exp-integer.h"
 #include <iostream>
 #include <vector>
 
