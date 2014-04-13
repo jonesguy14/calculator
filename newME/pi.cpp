@@ -6,6 +6,7 @@ Pi::Pi() {
 }
 
 Pi::~Pi() {
+	delete[] this->coefficient;
     delete this;
 }
 
@@ -14,7 +15,7 @@ std::string Pi::getName() {
 }
 
 std::string Pi::toString() {
-    return this->getCoefficient().toString() << "pi";
+    return this->getCoefficient()->toString() << "pi";
 }
 
 double Pi::toDecimal() {
@@ -23,10 +24,10 @@ double Pi::toDecimal() {
 
 void Pi::add(Pi* a){
 	try{
-		this->getCoefficient().add(a->getCoefficient());
+		this->getCoefficient()->add(a->getCoefficient());
 	}catch(Exceptions e){
-		Expression exp(a->getCoefficient());
-		exp.add(this->getCoefficient());
+		Expression* exp	=	new Expression(a->getCoefficient());
+		exp->add(this->getCoefficient());
 		this->coefficient.push_back(exp);
 	}
 }
@@ -36,10 +37,10 @@ void Pi::add(Expression* a) {
 }
 void Pi::subtract(Pi* s) {
 	try{
-		this->getCoefficient().subtract(s->getCoefficient());
+		this->getCoefficient()->subtract(s->getCoefficient());
 	}catch(Exceptions e){
-		Expression exp(this->getCoefficient());
-		exp.subtract(s->getCoefficient());
+		Expression* exp	=	new Expression(s->getCoefficient());
+		exp->subtract(this->getCoefficient());
 		this->coefficient.push_back(exp);
 	}
 }
@@ -55,6 +56,6 @@ void Pi::divide(Expression* d) {
     throw Exceptions("Cannot divide a constant by that type");
 }
 
-Expression Pi::getCoefficient(){
+Expression* Pi::getCoefficient(){
 	return this->coefficient.back();
 }
