@@ -22,6 +22,7 @@ class MathExInteger : public Constant {
 		void add(MathExInteger* addend);
 		void subtract(MathExInteger* subtrahend);
 		void multiply(MathExInteger* multiplicand);
+		void negative();
 
 		void simplify();
 		int getInt();
