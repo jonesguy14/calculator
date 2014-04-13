@@ -204,8 +204,8 @@ std::string Logarithm::getName(){
 }
 
 Logarithm::~Logarithm(){
-	this->base.empty();
-	this->coefficient.empty();
-	this->argument.empty();
+	this->base.clear();
+	this->coefficient.clear();
+	this->argument.clear();
 	delete this;
 }
