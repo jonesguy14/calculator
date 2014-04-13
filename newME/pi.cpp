@@ -1,12 +1,12 @@
 #include "Pi.h"
 
 Pi::Pi() {
-	MathExInteger i(1);
-    this->coeffecient.push_back(i);
+	MathExInteger*	i	=	new MathExInteger(1);
+    this->coefficient.push_back(i);
 }
 
 Pi::~Pi() {
-	delete[] this->coefficient;
+	this->coefficient.clear();
     delete this;
 }
 
@@ -15,7 +15,7 @@ std::string Pi::getName() {
 }
 
 std::string Pi::toString() {
-    return this->getCoefficient()->toString() << "pi";
+    return this->getCoefficient()->toString() + "pi";
 }
 
 double Pi::toDecimal() {
