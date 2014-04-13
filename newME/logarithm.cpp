@@ -167,8 +167,7 @@ void Logarithm::divide(Logarithm* dividend){
 }
 
 void Logarithm::negative(){
-	MathExInteger* i	=	new MathExInteger(-1);
-	this->getCoefficient()->multiply(i);
+	this->getCoefficient()->negative();
 }
 void Logarithm::simplify(){
 	// Do nothing
@@ -182,6 +181,7 @@ std::string Logarithm::toString(){
 	result	+=	":(";
 	result	+=	this->getArgument()->toString();
 	result	+=	")";
+	return result;
 }
 
 double Logarithm::toDecimal(){
@@ -207,5 +207,4 @@ Logarithm::~Logarithm(){
 	this->base.clear();
 	this->coefficient.clear();
 	this->argument.clear();
-	delete this;
 }
