@@ -28,9 +28,10 @@ class Expression{
 		virtual void negative();
 		virtual void simplify();
 		virtual double toDecimal();
+		virtual int getInt();
 
 		virtual std::string toString();
-		std::string getName();
+		virtual std::string getName();
 };
 
 #endif // EXPRESSION_H_INCLUDED
