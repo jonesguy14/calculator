@@ -3,7 +3,7 @@
 using namespace std;
 
 Eulers::Eulers() {
-	MathExInteger* co	=	MathExInteger(1);
+	MathExInteger* co	=	new MathExInteger(1);
 	this->coefficient.push_back(co);
 }
 
