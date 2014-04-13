@@ -3,7 +3,7 @@
 
 #include "expression.h"
 #include "fraction.h"
-#include "Math.h"
+#include "math.h"
 #include <iostream>
 
 class Decimal {
