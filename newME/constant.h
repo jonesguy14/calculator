@@ -6,17 +6,14 @@
 
 class Constant : public Expression {
 public:
-    Constant();
-    ~Constant();
     virtual void add(Expression* a) = 0;
-    virtual void subtract(Expression *s) = 0;
+    virtual void subtract(Expression* s) = 0;
     virtual void multiply(Expression* m) = 0;
     virtual void divide(Expression* d) = 0;
     virtual std::string getName() = 0;
     virtual std::string toString() = 0;
-    virtual void negative();
+    virtual void negative()	=	0;
     virtual double toDecimal() = 0;
-    virtual Expression* getCoefficient();
 };
 
 
