@@ -9,8 +9,8 @@
 class Logarithm : public Expression{
 	private:
 		std::vector<Expression> coefficient;
-		std::vector<Expression>  base;
-		std::vector<Expression>  argument;
+		std::vector<Expression> base;
+		std::vector<Expression> argument;
 
 	public:
 		Logarithm(Expression, Expression, Expression);
