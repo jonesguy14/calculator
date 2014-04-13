@@ -10,6 +10,7 @@ class Decimal {
 
 private:
 	double value;
+	double result;
 
 public:
 	//Constructors
@@ -28,7 +29,7 @@ public:
 	string toString();
 	double getDecimal();
 	Fraction toFraction(double decimal);
-	void toFrac();
+	void toSimpleFrac();
 
 };
 
