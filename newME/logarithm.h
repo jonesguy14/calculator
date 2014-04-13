@@ -17,7 +17,8 @@ class Logarithm : public Expression{
 		Logarithm(Expression, Expression, Expression);
 		Logarithm(Expression, Expression, Exponent); // Check if base == Exponent.base, throws error: Simple logarithm
 		Logarithm(Expression, MathExInteger, MathExInteger); // If evaluates to a clean number, throws error: Simple expression
-
+		~Logarithm();
+		
 		void add(Expression*); // Throws error: Cannot add expression to logarithm
 		void subtract(Expression*); // Throws error: Cannot subtract expression from logarithm
 		void multiply(Expression*); // Throws error: Cannot multiply expression with logarithm
