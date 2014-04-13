@@ -5,8 +5,13 @@
 using namespace std;
 
 class Exceptions {
+	
+private:
 	//Values
 	int errorID;
+	
+public:
+	//Values
 	string errorName;
 
 	//Constructor
@@ -19,6 +24,7 @@ class Exceptions {
 
 	//Methods
 	int determineError(string errorName);
+	int what();
 
 
 
