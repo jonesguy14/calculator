@@ -1,6 +1,7 @@
 #ifndef EULERS_H_INCLUDED
 #define EULERS_H_INCLUDED
 
+#include "constant.h"
 #include <iostream>
 
 class Eulers : public Constant {
