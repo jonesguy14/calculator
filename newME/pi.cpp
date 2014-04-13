@@ -1,61 +1,88 @@
-#include "Pi.h"
+#include "euler.h"
 
-Pi::Pi() {
-	MathExInteger*	i	=	new MathExInteger(1);
-    this->coefficient.push_back(i);
-}
-
-Pi::~Pi() {
-	this->coefficient.clear();
-    delete this;
+Eulers::Eulers() {
+    MathExInteger* co	=	new MathExInteger(1);
+    this->coefficient.push_back(co);
 }
 
-std::string Pi::getName() {
-    return "Pi";
+
+std::string Eulers::getName() {
+    return "Eulers";
 }
 
-std::string Pi::toString() {
-    return this->getCoefficient()->toString() + "pi";
+std::string Eulers::toString() {
+    return this->getCoefficient()->toString() + "e";
 }
 
-double Pi::toDecimal() {
-    return 3.1415926535;
+double Eulers::toDecimal() {
+    return 2.7182818284 * this->getCoefficient()->toDecimal();
 }
 
-void Pi::add(Pi* a){
-	try{
-		this->getCoefficient()->add(a->getCoefficient());
-	}catch(Exceptions e){
-		Expression* exp	=	new Expression(a->getCoefficient());
-		exp->add(this->getCoefficient());
-		this->coefficient.push_back(exp);
-	}
+Expression* Eulers::getCoefficient() {
+    return this->coefficient.back();
 }
 
-void Pi::add(Expression* a) {
-    throw Exceptions("Cannot add a constant to that type");
-}
-void Pi::subtract(Pi* s) {
-	try{
-		this->getCoefficient()->subtract(s->getCoefficient());
-	}catch(Exceptions e){
-		Expression* exp	=	new Expression(s->getCoefficient());
-		exp->subtract(this->getCoefficient());
-		this->coefficient.push_back(exp);
-	}
-}
-void Pi::subtract(Expression* a) {
-    throw Exceptions("Cannot subtract a constant from that type");
+void Eulers::add(Expression* a) {
+    throw (Exceptions("Eulers cannot add that data type."));
 }
 
-void Pi::multiply(Expression* m) {
-    throw Exceptions("Cannot multiply a constant with that type");
+void Eulers::subtract(Expression* s) {
+    throw (Exceptions("Eulers cannot subtract that data type."));
 }
 
-void Pi::divide(Expression* d) {
-    throw Exceptions("Cannot divide a constant by that type");
+void Eulers::multiply(Expression* m) {
+    throw (Exceptions("Eulers cannot multiply that data type."));
 }
 
-Expression* Pi::getCoefficient(){
-	return this->coefficient.back();
+void Eulers::divide(Expression* d) {
+    throw (Exceptions("Eulers cannot divide that data type."));
+}
+
+void Eulers::add(Eulers* a) {
+    try {
+        this->getCoefficient()->add(a->getCoefficient());
+    }
+    catch (Exceptions e) {
+        Expression* exp = new Expression(this->getCoefficient());
+        exp->add(a->getCoefficient());
+        this->coefficient.push_back(exp);
+    }
+}
+
+void Eulers::subtract(Eulers* s) {
+    try {
+        this->getCoefficient()->subtract(s->getCoefficient());
+    }
+    catch (Exceptions e) {
+        Expression* exp = new Expression(this->getCoefficient());
+        exp->subtract(s->getCoefficient());
+        this->coefficient.push_back(exp);
+    }
+}
+
+void Eulers::multiply(Eulers* m) {
+    try {
+        this->getCoefficient()->multiply(m->getCoefficient());
+    }
+    catch (Exceptions e) {
+        Expression* exp = new Expression(this->getCoefficient());
+        exp->multiply(m->getCoefficient());
+        this->coefficient.push_back(exp);
+    }
+}
+
+void Eulers::divide(Eulers* d) {
+    try {
+        this->getCoefficient()->divide(d->getCoefficient());
+    }
+    catch (Exceptions e) {
+        Expression* exp = new Expression(this->getCoefficient());
+        exp->divide(d->getCoefficient());
+        this->coefficient.push_back(exp);
+    }
+}
+
+void Eulers::negative() {
+    MathExInteger* neg = new MathExInteger(-1);
+    this->getCoefficient()->multiply(neg);
 }
