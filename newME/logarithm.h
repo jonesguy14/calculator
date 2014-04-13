@@ -9,9 +9,9 @@
 
 class Logarithm : public Expression{
 	private:
-		std::vector<Expression> coefficient;
-		std::vector<Expression> base;
-		std::vector<Expression> argument;
+		std::vector<Expression*> coefficient;
+		std::vector<Expression*> base;
+		std::vector<Expression*> argument;
 
 	public:
 		Logarithm(Expression, Expression, Expression);
@@ -33,9 +33,9 @@ class Logarithm : public Expression{
 		std::string toString();
 		double toDecimal();
 
-		Expression getCoefficient();
-		Expression getBase();
-		Expression getArgument();
+		Expression* getCoefficient();
+		Expression* getBase();
+		Expression* getArgument();
 }
 
 #endif // LOGARITHM_H_INCLUDED
