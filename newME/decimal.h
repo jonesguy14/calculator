@@ -28,6 +28,7 @@ public:
 	void simplify();
 	string toString();
 	double getDecimal();
+	double getResult();
 	Fraction toFraction(double decimal);
 	void toSimpleFrac();
 
