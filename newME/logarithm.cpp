@@ -2,7 +2,22 @@
 #include <cmath>
 #include <vector>
 
-Logarithm::Logarithm(Expression, Expression, Expression){
+Logarithm::Logarithm(Expression coefficient, Expression base, Expression argument){
+	if(argument.toDecimal() == 0){
+		throw Exceptions("Cannot have the logarithm of 0");	
+	}
+	if(argument.toDecimal() == 1){
+		throw Exceptions("Logarithm is equal to 0");	
+	}
+	if(coefficient.toDecimal() == 0){
+		throw Exceptions("Logarithm is equal to 0");	
+	}
+	if(base.toDecimal() <= 0){
+		throw Exceptions("Cannot have the logarithm of a negative number");	
+	}
+	if(log10(argument.toDecimal())/log10(base.toDecimal()) == floor(log10(argument.toDecimal())/log10(base.toDecimal()))){
+		throw Exceptions("Evaluable Logarithm");
+	}
 	this->coefficient.push_back(coefficient);
 	this->base.push_back(base);
 	this->argument.push_back(argument);
@@ -11,49 +26,74 @@ Logarithm::Logarithm(Expression, Expression, Expression){
 
 Logarithm::Logarithm(Expression coefficient, Expression base, Exponent argument){
 	if(base.toDecimal() == argument.getBase().toDecimal()){
-		throw "Simple logarithm";
-	}else{
-			try{
-				coefficient.multiply(argument.getExponent());
-				this->coefficient.push_back(coefficient);
-			}catch(ExpressionException e){
-				Expression exp(coefficient);
-				exp.multiply(argument.getExponent());
-				this->coefficient.push_back(exp);
-			}
-			this->base.push_back(base);
-			this->argument.push_back(argument.getBase());
+		throw Exceptions("Simple Logarithm");
 	}
+	if(argument.toDecimal() == 0){
+		throw Exceptions("Cannot have the logarithm of 0");	
+	}
+	if(argument.toDecimal() == 1){
+		throw Exceptions("Logarithm is equal to 0");	
+	}
+	if(coefficient.toDecimal() == 0){
+		throw Exceptions("Logarithm is equal to 0");	
+	}
+	if(base.toDecimal() <= 0){
+		throw Exceptions("Cannot have the logarithm of a negative number");	
+	}
+	if(log10(argument.toDecimal())/log10(base.toDecimal()) == floor(log10(argument.toDecimal())/log10(base.toDecimal()))){
+		throw Exceptions("Evaluable Logarithm");
+	}
+	try{
+		coefficient.multiply(argument.getExponent());
+		this->coefficient.push_back(coefficient);
+	}catch(Exceptions e){
+		Expression exp(coefficient);
+		exp.multiply(argument.getExponent());
+		this->coefficient.push_back(exp);
+	}
+	this->base.push_back(base);
+	this->argument.push_back(argument.getBase());
 }
 
 
 Logarithm::Logarithm(Expression coefficient, MathExInteger base, MathExInteger argument){
-	if(log10(argument.toDecimal())/log10(base.toDecimal()) == floor(log10(argument.toDecimal())/log10(base.toDecimal()))){
-		throw "Evaluatable logarithm";
-	}else{
-		this->coefficient.push_back(coefficient);
-		this->base.push_back(base);
-		this->argument.push_back(argument);
+	if(argument.toDecimal() == 0){
+		throw Exceptions("Cannot have the logarithm of 0");	
 	}
+	if(argument.toDecimal() == 1){
+		throw Exceptions("Logarithm is equal to 0");	
+	}
+	if(coefficient.toDecimal() == 0){
+		throw Exceptions("Logarithm is equal to 0");	
+	}
+	if(base.toDecimal() <= 0){
+		throw Exceptions("Cannot have the logarithm of a negative number");	
+	}
+	if(log10(argument.toDecimal())/log10(base.toDecimal()) == floor(log10(argument.toDecimal())/log10(base.toDecimal()))){
+		throw Exceptions("Evaluable Logarithm");
+	}
+	this->coefficient.push_back(coefficient);
+	this->base.push_back(base);
+	this->argument.push_back(argument);
 }
 
 /*
 	These 5 methods will throw errors because of various logarithm rules
 */
 Logarithm::add(Expression* addend){
-	throw "Cannot add an expression to a logarithm";
+	throw Exceptions("Cannot add logarithms to that data type");
 }
 Logarithm::subtract(Expression* addend){
-	throw "Cannot subtract an expression from a logarithm";
+	throw Exceptions("Cannot subtract a logarithm from that data type");
 }
 Logarithm::multiply(Expression* addend){
-	throw "Cannot multiply an expression with a logarithm";
+	throw Exceptions("Cannot multiply a logarithm by that data type");
 }
 Logarithm::multiply(Logarithm* addend){
-	throw "Cannot multiply logarithms";
+	throw Exceptions("Cannot multiply logarithms");
 }
 Logarithm::divide(Expression* addend){
-	throw "Cannot divide a logarithm by an expression";
+	throw Exceptions("Cannot divide a logarithm by that data type");
 }
 
 void Logarithm::add(Logarithm* addend){
@@ -62,7 +102,7 @@ void Logarithm::add(Logarithm* addend){
 	if(samebase && samearg){
 		try{
 			this->coefficient.add(addend->getCoefficient());
-		}catch(ExpressionException e){
+		}catch(Exceptions e){
 			Expression exp((this->getCoefficient())*);
 			exp->add(addend->getCoefficient());
 			this->coefficient.push_back(exp);
@@ -71,14 +111,14 @@ void Logarithm::add(Logarithm* addend){
 	if(samebase && !samearg){
 		try{
 			this->getArgument().multiply(addend->getArgument());
-		}catch(ExpressionException e){
+		}catch(Exceptions e){
 			Expression exp(this->getArgument());
 			exp->multiply(addend->getArgument());
 			this->argument.push_back(exp);
 		}
 		try{
 			this->coefficient.add(addend->getCoefficient());
-		}catch(ExpressionException e){
+		}catch(Exceptions e){
 			Expression exp2((this->getCoefficient())*);
 			exp2->add(addend->getCoefficient());
 			this->coefficient.push_back(exp2);
@@ -95,7 +135,7 @@ void Logarithm::subtract(Logarithm* subtrahend){
 	if(samebase && samearg){
 		try{
 			this->coefficient.subtract(subtrahend->getCoefficient());
-		}catch(ExpressionException e){
+		}catch(Exceptions e){
 			Expression exp((this->getCoefficient())*);
 			exp->subtract(subtrahend->getCoefficient());
 			this->coefficient.push_back(exp);
@@ -104,14 +144,14 @@ void Logarithm::subtract(Logarithm* subtrahend){
 	if(samebase && !samearg){
 		try{
 			this->getArgument().divide(subtrahend->getArgument());
-		}catch(ExpressionException e){
+		}catch(Exceptions e){
 			Expression exp(this->getArgument());
 			exp->divide(subtrahend->getArgument());
 			this->argument.push_back(exp);
 		}
 		try{
 			this->coefficient.subtract(subtrahend->getCoefficient());
-		}catch(ExpressionException e){
+		}catch(Exceptions e){
 			Expression exp2((this->getCoefficient())*);
 			exp2->subtract(subtrahend->getCoefficient());
 			this->coefficient.push_back(exp2);
