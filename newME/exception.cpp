@@ -29,15 +29,21 @@ int Exceptions::determineError(string errorName) {
 		errorID = 5;
 	} else if (errorName.compare("Logarithm is equal to 0")) {
 		errorID = 6;
-	} else if (errorName.compare("Cannot add logarithms to that data type.")) {
+	} else if (errorName.compare("Cannot add logarithms to that data type")) {
 		errorID = 7;
-	} else if (errorName.compare("Cannot subtract a logarithm from that data type.")) {
+	} else if (errorName.compare("Cannot subtract a logarithm from that data type")) {
 		errorID = 8;
 	} else if (errorName.compare("Cannot divide a logarithm by that data type")) {
 		errorID = 9;
 	} else if (errorName.compare("Cannot multiply a logarithm by that data type")) {
 		errorID = 10;
-	} else {
+	} else if (errorName.compare("Simple Logarithm")) {
+		errorID = 16;
+	} else if (errorName.compare("Evaluable Logarithm")) {
+		errorID = 17;
+	} else if (errorName.compare("Cannot multiply logarithms")) {
+		errorID = 18;
+	}else {
 		errorID = 0;
 	}
 
