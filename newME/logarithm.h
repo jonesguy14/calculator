@@ -2,6 +2,7 @@
 #define LOGARITHM_H_INCLUDED
 
 #include "expression.h"
+#include "exp-integer.h"
 #include <iostream>
 #include <vector>
 
