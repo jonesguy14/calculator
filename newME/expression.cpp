@@ -73,7 +73,7 @@ void Expression::divide(Expression* dividend){
 	/*
 		Tell the parser to multiply by the reciprocal instead of dividing.
 	*/
-	throw "Create the reciprocal";
+	throw Exceptions("Create the reciprocal");
 }
 void Expression::negative(){
 	MathExInteger i	=	new MathExInteger(-1);
@@ -83,7 +83,7 @@ void Expression::exponentiate(Expression* exponent){
 	/*
 		We don't need to handle exponents. It's easier to just do Exponent(Expression, exponent).
 	*/
-	throw "Use exponent class instead";
+	throw Exceptions("Use exponent class instead");
 }
 void Expression::add_simplify(std::vector<Expression*> exp){
 	/*
