@@ -18,7 +18,7 @@ Expression MathExInteger::add(Expression* addend){
         MathExInteger meint_result(result);
         return meint_result;
 	}
-    else {throw "Adding integer for non integer, will provide implementation for fractions once they exist";}
+    else {throw Exceptions("Adding integer for non integer, will provide implementation for fractions once they exist");}
 }
 
 Expression MathExInteger::subtract(Expression* subtrahend){
@@ -27,7 +27,7 @@ Expression MathExInteger::subtract(Expression* subtrahend){
         MathExInteger meint_result(result);
         return meint_result;
 	}
-	else {throw "Subbing integer for non integer, will provide implementation for fractions once they exist";}
+	else {throw Exceptions("Subbing integer for non integer, will provide implementation for fractions once they exist");}
 }
 
 Expression MathExInteger::divide(Expression* dividend){
@@ -36,7 +36,7 @@ Expression MathExInteger::divide(Expression* dividend){
         MathExInteger meint_result(result);
         return meint_result;
     }
-    else {throw "Dividing integer for non integer, will provide implementation for fractions once they exist";}
+    else {throw Exceptions("Dividing integer for non integer, will provide implementation for fractions once they exist");}
 }
 
 Expression MathExInteger::multiply(Expression* multiplicand) {
@@ -45,7 +45,7 @@ Expression MathExInteger::multiply(Expression* multiplicand) {
         MathExInteger meint_result(result);
         return meint_result;
     }
-    else {throw "Multiplying integer by non int";}
+    else {throw Exceptions("Multiplying integer by non int");}
 }
 
 void MathExInteger::simplify() {
