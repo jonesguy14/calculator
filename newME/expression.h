@@ -30,7 +30,7 @@ class Expression{
 		virtual double toDecimal();
 
 		virtual std::string toString();
-		virtual std::string getName();
+		std::string getName();
 };
 
 #endif // EXPRESSION_H_INCLUDED
