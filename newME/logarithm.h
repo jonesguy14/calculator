@@ -13,8 +13,8 @@ class Logarithm : public Expression{
 
 	public:
 		Logarithm(Expression, Expression, Expression);
-		//Logarithm(Expression, Expression, Exponent); // Check if base == Exponent.base, throws error: Simple logarithm
-		//Logarithm(Expression, MathExInteger, MathExInteger); // If evaluates to a clean number, throws error: Simple expression
+		Logarithm(Expression, Expression, Exponent); // Check if base == Exponent.base, throws error: Simple logarithm
+		Logarithm(Expression, MathExInteger, MathExInteger); // If evaluates to a clean number, throws error: Simple expression
 
 		void add(Expression*); // Throws error: Cannot add expression to logarithm
 		void subtract(Expression*); // Throws error: Cannot subtract expression from logarithm
@@ -26,6 +26,7 @@ class Logarithm : public Expression{
 		void subtract(Logarithm*);
 		void divide(Logarithm*);
 
+		void negative();
 		void simplify();
 		std::string toString();
 		double toDecimal();
@@ -33,7 +34,6 @@ class Logarithm : public Expression{
 		Expression getCoefficient();
 		Expression getBase();
 		Expression getArgument();
-};
+}
 
 #endif // LOGARITHM_H_INCLUDED
-
