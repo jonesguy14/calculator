@@ -2,17 +2,17 @@
 #define __calculator__Fractions__
 
 #include <iostream>
+#include <vector>
 #include "expression.h"
 
 
 class Fractions : public Expression{
 private:
+    std::vector<Expression*> numerator;
+    std::vector<Expression*> denominator;
 
 public:
-    Expression numerator;
-    Expression denominator;
-
-    Fractions(Expression* numerator, Expression* denominator);
+    Fractions(Expression numerator, Expression denominator);
     Fractions();
 
     void add(Expression* addend);
@@ -29,6 +29,9 @@ public:
 
     void simplify();
     int GCDivisor();
+
+    Expression* getNumerator();
+    Expression* getDenominator();
 
     std::string toString();
     double toDecimal();

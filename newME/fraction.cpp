@@ -1,6 +1,6 @@
 #include "Fractions.h"
 #include "MathExInteger.h"
-#include "MathematicalExpressions.h"
+#include "Expressions.h"
 #include <math.h>
 
 using namespace std;
@@ -12,19 +12,27 @@ Fractions::Fractions() {
     this->numerator = denom;
 }
 
-Fractions::Fractions(MathematicalExpression* numerator, MathematicalExpression* denominator){
+Fractions::Fractions(Expression* numerator, Expression* denominator){
     if (denominator->toDecimal() == 0){
         throw Exceptions("Cannot divide by zero");
     }
-    MathematicalExpression new_num;
+    Expression new_num;
     new_num = *numerator;
     new_num.simplify();
-    MathematicalExpression new_den;
+    Expression new_den;
     new_den = *denominator;
     new_den.simplify();
     this->numerator = new_num;
     this->denominator = new_den;
     simplify();
+}
+
+Expression* getNumerator() {
+    return this->numerator.back();
+}
+
+Expression* getDenominator() {
+    return this->denominator.back();
 }
 
 int Fractions::GCDivisor(){
@@ -81,63 +89,76 @@ string Fractions::getName() {
     return "Fraction";
 }
 
-MathematicalExpression Fractions::add(MathematicalExpression* addend){
-    //addend.simplify();
-    //Fractions result;
-    //result.numerator =
+void Fractions::add(Expression* addend){
+    throw Exceptions("Fraction cannot add that type.");
 }
 
-MathematicalExpression Fractions::add(Fractions* addend){
+void Fractions::add(Fractions* addend){
     addend->simplify();
-    Fractions result;
-    result.numerator = numerator.multiply(&addend->denominator);
-    result.numerator = (result.numerator).add(denominator.multiply(&addend->numerator));
-    result.denominator = denominator.multiply(&addend->denominator);
-    result.simplify();
-    return result;
+    try {
+        this->getNumerator()->multiply(addend->getDenominator());
+        this->getDenominator()->multiply(addend->getDenominator());
+        addend->getNumerator()->multiply(this->getDenominator());
+        this->getNumerator()->add(addend->getNumerator());
+        simplify();
+    } catch (Exceptions e) {
+        Expression* expp = new Expression(this->getNumerator());
+        expp->multiply(addend->getDenominator());
+        Expression* expp2 = new Expression(addend->getNumerator());
+        expp2->multiply(this->getDenominator());
+        Expression* exppd = new Expression(this->getDenominator());
+        exppd->multiply(addend->getDenominator());
+        expp->add(expp2);
+        expp->divide(exppd);
+    }
 }
 
-MathematicalExpression Fractions::subtract(MathematicalExpression* subtrahend){
-    //addend.simplify();
-    //Fractions result;
-    //result.numerator =
+void Fractions::subtract(Fractions* subtrahend){
+    try {
+        subtrahend->simplify();
+        this->getNumerator()->multiply(subtrahend->getDenominator());
+        this->getDenominator()->multiply(subtrahend->getDenominator());
+        subtrahend->getNumerator()->multiply(this->getDenominator());
+        this->getNumerator()->subtract(subtrahend->getNumerator());
+        simplify();
+    } catch (Exceptions e) {
+        Expression* expp = new Expression(this->getNumerator());
+        expp->multiply(subtrahend->getDenominator());
+        Expression* expp2 = new Expression(subtrahend->getNumerator());
+        expp2->multiply(this->getDenominator());
+        Expression* exppd = new Expression(this->getDenominator());
+        exppd->multiply(subtrahend->getDenominator());
+        expp->subtract(expp2);
+        expp->divide(exppd);
+    }
 }
 
-MathematicalExpression Fractions::subtract(Fractions* subtrahend){
-    subtrahend->simplify();
-    Fractions result;
-    result.numerator = (numerator * subtrahend.denominator) - (subtrahend.numerator + denominator);
-    result.denominator = denominator * subtrahend.denominator;
-    result.simplify();
-    return result;
+Expression Fractions::multiply(Fractions* multipicand){
+    multiplicand->simplify();
+    try {
+        this->getNumerator()->multiply(multipicand->getNumerator());
+        this->getDenominator()->multiply(multiplicand->getDenominator());
+        simplify();
+    } catch (Exceptions e) {
+        Expression* exppn = new Expression(this->getNumerator());
+        exppn->multiply(multipicand->getNumerator());
+        Expression* exppd = new Expression(this->getDenominator());
+        exppd->multiply(multipicand->getDenominator());
+        exppn->divide(exppd);
+    }
 }
 
-MathematicalExpression Fractions::multiply(MathematicalExpression* multipicand){
-    //addend.simplify();
-    //Fractions result;
-    //result.numerator =
-}
-
-MathematicalExpression Fractions::multiply(Fractions* multipicand){
-    multipicand->simplify();
-    Fractions result;
-    result.numerator = numerator * multipicand.numerator;
-    result.denominator = denominator * multipicand.denominator;
-    result.simplify();
-    return result;
-}
-
-MathematicalExpression Fractions::divide(MathematicalExpression* dividend){
-    //addend.simplify();
-    //Fractions result;
-    //result.numerator =
-}
-
-MathematicalExpression Fractions::divide(Fractions* dividend){
+Expression Fractions::divide(Fractions* dividend){
     dividend->simplify();
-    Fractions result;
-    result.numerator = numerator * dividend.denominator;
-    result.denominator = denominator * dividend.numerator;
-    result.simplify();
-    return result;
+    try {
+        this->getNumerator()->multiply(dividend->getDenominator());
+        this->getDenominator()->multiply(dividend->getNumerator());
+        simplify();
+    } catch (Exceptions e) {
+        Expression* exppn = new Expression(this->getNumerator());
+        exppn->multiply(dividend->getDenominator());
+        Expression* exppd = new Expression(this->getDenominator());
+        exppd->multiply(dividend->getNumerator());
+        exppn->divide(exppd);
+    }
 }
