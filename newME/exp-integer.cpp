@@ -43,6 +43,10 @@ void MathExInteger::multiply(Expression* multiplicand) {
     throw Exceptions("Dividing integer for non integer, will provide implementation for fractions once they exist");
 }
 
+void MathExInteger::negative() {
+    this->me_int	*=	-1;
+}
+
 void MathExInteger::simplify() {
     //DO NOTHING
 }
