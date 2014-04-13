@@ -25,6 +25,7 @@ public:
     void multiply(Eulers* m);
     void divide(Eulers* d);
 
+    void negative();
     Expression* getCoefficient();
 
     std::string getName();

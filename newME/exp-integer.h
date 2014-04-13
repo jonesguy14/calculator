@@ -2,6 +2,7 @@
 #define MATHEXINTEGER_H_INCLUDED
 
 #include "expression.h"
+#include "exception.h"
 #include "constant.h"
 #include <iostream>
 
@@ -17,6 +18,10 @@ class MathExInteger : public Constant {
 		void subtract(Expression* subtrahend);
 		void multiply(Expression* multiplicand);
 		void divide(Expression* dividend);
+
+		void add(MathExInteger* addend);
+		void subtract(MathExInteger* subtrahend);
+		void multiply(MathExInteger* multiplicand);
 
 		void simplify();
 		int getInt();

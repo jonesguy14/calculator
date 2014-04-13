@@ -86,3 +86,8 @@ void Eulers::divide(Eulers* d) {
         this->coefficient.push_back(exp);
     }
 }
+
+void Eulers::negative() {
+    MathExInteger* neg = new MathExInteger(-1);
+    this->getCoefficient()->multiply(neg);
+}

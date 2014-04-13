@@ -12,40 +12,35 @@ MathExInteger::MathExInteger(int me_int) { //: me_int(me_int) {
 	this->me_int = me_int;
 }
 
-Expression MathExInteger::add(Expression* addend){
-	if (addend->getName() == "Integer") {
-        int result = me_int + addend->getInt();
-        MathExInteger meint_result(result);
-        return meint_result;
-	}
-    else {throw Exceptions("Adding integer for non integer, will provide implementation for fractions once they exist");}
+void MathExInteger::add(MathExInteger* addend) {
+    int result = me_int + addend->getInt();
+    me_int = result;
 }
 
-Expression MathExInteger::subtract(Expression* subtrahend){
-	if (subtrahend->getName() == "Integer") {
-        int result = me_int - subtrahend->getInt();
-        MathExInteger meint_result(result);
-        return meint_result;
-	}
-	else {throw Exceptions("Subbing integer for non integer, will provide implementation for fractions once they exist");}
+void MathExInteger::subtract(MathExInteger* subtrahend){
+    int result = me_int - subtrahend->getInt();
+    me_int = result;
 }
 
-Expression MathExInteger::divide(Expression* dividend){
-    if (dividend->getName() == "Integer") {
-        int result = me_int / dividend->getInt();
-        MathExInteger meint_result(result);
-        return meint_result;
-    }
-    else {throw Exceptions("Dividing integer for non integer, will provide implementation for fractions once they exist");}
+void MathExInteger::multiply(MathExInteger* multiplicand) {
+    int result = me_int * multiplicand->getInt();
+    me_int = result;
 }
 
-Expression MathExInteger::multiply(Expression* multiplicand) {
-    if (multiplicand->getName() == "Integer") {
-        int result = me_int * multiplicand->getInt();
-        MathExInteger meint_result(result);
-        return meint_result;
-    }
-    else {throw Exceptions("Multiplying integer by non int");}
+void MathExInteger::add(Expression* addend){
+    throw Exceptions("Adding integer for non integer, will provide implementation for fractions once they exist");
+}
+
+void MathExInteger::subtract(Expression* s) {
+    throw Exceptions("Subbing integer for non integer, will provide implementation for fractions once they exist");
+}
+
+void MathExInteger::divide(Expression* dividend) {
+    throw Exceptions("Dividing integer for non integer, will provide implementation for fractions once they exist");
+}
+
+void MathExInteger::multiply(Expression* multiplicand) {
+    throw Exceptions("Dividing integer for non integer, will provide implementation for fractions once they exist");
 }
 
 void MathExInteger::simplify() {

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include "exception.h"
 
 class Expression{
 	private:
