@@ -207,9 +207,16 @@ double Expression::toDecimal(){
 	return result;
 }
 
+int Expression::getInt(){
+	// Do nothing
+}
+
 Expression::~Expression(){
 	this->addition.clear();
 	this->multiplication.clear();
 	delete this;
 }
 
+std::string Expression::getName(){
+	return "Expression";
+}
