@@ -7,9 +7,10 @@ Exceptions::Exceptions() {
 
 Exceptions::Exceptions(string name) {
 	this->errorName = name;
+	determineError(errorName);
 }
 
-int Exceptions::determineError(string errorName) {
+void Exceptions::determineError(string errorName) {
 
 	//Fractional errors
 	if (errorName.compare("Cannot divide by zero")) {
@@ -69,5 +70,9 @@ int Exceptions::determineError(string errorName) {
 
 	//Other errors
 
+	return errorID;
+}
+
+int Exceptions::what() {
 	return errorID;
 }
