@@ -202,3 +202,10 @@ Expression* Logarithm::getArgument(){
 std::string Logarithm::getName(){
 	return "Logarithm";
 }
+
+Logarithm::~Logarithm(){
+	delete[] this->base;
+	delete[] this->coefficient;
+	delete[] this->argument;
+	delete this;
+}

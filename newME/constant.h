@@ -15,6 +15,7 @@ public:
     virtual std::string getName() = 0;
     virtual std::string toString() = 0;
     virtual double toDecimal() = 0;
+    virtual Expression* getCoefficient() = 0;
 };
 
 
