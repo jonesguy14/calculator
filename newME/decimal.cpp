@@ -41,19 +41,20 @@ double  Decimal::toDecimal(double decimal) {
 	return decimal;
 }
 
-Fraction  Decimal::toFraction(double decimal) {
+Fraction Decimal::toFraction(double decimal) {
 	long intPart = (long) decimal;
 	int fractionalPart = decimal - intPart;
 
-
-	int numerator = fractionalPart;
 	int digits = 0;
-	while(fractionalPart > 1) {
-		fractionalPart = fractionalPart/10;
+	while(fractionalPart > 0.00001) {
+		fractionalPart = fractionalPart*10;
 		digits++;
+		fractionalPart = fractionalPart - (int)fractionalPart;
 	}
 
+
 	int denominator = pow(10, digits);
+	int numerator = (fractionalPart*denominator);
 
 
 	toFrac(int numerator, int denominator);
@@ -61,28 +62,18 @@ Fraction  Decimal::toFraction(double decimal) {
   	return frac;
 }
 
-Fraction toFrac(int& numerator, int& denominator)
+void toFrac(int& num, int denom)
 {
-
-  int counter = numerator;
-
-  if ((numerator >= 2) && (denominator >= 2))
-  {
-
-    for (counter; counter >= 2; counter--)
-    {
-
-      if ((numerator%counter == 0) && (denominator%counter == 0))
-      {
-
-        numerator = (numerator/counter);
-        denominator = (denominator/counter);
-        break;
-
-      }
-
+  if ((num >= 2) && (denom >= 2)){
+	for (int i = num; i >= 2; i--) {
+		 if ((num%i == 0) && (denom%i == 0)) {
+		 	num = (num/i);
+        		denom = (denom/i);
+        	}
+	 }
     }
-
-  }
+    
+    numerator = num;
+    denominator = denom;
 
 }
