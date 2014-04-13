@@ -23,7 +23,7 @@ public:
 	};
 
 	//Methods
-	int determineError(string errorName);
+	void determineError(string errorName);
 	int what();
 
 
