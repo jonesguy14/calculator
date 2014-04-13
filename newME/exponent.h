@@ -4,6 +4,7 @@
 #include <cmath>
 #include <vector>
 #include <string>
+#include <sstream>
 #include <stdexcept>
 #include <iostream>
 
@@ -40,6 +41,7 @@ public:
 	void multiply(Exponent* multiplicand);
 	void divide(Exponent* dividend);
 
+	void negative();
 	void simplify();
 
 	double toDecimal();
