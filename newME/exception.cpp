@@ -39,31 +39,33 @@ void Exceptions::determineError(string errorName) {
 	} else if (errorName.compare("Cannot multiply a logarithm by that data type")) {
 		errorID = 10;
 	} else if (errorName.compare("Simple Logarithm")) {
-		errorID = 16;
+		errorID = 11;
 	} else if (errorName.compare("Evaluable Logarithm")) {
-		errorID = 17;
+		errorID = 12;
 	} else if (errorName.compare("Cannot multiply logarithms")) {
-		errorID = 18;
+		errorID = 13;
 	}else {
 		errorID = 0;
 	}
 
 	//Integer errors
 	if (errorName.compare("Adding integer for non integer, will provide implementation for fractions once they exist")) {
-		errorID = 11;
-	} else if (errorName.compare("Subbing integer for non integer, will provide implementation for fractions once they exist")) {
-		errorID = 12;
-	} else if (errorName.compare("Dividing integer for non integer, will provide implementation for fractions once they exist")) {
-		errorID = 13;
-	} else if (errorName.compare("Multiplying integer by non int")) {
 		errorID = 14;
+	} else if (errorName.compare("Subbing integer for non integer, will provide implementation for fractions once they exist")) {
+		errorID = 15;
+	} else if (errorName.compare("Dividing integer for non integer, will provide implementation for fractions once they exist")) {
+		errorID = 16;
+	} else if (errorName.compare("Multiplying integer by non int")) {
+		errorID = 17;
 	} else {
 		errorID = 0;
 	}
 
 	//Mathematical Expression errors
-	if (errorName.compare("Operator not recognized")) {
-		errorID = 15;
+	if (errorName.compare("Create the reciprocal")) {
+		errorID = 18;
+	} else if (errorName.compare("Use exponent class instead")) {
+		errorID = 19;
 	} else {
 		errorID = 0;
 	}
