@@ -1,8 +1,6 @@
 #include <vector>
 #include "expression.h"
 
-using namespace std;
-
 Expression::Expression(Expression* exp){
 	/*
 		If we only want to add one expression, we'll set value equal to the expression and set initialized to false.
@@ -78,8 +76,8 @@ void Expression::divide(Expression* dividend){
 	throw "Create the reciprocal";
 }
 void Expression::negative(){
-    //MathExInteger neg = new MathExInteger(-1);
-	//this->multiply(neg);
+	MathExInteger i	=	new MathExInteger(-1);
+	this->multiply(i);
 }
 void Expression::exponentiate(Expression* exponent){
 	/*
@@ -99,12 +97,12 @@ void Expression::add_simplify(std::vector<Expression*> exp){
 	int c	=	exp.size();
 	for(int i = 0; i < c; i++){
 		for(int j = 0; j < c; j++){
-			//try{
+			try{
 				exp[i]->add(exp[j]);
 				exp.erase(exp.begin()+j);
-			//}catch(Exceptions e){
-				//continue;
-			//}
+			}catch(ExpressionException e){
+				continue;
+			}
 		}
 	}
 }
@@ -115,12 +113,12 @@ void Expression::multiply_simplify(std::vector<Expression*> exp){
 	int c	=	exp.size();
 	for(int i = 0; i < c; i++){
 		for(int j = 0; j < c; j++){
-			//try{
+			try{
 				exp[i]->multiply(exp[j]);
 				exp.erase(exp.begin()+j);
-			//}catch(Exceptions e){
-			//	continue;
-			//}
+			}catch(ExpressionException e){
+				continue;
+			}
 		}
 	}
 }
@@ -186,15 +184,24 @@ std::string Expression::toString(){
 	return result;
 }
 
+Expression::toDecimal(){
+	this->simplify();
+
+	int c	=	this->multiplication.size();
+	double result	=	0;
+
+	for(int i = 0; i < c; i++){
+		result *= this->multiplication[i]->toDecimal();
+	}
+
+	c	=	this->addition.size();
+	for(i = 0; i < c; i++){
+		result += this->addition[i]->toDecimal();
+	}
+}
+
 Expression::~Expression(){
-	//delete this->addition;
-	//delete this->multiplication;
+	delete[] this->addition;
+	delete[] this->multiplication;
 }
 
-string Expression::getName() {
-    return "Expression";
-}
-
-int Expression::getInt() {
-    return 0;
-}
