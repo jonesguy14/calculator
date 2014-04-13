@@ -3,12 +3,8 @@
 using namespace std;
 
 Eulers::Eulers() {
-    //MathExInteger* co(1);
-    //this->coefficient.push_back(co);
-}
-
-Eulers::~Eulers() {
-    delete this;
+	MathExInteger* co	=	MathExInteger(1);
+	this->coefficient.push_back(co);
 }
 
 string Eulers::getName() {
