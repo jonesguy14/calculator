@@ -69,8 +69,6 @@ void Exceptions::determineError(string errorName) {
 	}
 
 	//Other errors
-
-	return errorID;
 }
 
 int Exceptions::what() {
