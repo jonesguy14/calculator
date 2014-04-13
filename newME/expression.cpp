@@ -76,8 +76,14 @@ void Expression::divide(Expression* dividend){
 	throw "Create the reciprocal";
 }
 void Expression::negative(){
-	MathExInteger i	=	new MathExInteger(-1);
-	this->multiply(i);
+	if(!this->multiplication.empty()){
+		this->multiplication.back()->negative();
+	}else{
+		int c	=	this->addition.size();
+		for(int i = 0; i < c; i++){
+			this->addition[c]->negative();
+		}
+	}
 }
 void Expression::exponentiate(Expression* exponent){
 	/*
@@ -100,7 +106,7 @@ void Expression::add_simplify(std::vector<Expression*> exp){
 			try{
 				exp[i]->add(exp[j]);
 				exp.erase(exp.begin()+j);
-			}catch(ExpressionException e){
+			}catch(Exceptions e){
 				continue;
 			}
 		}
@@ -116,7 +122,7 @@ void Expression::multiply_simplify(std::vector<Expression*> exp){
 			try{
 				exp[i]->multiply(exp[j]);
 				exp.erase(exp.begin()+j);
-			}catch(ExpressionException e){
+			}catch(Exceptions e){
 				continue;
 			}
 		}
@@ -184,7 +190,7 @@ std::string Expression::toString(){
 	return result;
 }
 
-Expression::toDecimal(){
+double Expression::toDecimal(){
 	this->simplify();
 
 	int c	=	this->multiplication.size();
@@ -195,13 +201,15 @@ Expression::toDecimal(){
 	}
 
 	c	=	this->addition.size();
-	for(i = 0; i < c; i++){
+	for(int i = 0; i < c; i++){
 		result += this->addition[i]->toDecimal();
 	}
+	return result;
 }
 
 Expression::~Expression(){
-	delete[] this->addition;
-	delete[] this->multiplication;
+	this->addition.empty();
+	this->multiplication.empty();
+	delete this;
 }
 
