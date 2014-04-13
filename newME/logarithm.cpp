@@ -7,7 +7,7 @@ Logarithm::Logarithm(Expression, Expression, Expression){
 	this->base.push_back(base);
 	this->argument.push_back(argument);
 }
-	
+
 
 Logarithm::Logarithm(Expression coefficient, Expression base, Exponent argument){
 	if(base.toDecimal() == argument.getBase().toDecimal()){
@@ -25,8 +25,8 @@ Logarithm::Logarithm(Expression coefficient, Expression base, Exponent argument)
 			this->argument.push_back(argument.getBase());
 	}
 }
-	
-	
+
+
 Logarithm::Logarithm(Expression coefficient, MathExInteger base, MathExInteger argument){
 	if(log10(argument.toDecimal())/log10(base.toDecimal()) == floor(log10(argument.toDecimal())/log10(base.toDecimal()))){
 		throw "Evaluatable logarithm";

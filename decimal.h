@@ -18,11 +18,11 @@ public:
 	};
 
 	//Methods
-	MathematicalExpression add(MathematicalExpression addend);
-	MathematicalExpression subtract(MathematicalExpression subtrahend);
-	MathematicalExpression divide(MathematicalExpression dividend);
-	MathematicalExpression multiply(MathematicalExpression multiplicand);
-	MathematicalExpression simplify();
+	Expression add(Expression addend);
+	Expression subtract(Expression subtrahend);
+	Expression divide(Expression dividend);
+	Expression multiply(Expression multiplicand);
+	Expression simplify();
 	string toString();
 	Fraction toFraction();
 

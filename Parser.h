@@ -17,6 +17,7 @@ class Parser {
         int getPrecedence(std::string);
         int checkPrecedence(std::string, std::string);
         double calculate_from_rpn(std::string);
+        int get_num_chars(int, int, int);
 
 };
 

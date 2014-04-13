@@ -28,6 +28,8 @@ class Expression{
 		void simplify();
 
 		std::string toString();
+		std::string getName();
+		int getInt();
 };
 
 #endif // EXPRESSION_H_INCLUDED

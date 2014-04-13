@@ -1,5 +1,5 @@
 #include "MathExInteger.h"
-#include "Expressions.h"
+#include "newME/expression.h"
 #include <cmath>
 
 using namespace std;
@@ -40,7 +40,7 @@ Expression MathExInteger::divide(Expression* dividend){
 }
 
 Expression MathExInteger::multiply(Expression* multiplicand) {
-    if (multiplicand->getName*() == "Integer") {
+    if (multiplicand->getName() == "Integer") {
         int result = me_int * multiplicand->getInt();
         MathExInteger meint_result(result);
         return meint_result;

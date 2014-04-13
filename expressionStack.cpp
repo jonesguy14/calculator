@@ -1,4 +1,6 @@
 #include <iostream>
+#include "newME/expression.h"
+
 using namespace std;
 
 class expressionStack {
@@ -6,33 +8,41 @@ class expressionStack {
 private:
    int MAX;
    int top;
-   MathematicalExpression* items;
+   Expression* items;
 
 public:
 	expressionStack(int size){
 		MAX = size;
 		top = -1;
-		items = new MathematicalExpression[MAX];
+		items = new Expression[MAX];
 	}
 
 	~expressionStack(){ delete [] items; }
 
-	void push(MathematicalExpression expression){
+	void push(Expression expression){
 		if(isFull()){
 			cout << "Stack Full!" << endl;
-			exit(1);
 		}
 
 		items[++top] = expression;
 	}
 
-	MathematicalExpression pop(){
-		if(isEmpty()){
-			cout << "Stack Empty!" << endl;
-			exit(1);
+	Expression pop(){
+		if (isEmpty()){
+			throw "Error with input! Operator to term ratio does not match up.";
 		}
+        else {
+            return items[top--];
+        }
+	}
 
-		return items[top--];
+	Expression getTop() {
+        return items[top];
+	}
+
+	bool hasItems() {
+        if (top>-1) {return true;}
+        else return false;
 	}
 
 	int isEmpty(){ return top == -1; }

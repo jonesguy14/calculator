@@ -1,6 +1,8 @@
 #include <vector>
 #include "expression.h"
 
+using namespace std;
+
 Expression::Expression(Expression* exp){
 	/*
 		If we only want to add one expression, we'll set value equal to the expression and set initialized to false.
@@ -76,7 +78,8 @@ void Expression::divide(Expression* dividend){
 	throw "Create the reciprocal";
 }
 void Expression::negative(){
-	this->multiply(new MathExInteger(-1));
+    //MathExInteger neg = new MathExInteger(-1);
+	//this->multiply(neg);
 }
 void Expression::exponentiate(Expression* exponent){
 	/*
@@ -96,12 +99,12 @@ void Expression::add_simplify(std::vector<Expression*> exp){
 	int c	=	exp.size();
 	for(int i = 0; i < c; i++){
 		for(int j = 0; j < c; j++){
-			try{
+			//try{
 				exp[i]->add(exp[j]);
 				exp.erase(exp.begin()+j);
-			}catch(ExpressionException e){
-				continue;
-			}
+			//}catch(Exceptions e){
+				//continue;
+			//}
 		}
 	}
 }
@@ -112,12 +115,12 @@ void Expression::multiply_simplify(std::vector<Expression*> exp){
 	int c	=	exp.size();
 	for(int i = 0; i < c; i++){
 		for(int j = 0; j < c; j++){
-			try{
+			//try{
 				exp[i]->multiply(exp[j]);
 				exp.erase(exp.begin()+j);
-			}catch(ExpressionException e){
-				continue;
-			}
+			//}catch(Exceptions e){
+			//	continue;
+			//}
 		}
 	}
 }
@@ -184,7 +187,14 @@ std::string Expression::toString(){
 }
 
 Expression::~Expression(){
-	delete[] this->addition;
-	delete[] this->multiplication;
+	//delete this->addition;
+	//delete this->multiplication;
 }
 
+string Expression::getName() {
+    return "Expression";
+}
+
+int Expression::getInt() {
+    return 0;
+}

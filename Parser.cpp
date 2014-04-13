@@ -76,6 +76,29 @@ int Parser::checkPrecedence(string a, string b) {
     else return 0;
 }
 
+int Parser::get_num_chars(int num_chars, int prelen, int i) {
+    int open_paren = 1;
+    int close_paren = 0;
+    int has_space = 0;
+    if (input[i+prelen-1]==' ') {has_space = 1;}
+    for (int p = has_space; p < input.length() - i - prelen; p++) { //get expression inside parentheses
+        if ((input.substr(i+p+prelen, 1)).compare("(")==0) {
+            open_paren++;
+            cout<<"Open:"<<open_paren<<endl;
+        }
+        else if ((input.substr(i+p+prelen, 1)).compare(")")==0) {
+            close_paren++;
+            cout<<"Closed:"<<close_paren<<endl;
+        }
+        if (close_paren == open_paren) {
+            //exit out
+            num_chars = p;
+            p = input.length() - i;
+        }
+    }
+    return num_chars;
+}
+
 double Parser::calculate_from_rpn(string input) {
     int j = 0;
     int num_digits = 0;
@@ -273,6 +296,8 @@ string Parser::shunting_yard(string input) { //CODED BY OURSELVES NO COPY PASTIN
                         p = input.length() - i;
                     }
                 }
+                //num_chars = get_num_chars(0, 6, i);
+                cout<<num_chars<<endl;
                 string eval = parse(input.substr(i+5, num_chars+2)); //parse expression inside ( and )
                 eval = "sqrt:"+eval;
                 output.append(eval);
