@@ -1,7 +1,7 @@
 #ifndef CONSTANT_H_INCLUDED
 #define CONSTANT_H_INCLUDED
 
-#include "newME/expression.h"
+#include "expression.h"
 #include <iostream>
 
 class Constant : public Expression {
