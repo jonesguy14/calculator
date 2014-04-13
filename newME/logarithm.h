@@ -4,6 +4,7 @@
 #include "expression.h"
 #include "exp-integer.h"
 #include "exception.h"
+// #include "exponent.h"
 #include <iostream>
 #include <vector>
 
@@ -15,10 +16,10 @@ class Logarithm : public Expression{
 
 	public:
 		Logarithm(Expression, Expression, Expression);
-		Logarithm(Expression, Expression, Exponent); // Check if base == Exponent.base, throws error: Simple logarithm
+		// Logarithm(Expression, Expression, Exponent); // Check if base == Exponent.base, throws error: Simple logarithm
 		Logarithm(Expression, MathExInteger, MathExInteger); // If evaluates to a clean number, throws error: Simple expression
 		~Logarithm();
-		
+
 		void add(Expression*); // Throws error: Cannot add expression to logarithm
 		void subtract(Expression*); // Throws error: Cannot subtract expression from logarithm
 		void multiply(Expression*); // Throws error: Cannot multiply expression with logarithm
@@ -37,6 +38,7 @@ class Logarithm : public Expression{
 		Expression* getCoefficient();
 		Expression* getBase();
 		Expression* getArgument();
-}
+		std::string getName();
+};
 
 #endif // LOGARITHM_H_INCLUDED
