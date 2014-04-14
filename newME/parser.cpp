@@ -97,7 +97,7 @@ int Parser::get_num_chars(int num_chars, int prelen, int i) {
 Expression Parser::calculate_from_rpn(string input) {
     int j = 0;
     int num_digits = 0;
-    expressionStack i_stack(100);
+    expressionStack i_stack;
     while (j<input.length()) {
         if (isdigit(input[j]) && input[j-1]!='_') { //make sure its not b in log_b
             //number detected

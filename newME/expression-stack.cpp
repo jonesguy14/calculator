@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "expression.h"
 
 using namespace std;
@@ -6,25 +7,19 @@ using namespace std;
 class expressionStack {
 
 private:
-   int MAX;
    int top;
-   Expression** items;
+   vector<Expression*> items;
 
 public:
-	expressionStack(int size){
-		MAX = size;
+	expressionStack(){
 		top = -1;
-		Expression *items[MAX];
 	}
 
-	~expressionStack(){ delete [] items; }
+	~expressionStack(){}
 
 	void push(Expression* expression){
-		if(isFull()){
-			cout << "Stack Full!" << endl;
-		}
-
-		items[++top] = expression;
+		items.push_back(expression);
+		top++;
 	}
 
 	Expression* pop(){
@@ -32,12 +27,12 @@ public:
 			throw "Error with input! Operator to term ratio does not match up.";
 		}
         else {
-            return items[top--];
+            return items.at(top--);
         }
 	}
 
 	Expression* getTop() {
-        return items[top];
+        return items.at(top);
 	}
 
 	bool hasItems() {
@@ -46,6 +41,4 @@ public:
 	}
 
 	int isEmpty(){ return top == -1; }
-
-	int isFull(){ return top+1 == MAX; }
 };

@@ -212,9 +212,9 @@ int Expression::getInt(){
 }
 
 Expression::~Expression(){
-	this->addition.clear();
-	this->multiplication.clear();
-	delete this;
+	//this->addition.clear();
+	//this->multiplication.clear();
+	//delete this;
 }
 
 std::string Expression::getName(){
