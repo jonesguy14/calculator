@@ -198,7 +198,7 @@ Expression Parser::calculate_from_rpn(string input) {
                     case '+':
                         cout << "adding detected" << endl;
                         //cout << "decibad" << b.back()->getName() << endl;
-                        (a.back())->add(b.back());
+                        //(a.back())->add(b.back());
                         i_stack.push(a.back());
                         break;
                     /*case '-':
@@ -218,7 +218,7 @@ Expression Parser::calculate_from_rpn(string input) {
             }
         }
     }
-    cout<<i_stack.getTop()<<endl;
+    cout<<i_stack.getTop()->toString()<<endl;
     return i_stack.getTop();
 }
 

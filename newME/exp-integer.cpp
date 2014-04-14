@@ -1,5 +1,6 @@
 #include "exp-integer.h"
 #include "expression.h"
+#include <sstream>
 #include <cmath>
 
 using namespace std;
@@ -56,7 +57,9 @@ int MathExInteger::getInt() {
 }
 
 string MathExInteger::toString(){
-	return "" + getInt();
+	stringstream ss;
+	ss << getInt();
+	return ss.str();
 }
 
 string MathExInteger::getName() {

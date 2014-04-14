@@ -8,18 +8,18 @@ class expressionStack {
 private:
    int MAX;
    int top;
-   Expression* items;
+   Expression** items;
 
 public:
 	expressionStack(int size){
 		MAX = size;
 		top = -1;
-		items = new Expression[MAX];
+		Expression *items[MAX];
 	}
 
 	~expressionStack(){ delete [] items; }
 
-	void push(Expression expression){
+	void push(Expression* expression){
 		if(isFull()){
 			cout << "Stack Full!" << endl;
 		}
@@ -27,7 +27,7 @@ public:
 		items[++top] = expression;
 	}
 
-	Expression pop(){
+	Expression* pop(){
 		if (isEmpty()){
 			throw "Error with input! Operator to term ratio does not match up.";
 		}
@@ -36,7 +36,7 @@ public:
         }
 	}
 
-	Expression getTop() {
+	Expression* getTop() {
         return items[top];
 	}
 
