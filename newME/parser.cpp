@@ -375,7 +375,7 @@ Expression Parser::calculateFromRpn(std::string input) {
 					}
 				}
 			}
-			j  +=	numberOfDigits + 6;
+			j  +=	numberOfDigits + 7;
 		}else{
 		    std::cout<< "LOOKIN FOR OPERATORS SIR" << endl;
 			/*
