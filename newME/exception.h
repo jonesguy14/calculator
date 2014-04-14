@@ -22,6 +22,7 @@ public:
 	void determineError(string errorName);
 
 	int what();
+	string whatString();
 
 
 

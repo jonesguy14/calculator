@@ -2,79 +2,86 @@
 #include <cmath>
 #include <vector>
 
-Logarithm::Logarithm(Expression coefficient, Expression base, Expression argument){
-	if(argument.toDecimal() == 0){
+Logarithm::Logarithm(Expression* coefficient, Expression* base, Expression* argument){
+	if(argument->toDecimal() == 0){
 		throw Exceptions("Cannot have the logarithm of 0");
 	}
-	if(argument.toDecimal() == 1){
+	if(argument->toDecimal() == 1){
 		throw Exceptions("Logarithm is equal to 0");
 	}
-	if(coefficient.toDecimal() == 0){
+	if(coefficient->toDecimal() == 0){
 		throw Exceptions("Logarithm is equal to 0");
 	}
-	if(base.toDecimal() <= 0){
+	if(base->toDecimal() <= 0){
 		throw Exceptions("Cannot have the logarithm of a negative number");
 	}
-	if(log10(argument.toDecimal())/log10(base.toDecimal()) == floor(log10(argument.toDecimal())/log10(base.toDecimal()))){
+	if(argument->toDecimal() <= 0){
+		throw Exceptions("Cannot have the logarithm of a negative number");
+	}
+	if(log10(argument->toDecimal())/log10(base->toDecimal()) == floor(log10(argument->toDecimal())/log10(base->toDecimal()))){
 		throw Exceptions("Evaluable Logarithm");
 	}
-	this->coefficient.push_back(&coefficient);
-	this->base.push_back(&base);
-	this->argument.push_back(&argument);
+	this->coefficient.push_back(coefficient);
+	this->base.push_back(base);
+	this->argument.push_back(argument);
 }
 
-/*
-Logarithm::Logarithm(Expression coefficient, Expression base, Exponent argument){
-	if(base.toDecimal() == argument.getBase().toDecimal()){
+Logarithm::Logarithm(Expression* coefficient, Expression* base, Exponent* argument){
+	if(base->toDecimal() == argument->getBase()->toDecimal()){
 		throw Exceptions("Simple Logarithm");
 	}
-	if(argument.toDecimal() == 0){
+	if(argument->toDecimal() == 0){
 		throw Exceptions("Cannot have the logarithm of 0");
 	}
-	if(argument.toDecimal() == 1){
+	if(argument->toDecimal() == 1){
 		throw Exceptions("Logarithm is equal to 0");
 	}
-	if(coefficient.toDecimal() == 0){
+	if(coefficient->toDecimal() == 0){
 		throw Exceptions("Logarithm is equal to 0");
 	}
-	if(base.toDecimal() <= 0){
+	if(base->toDecimal() <= 0){
 		throw Exceptions("Cannot have the logarithm of a negative number");
 	}
-	if(log10(argument.toDecimal())/log10(base.toDecimal()) == floor(log10(argument.toDecimal())/log10(base.toDecimal()))){
+	if(argument->toDecimal() <= 0){
+		throw Exceptions("Cannot have the logarithm of a negative number");
+	}
+	if(log10(argument->toDecimal())/log10(base->toDecimal()) == floor(log10(argument->toDecimal())/log10(base->toDecimal()))){
 		throw Exceptions("Evaluable Logarithm");
 	}
 	try{
-		coefficient.multiply(argument.getExponent());
-		this->coefficient.push_back(&coefficient);
+		coefficient->multiply(argument->getPower());
+		this->coefficient.push_back(coefficient);
 	}catch(Exceptions e){
-		Expression* exp	=	new Exponent(&coefficient);
-		exp.multiply(argument.getExponent());
+		Expression* exp	=	new Expression(coefficient);
+		exp->multiply(argument->getPower());
 		this->coefficient.push_back(exp);
 	}
-	this->base.push_back(&base);
-	this->argument.push_back(argument.getBase());
+	this->base.push_back(base);
+	this->argument.push_back(argument->getBase());
 }
-*/
 
-Logarithm::Logarithm(Expression coefficient, MathExInteger base, MathExInteger argument){
-	if(argument.toDecimal() == 0){
+Logarithm::Logarithm(Expression* coefficient, MathExInteger* base, MathExInteger* argument){
+	if(argument->toDecimal() == 0){
 		throw Exceptions("Cannot have the logarithm of 0");
 	}
-	if(argument.toDecimal() == 1){
+	if(argument->toDecimal() == 1){
 		throw Exceptions("Logarithm is equal to 0");
 	}
-	if(coefficient.toDecimal() == 0){
+	if(coefficient->toDecimal() == 0){
 		throw Exceptions("Logarithm is equal to 0");
 	}
-	if(base.toDecimal() <= 0){
+	if(base->toDecimal() <= 0){
 		throw Exceptions("Cannot have the logarithm of a negative number");
 	}
-	if(log10(argument.toDecimal())/log10(base.toDecimal()) == floor(log10(argument.toDecimal())/log10(base.toDecimal()))){
+	if(argument->toDecimal() <= 0){
+		throw Exceptions("Cannot have the logarithm of a negative number");
+	}
+	if(log10(argument->toDecimal())/log10(base->toDecimal()) == floor(log10(argument->toDecimal())/log10(base->toDecimal()))){
 		throw Exceptions("Evaluable Logarithm");
 	}
-	this->coefficient.push_back(&coefficient);
-	this->base.push_back(&base);
-	this->argument.push_back(&argument);
+	this->coefficient.push_back(coefficient);
+	this->base.push_back(base);
+	this->argument.push_back(argument);
 }
 
 /*
@@ -175,7 +182,9 @@ void Logarithm::simplify(){
 
 std::string Logarithm::toString(){
 	std::string result	=	"";
-	result	+=	this->getCoefficient()->toString();
+	if(this->getCoefficient()->toDecimal() != 1){
+		result	+=	this->getCoefficient()->toString();
+	}
 	result	+=	"log_";
 	result	+=	this->getBase()->toString();
 	result	+=	":(";

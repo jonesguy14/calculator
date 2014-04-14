@@ -3,30 +3,30 @@
 
 #include <cmath>
 #include <vector>
-#include <string>
-#include <sstream>
-#include <stdexcept>
 #include <iostream>
 
 #include "expression.h"
 #include "exp-integer.h"
 #include "logarithm.h"
+#include "fraction.h"
 
-using namespace std;
+class Logarithm;
+class Fraction;
 
 class Exponent: public Expression{
 
 private:
-	vector<Expression*> base;
-	vector<Expression*> power;
-	vector<Expression*> coefficient;
+	std::vector<Expression*> base;
+	std::vector<Expression*> power;
+	std::vector<Expression*> coefficient;
 
 public:
-	Exponent(Expression, Expression, Expression);
-	Exponent(Expression, Expression, Logarithm);
-	Exponent(Expression, MathExInteger, MathExInteger);
+	Exponent(Expression*, Expression*, Expression*);
+	Exponent(Expression*, Expression*, Logarithm*);
+	Exponent(Expression*, Expression*, Fraction*);
+	Exponent(Expression*, MathExInteger*, MathExInteger*);
 	~Exponent();
-	
+
 	Expression* getCoefficient();
 	Expression* getBase();
 	Expression* getPower();
@@ -36,7 +36,7 @@ public:
 	void multiply(Expression* multiplicand);
 	void divide(Expression* dividend);
 
-	void add(Exponent* addend);	
+	void add(Exponent* addend);
 	void subtract(Exponent* subtrahend);
 	void multiply(Exponent* multiplicand);
 	void divide(Exponent* dividend);
@@ -46,8 +46,8 @@ public:
 
 	double toDecimal();
 
-	string toString();
-	string getName();	
+	std::string toString();
+	std::string getName();
 
 };
 

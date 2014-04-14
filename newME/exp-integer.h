@@ -19,9 +19,6 @@ class MathExInteger : public Constant {
 		void multiply(Expression* multiplicand);
 		void divide(Expression* dividend);
 
-		void add(MathExInteger* addend);
-		void subtract(MathExInteger* subtrahend);
-		void multiply(MathExInteger* multiplicand);
 		void negative();
 
 		void simplify();

@@ -31,6 +31,10 @@ public:
         }
 	}
 
+	void post_pop() {
+        items.pop_back();
+	}
+
 	Expression* getTop() {
         return items.at(top);
 	}

@@ -2,6 +2,7 @@
 #include "exp-integer.h"
 #include "expression.h"
 #include <math.h>
+#include <stdio.h>
 
 Fraction::Fraction() {
     MathExInteger* numer	=	new MathExInteger(1);
@@ -30,13 +31,17 @@ Expression* Fraction::getDenominator() {
     return this->denominator.back();
 }
 
+int Fraction::GCDivisor(int x,int y){
+	if(y!=0){
+		this->GCDivisor(y,x%y); //recursive call by using arithmetic rules
+	}else{
+		return x; //base case,return x when y equals 0
+	}
+}
+
 int Fraction::GCDivisor(){
-    if(this->getNumerator()->getName() == "Integer" && this->getDenominator()->getName() == "Integer") {
-        int gcd = 2;
-        while(this->getNumerator()->getInt() % gcd != 0 && this->getDenominator()->getInt() % gcd != 0){
-            gcd++;
-        }
-        return gcd;
+	if(this->getNumerator()->getName() == "Integer" && this->getDenominator()->getName() == "Integer") {
+        return this->GCDivisor(this->getNumerator()->getInt(), this->getDenominator()->getInt());
     }else{
     	throw Exceptions("Trying to get GCD of non-integer");
 	}
@@ -55,10 +60,6 @@ void Fraction::simplify(){
         this->numerator.push_back(n);
         this->denominator.push_back(d);
 
-/*
-        this->getNumerator()->divide(gcd)
-        this->getDenominator()->divide(gcd);
-*/
         if(this->getDenominator()->getInt() == 1){
             throw Exceptions("Denominator is equal to 1, don't need fraction");
         }

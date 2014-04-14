@@ -29,6 +29,7 @@ public:
 
     void simplify();
     int GCDivisor();
+    int GCDivisor(int, int);
 
     Expression* getNumerator();
     Expression* getDenominator();

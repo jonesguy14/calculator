@@ -2,11 +2,13 @@
 #define LOGARITHM_H_INCLUDED
 
 #include "expression.h"
+#include "exponent.h"
 #include "exp-integer.h"
 #include "exception.h"
-// #include "exponent.h"
 #include <iostream>
 #include <vector>
+
+class Exponent;
 
 class Logarithm : public Expression{
 	private:
@@ -15,9 +17,9 @@ class Logarithm : public Expression{
 		std::vector<Expression*> argument;
 
 	public:
-		Logarithm(Expression, Expression, Expression);
-		// Logarithm(Expression, Expression, Exponent); // Check if base == Exponent.base, throws error: Simple logarithm
-		Logarithm(Expression, MathExInteger, MathExInteger); // If evaluates to a clean number, throws error: Simple expression
+		Logarithm(Expression*, Expression*, Expression*);
+		Logarithm(Expression*, Expression*, Exponent*); // Check if base == Exponent.base, throws error: Simple logarithm
+		Logarithm(Expression*, MathExInteger*, MathExInteger*); // If evaluates to a clean number, throws error: Simple expression
 		~Logarithm();
 
 		void add(Expression*); // Throws error: Cannot add expression to logarithm

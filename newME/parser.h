@@ -17,8 +17,8 @@ class Parser {
         bool isLeftAsso(std::string);
         int getPrecedence(std::string);
         int checkPrecedence(std::string, std::string);
-        Expression calculate_from_rpn(std::string);
-        int get_num_chars(int, int, int);
+        Expression calculateFromRpn(std::string);
+        int getNumberOfCharacters(int, int, int);
 
 };
 
